@@ -204,6 +204,7 @@ public class CourseDetailsTab {
         siteTable.prefHeightProperty().bind(siteTemplateBox.heightProperty().multiply(0.6));
         siteTable.prefWidthProperty().bind(siteTemplateBox.widthProperty().multiply(0.5));
 
+//        siteTable.setStyle("-fx-background-color: #010764;");
 
         //BOTTON PANE - PAGE STYLE
         pageStyleGridPane = new GridPane();
@@ -260,6 +261,7 @@ public class CourseDetailsTab {
         courseDetailsWorkspace = new VBox(8);
         courseDetailsWorkspace.getChildren().addAll(courseInfoGridPane, siteTemplateBox, pageStyleGridPane);
     //    courseDetailsWorkspace.prefHeightProperty().bind(observable);
+        courseDetailsWorkspace.setStyle("-fx-background-color: #CCCDFE;");
     }
     
     public Label getCourseInfoLabel() {

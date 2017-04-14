@@ -12,7 +12,7 @@ import csg.workspaces.CourseDetailsTab;
 import csg.workspaces.TADataTab;
 import djf.AppTemplate;
 import djf.components.AppStyleComponent;
-import static djf.settings.AppPropertyType.CLASS_TAB_PANE;
+
 import java.util.HashMap;
 import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
@@ -27,7 +27,7 @@ public class CSGStyle extends AppStyleComponent {
     // FIRST WE SHOULD DECLARE ALL OF THE STYLE TYPES WE PLAN TO USE
     
     // COURSE DETAILS TAB
-    public static String CLASS_COURSE_DETAILS_CHANGE_BUTTON = "class_details_change_button";
+    public static String CLASS_COURSE_DETAILS_CHANGE_BUTTON = "class_button";
     
   
 
@@ -97,10 +97,13 @@ public class CSGStyle extends AppStyleComponent {
         //COURSE DETAILS TAB
         CourseDetailsTab courseDetailsTab = workspaceComponent.getCourseDetailsTab();
         //BUTTONS
-//        courseDetailsTab.getBannerSchoolImgChangeButton().getStyleClass().add(CLASS_COURSE_DETAILS_CHANGE_BUTTON);
-//        courseDetailsTab.getLeftFooterImgChangeButton().getStyleClass().add(CLASS_COURSE_DETAILS_CHANGE_BUTTON);
-//        courseDetailsTab.getRightFooterImgChangeButton().getStyleClass().add(CLASS_COURSE_DETAILS_CHANGE_BUTTON);
-//        
+        courseDetailsTab.getBannerSchoolImgChangeButton().getStyleClass().add(CLASS_COURSE_DETAILS_CHANGE_BUTTON);
+        courseDetailsTab.getLeftFooterImgChangeButton().getStyleClass().add(CLASS_COURSE_DETAILS_CHANGE_BUTTON);
+        courseDetailsTab.getRightFooterImgChangeButton().getStyleClass().add(CLASS_COURSE_DETAILS_CHANGE_BUTTON);
+
+        //LABELS
+        
+        
         //TA DATA TAB
         // LEFT SIDE - THE HEADER
         TADataTab taDataTab = workspaceComponent.getTADataTab();
@@ -108,11 +111,11 @@ public class CSGStyle extends AppStyleComponent {
         taDataTab.getTAsHeaderLabel().getStyleClass().add(CLASS_HEADER_LABEL);
 
         workspaceComponent.getTabPane().getStyleClass().add(CLASS_TAB_PANE);
-        workspaceComponent.getCourseDetails().getStyleClass().add(CLASS_TAB);
-        workspaceComponent.getTAData().getStyleClass().add(CLASS_TAB);
-        workspaceComponent.getRecitationData().getStyleClass().add(CLASS_TAB);
-        workspaceComponent.getScheduleData().getStyleClass().add(CLASS_TAB);
-        workspaceComponent.getProjectData().getStyleClass().add(CLASS_TAB);
+        workspaceComponent.getCourseDetailsTab().getCourseDetailsWorkspace().getStyleClass().add(CLASS_TAB);
+    //    workspaceComponent.getTADataTab().getTADataWorkspace().getStyleClass().add(CLASS_TAB);
+        workspaceComponent.getRecitationDataTab().getRecitationDataWorkspace().getStyleClass().add(CLASS_TAB);
+        workspaceComponent.getScheduleDataTab().getScheduleDataWorkspace().getStyleClass().add(CLASS_TAB);
+        workspaceComponent.getProjectDataTab().getProjectDataWorkspace().getStyleClass().add(CLASS_TAB);
         
 
         // LEFT SIDE - THE TABLE

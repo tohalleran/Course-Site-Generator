@@ -165,7 +165,9 @@ public class CSGWorkspace extends AppWorkspaceComponent {
         return projectData;
     }
     
-    
+    public ProjectDataTab getProjectDataTab(){
+        return projectDataTab;
+    }
     
     
 }

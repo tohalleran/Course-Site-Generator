@@ -15,6 +15,7 @@
 */
 .root{
     -fx-font-family: "Courier New";
+    
 }
 
 .dialog_pane {
@@ -47,7 +48,7 @@
 }
 
 /* COURSE DETAILS TAB*/
-.class_details_change_button{
+.class_button{
     
 }
 
@@ -82,7 +83,7 @@
 
 .ta_table{
     -fx-font-size:16pt;
-    -fx-background-color:#000066;
+/*    -fx-background-color:#000066;*/
 }
 
 .table-view .column-header.ta_table_column_header .label {

@@ -157,8 +157,11 @@ public class RecitationDataTab {
         //PUT EVERYTHING IN WORKSPACE
         recitationDataWorkspace = new VBox(5);
         recitationDataWorkspace.getChildren().addAll(recitationLabelButton, recitationTable, addEditGridPane);
-
+        recitationDataWorkspace.setStyle("-fx-background-color: #CCCDFE;");
+        
         recitationTable.prefHeightProperty().bind(recitationDataWorkspace.heightProperty().multiply(0.5));
+ //       recitationTable.setStyle("-fx-background-color: #;");
+        
     }
 
     public VBox getRecitationDataWorkspace() {

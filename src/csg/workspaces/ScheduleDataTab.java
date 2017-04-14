@@ -189,8 +189,10 @@ public class ScheduleDataTab {
         scheduleDataWorkspace = new VBox(8);
         scheduleDataWorkspace.getChildren().addAll(scheduleLabel, calendarBoundariesGridPane,
                 addScheduleVBox);
+        scheduleDataWorkspace.setStyle("-fx-background-color: #CCCDFE;");
         
         scheduleTable.prefHeightProperty().bind(scheduleDataWorkspace.heightProperty().multiply(0.4));
+ //       scheduleTable.setStyle("-fx-background-color: #010764;");
     //    scheduleTable.prefWidthProperty().bind(scheduleDataWorkspace.widthProperty());
 
     }

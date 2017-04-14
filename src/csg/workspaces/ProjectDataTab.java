@@ -210,9 +210,12 @@ public class ProjectDataTab {
         
         projectDataWorkspace = new VBox();
         projectDataWorkspace.getChildren().addAll(projectsLabel, teamsVBox, studentsVBox);
+        projectDataWorkspace.setStyle("-fx-background-color: #CCCDFE;");
         
         teamTable.prefHeightProperty().bind(projectDataWorkspace.heightProperty().multiply(0.2));
+//        teamTable.setStyle("-fx-background-color: #010764;");
         studentTable.prefHeightProperty().bind(projectDataWorkspace.heightProperty().multiply(0.2));
+//        studentTable.setStyle("-fx-background-color: #010764;");
     }
 
     public VBox getProjectDataWorkspace() {

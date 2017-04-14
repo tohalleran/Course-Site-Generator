@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    This XML file allows us to easily customize the look and language used
+    in our program's user interface. Note that this properties file is only
+    for the standard controls for an app from the Desktop Java Framework, so
+    it would not include things initialized for the workspace, which is
+    customizable.
+-->
+<properties>
+    <property_list>
+        <property name="APP_TITLE"	    value="TA Manager"></property>
+	<property name="APP_LOGO"	    value="TAManagerLogo.png"></property>
+	<property name="APP_PATH_CSS"	    value="style/"></property>
+	<property name="APP_CSS"	    value="tam_style.css"></property>
+        
+        <!-- PROGRAM ICON FILES -->
+        <property name="NEW_ICON"	    value="New.png"></property>
+        <property name="LOAD_ICON"	    value="Load.png"></property>
+        <property name="SAVE_ICON"	    value="Save.png"></property>
+        <property name="SAVE_AS_ICON"       value="SaveAs.png"></property>
+        <property name="EXIT_ICON"          value="Exit.png"></property> 
+        <property name="EXPORT_ICON"        value="Export.png"></property>
+        
+        <property name="UNDO_ICON"          value="Undo.png"></property>
+        <property name="REDO_ICON"          value="Redo.png"></property>
+        <property name="ABOUT_ICON"         value="About.png"></property>
+        
+        <!-- TOOLTIPS FOR BUTTONS -->
+        <property name="NEW_TOOLTIP"		value="Construir un nuenvo cuadricula TA"></property>
+        <property name="LOAD_TOOLTIP"		value="Cargar un cuadricula TA"></property>
+        <property name="SAVE_TOOLTIP"		value="Guardar la actual cuadricula TA"></property>
+        <property name="SAVE_AS_TOOLTIP"        value="Guardar la cuadricula TA actual en un nuevo archivo"></property>
+        <property name="EXIT_TOOLTIP"		value="Salir de la aplicacion"></property>
+        <property name="EXPORT_TOOLTIP"         value="Exportar el archivo"></property>
+        
+        <property name="UNDO_TOOLTIP"           value="Deshacer"></property>
+        <property name="REDO_TOOLTIP"           value="Rehacer"></property>
+        <property name="ABOUT_TOOLTIP"          value="Acerca de"></property>
+        
+        <!-- TAB TEXTS -->
+        <property name="TA_DATA_TAB_TEXT"       value="Datos TA"></property>
+        <property name="COURSE_DETAILS_TAB_TEXT"       value="Detalles del Curso"></property>
+        <property name="RECITATION_DATA_TAB_TEXT"       value="Datos de la Recitacion"></property>
+        <property name="SCHEDULE_DATA_TAB_TEXT"       value="Progromar los Datos"></property>
+        <property name="PROJECT_DATA_TAB_TEXT"       value="Datos de Projecto"></property>
+
+        
+        <!-- ERROR MESSAGES -->
+        <property name="CLOSE_BUTTON_TEXT"              value="Cerca"></property>
+
+        <property name="NEW_ERROR_MESSAGE"              value="Se ha producido un error al crear Nuevo trabajo."></property>
+        <property name="NEW_ERROR_TITLE"		value="Nuevo error de trabajo"></property>
+        <property name="LOAD_ERROR_MESSAGE"             value="Se ha producido un error al cargar el trabajo."></property>
+        <property name="LOAD_ERROR_TITLE"		value="Cargar error de trabajo"></property>
+        <property name="SAVE_ERROR_MESSAGE"             value="Se ha producido un error al guardar el trabajo."></property>
+        <property name="SAVE_ERROR_TITLE"		value="Guardar error de trabajo"></property>
+        <property name="PROPERTIES_LOAD_ERROR_MESSAGE"	value="Se ha producido un error al cargar un archivo de propiedades."></property>	
+        <property name="PROPERTIES_LOAD_ERROR_TITLE"	value="Error en el archivo de propiedades"></property>
+        
+        <property name="INVALID_TIME_TITLE"             value="Hora de inicio o de fin no valida"></property>
+        <property name="INVALID_TIME_MESSAGE"           value="La hora de inicio debe ser anterior a la hora de finalizacion"></property>
+        <property name="WARNING_TIME_TITLE"             value="Hora de inicio / fin de confirmacion"></property>
+        <property name="WARNING_TIME_MESSAGE"   value="Esta seguro de que desea cambiar la hora de inicio / finalizacion? Esto eliminara las horas de oficina actuales."></property>
+        
+        <!-- VERIFICATION MESSAGES -->
+	
+        <property name="NEW_COMPLETED_MESSAGE"		value="Nuevo trabajo preparado para su edicion"></property>
+        <property name="NEW_COMPLETED_TITLE"		value="Nuevo trabajo creado"></property>
+        <property name="LOAD_COMPLETED_MESSAGE"		value="Carga del archivo Completado y listo para su edicion"></property>
+        <property name="LOAD_COMPLETED_TITLE"		value="Carga completada"></property>
+        <property name="SAVE_COMPLETED_MESSAGE"		value="Archivo guardado completado"></property>
+        <property name="SAVE_COMPLETED_TITLE"		value="Guardado completado"></property>
+        <property name="SAVE_UNSAVED_WORK_MESSAGE"	value="Desea guardar primero su trabajo no guardado?"></property>
+        <property name="SAVE_UNSAVED_WORK_TITLE"	value="Guardar el trabajo no guardado?"></property>
+	
+        <property name="NEW_CREATED_MESSAGE"		value="Nuevo trabajo creado pero aun no guardado"></property>
+        <property name="WORK_LOADED_MESSAGE"		value="El trabajo ha sido cargado"></property>
+        <property name="WORK_SAVED_MESSAGE"		value="El trabajo ha sido guardado"></property>
+        <property name="SAVE_UNSAVED_WORK_MESSAGE"	value="Desea guardar primero su trabajo no guardado?"></property>
+	<property name="SAVE_WORK_TITLE"		value="Guarda tu trabajo"></property>
+	<property name="LOAD_WORK_TITLE"		value="Seleccionar archivo de trabajo para cargar"></property>
+	<property name="WORK_FILE_EXT"			value="*.json"></property>
+	<property name="WORK_FILE_EXT_DESC"		value="Horario de oficina TA"></property>
+
+        <!-- TA DATA TAB WORKSPACE CONTROLS STUFF -->        
+        <property name="TAS_HEADER_TEXT"                value="Asistentes de Ensenanza"></property>
+        <property name="NAME_COLUMN_TEXT"               value="Nombre"></property>
+        <property name="EMAIL_COLUMN_TEXT"              value="Email"></property>
+        <property name="NAME_PROMPT_TEXT"               value="Nombre"></property>
+        <property name="EMAIL_PROMPT_TEXT"              value="Email"></property>
+        <property name="ADD_BUTTON_TEXT"                value="Agregar TA"></property>
+        <property name="CLEAR_BUTTON_TEXT"                value="Claro"></property>
+        <property name="UPDATE_BUTTON_TEXT"                 value="Actulizar TA"></property>
+        <property name="OFFICE_HOURS_SUBHEADER"         value="Horario de oficina"></property>
+        <property name="UNDERGRAD_COLUMN_TEXT"         value="Undergrad"></property>
+        
+        <!-- COURSE DETAILS TAB WORKSPACE STUFF -->
+        <property name="COURSE_INFO_LABEL_TEXT"         value="Informacion del curso"></property>
+        <property name="SUBJECT_LABEL_TEXT"         value="Tema"></property>
+        <property name="NUMBER_LABEL_TEXT"         value="Numero"></property>
+        <property name="SEMESTER_LABEL_TEXT"         value="Semestre"></property>
+        <property name="YEAR_LABEL_TEXT"         value="Ano"></property>
+        <property name="TITLE_LABEL_TEXT"         value="Titulo"></property>
+        <property name="INSTRUCTOR_NAME_LABEL_TEXT"         value="Instructor Nombre"></property>
+        <property name="INSTRUCTOR_HOME_LABEL_TEXT"         value="Instructor Casa"></property>
+        <property name="EXPORT_DIR_LABEL_TEXT"         value="Directorio de exportacion"></property>
+        <property name="EXPORT_DIR_PATH_LABEL_TEXT"         value="..\.\Courses\219\Summer2017\public"></property>
+        <property name="CHANGE_DIR_BUTTON_TEXT"         value="Cambio"></property>
+        <property name="SITE_TEMPLATE_LABEL_TEXT"         value="Plantilla de sitio"></property>
+        <property name="SITE_TEMPLATE_INFO_LABEL_TEXT"         value="El directorio seleccionado debe contener la plantilla completa del sitio, incluidos los archivos HTML"></property>
+        <property name="TEMPLATE_DIR_LABEL_TEXT"         value=".\templates\CSE219"></property>
+        <property name="SELECT_TEMPLATE_DIR_BUTTON_TEXT"         value="Seleccionar Directorio de plantillas"></property>
+        <property name="SITE_PAGES_LABEL_TEXT"         value="Paginas del sitio"></property>
+        <property name="USE_COLUMN_TEXT"         value="Utilizar"></property>
+        <property name="NAVBAR_TITLE_COLUMN_TEXT"         value="Titulo de Navbar"></property>
+        <property name="FILE_NAME_COLUMN_TEXT"         value="Nombre de Archivo"></property>
+        <property name="SCRIPT_COLUMN_TEXT"         value="Guion"></property>
+        <property name="PAGE_STYLE_LABEL_TEXT"         value="Estilo de pagina"></property>
+        <property name="BANNER_SCHOOL_IMG_LABEL_TEXT"         value="Banera Escuela de Imagen:"></property>
+        <property name="IMG_CHANGE_BUTTON_TEXT"         value="Cambio"></property>
+        <property name="LEFT_FOOTER_IMG_LABEL_TEXT"         value="Imagen de pie de pagina izquierda:"></property>
+        <property name="RIGHT_FOOTER_IMG_LABEL_TEXT"         value="Imagen de pie de pagina derecha:"></property>
+        <property name="STYLESHEET_LABEL_TEXT"         value="Hoja de estilo:"></property>
+        <property name="NOTE_LABEL_TEXT"         value="NOTA: Las nuevas hojas de estilo se pueden colocar en el trabajo / css para ser seleccionables"></property>
+        
+        
+        <!-- RECITAION DATA TAB WORKSPACE STUFF -->
+        <property name="RECITATIONS_LABEL_TEXT"         value="Recitaciones"></property>
+        <property name="SECTION_COLUMN_TEXT"         value="Seccion"></property>
+        <property name="INSTRUCTOR_COLUMN_TEXT"         value="Instructor"></property>
+        <property name="DAY_TIME_COLUMN_TEXT"         value="Doa/Hora"></property>
+        <property name="LOCATION_COLUMN_TEXT"         value="Bicacion"></property>
+        <property name="ADD_EDIT_LABEL_TEXT"         value="Anadir / Editar"></property>
+        <property name="SECTION_LABEL_TEXT"         value="Seccion"></property>
+        <property name="INSTRUCTOR_LABEL_TEXT"         value="Instructor"></property>
+        <property name="DAY_TIME_LABEL_TEXT"         value="Dia/Hora"></property>
+        <property name="LOCATION_LABEL_TEXT"         value="Bicacion"></property>
+        <property name="SUPERVISING_TA_LABEL_TEXT"         value="Supervisando TA"></property>
+        <property name="ADD_UPDATE_BUTTON_TEXT"         value="Anadir/Actualizar"></property>
+
+        <!-- SCHEDULE DATA TAB WORKSPACE STUFF -->
+        <property name="SCHEDULE_LABEL_TEXT"         value="Programar"></property>
+        <property name="CALENDAR_BOUNDARIES_LABEL_TEXT"         value="Límites del calendario"></property>
+        <property name="STARTING_MONDAY_LABEL_TEXT"         value="Empezando el Lunes:"></property>
+        <property name="ENDING_FRIDAY_LABEL_TEXT"         value="Finalizando el Viernes:"></property>
+        <property name="SCHEDULE_ITEMS_LABEL_TEXT"         value="Itinerarios"></property>
+        <property name="TYPE_COLUMN_TEXT"         value="Tipo"></property>
+        <property name="DATE_COLUMN_TEXT"         value="Fecha"></property>
+        <property name="TITLE_COLUMN_TEXT"         value="Titulo"></property>
+        <property name="TOPIC_COLUMN_TEXT"         value="Tema"></property>
+        <property name="TYPE_LABEL_TEXT"         value="Tipo"></property>
+        <property name="DATE_LABEL_TEXT"         value="Fecha"></property>
+        <property name="TIME_LABEL_TEXT"         value="Hora"></property>
+        <property name="TOPIC_LABEL_TEXT"         value="Tema"></property>
+        <property name="LINK_LABEL_TEXT"         value="Enlarzar"></property>
+        <property name="CRITERIA_LABEL_TEXT"         value="Criterios"></property>
+        
+        <!-- PROJECT DATA TAB WORKSPACE STUFF -->
+        <property name="TEAMS_HEADER_LABEL_TEXT"         value="Equipos"></property>
+        <property name="PROJECTS_LABEL_TEXT"         value="Proyectos"></property>
+        <property name="COLOR_COLUMN_TEXT"         value="Color(hex#)"></property>
+        <property name="TEXT_COLOR_COLUMN_TEXT"         value="Color de Textos(hex#)"></property>
+        <property name="LINK_COLUMN_TEXT"         value="Enlarzar"></property>
+        <property name="NAME_LABEL_TEXT"         value="Nombre:"></property>
+        <property name="COLOR_LABEL_TEXT"         value="Color:"></property>
+        <property name="TEXT_COLOR_LABEL_TEXT"         value="Color de Textos:"></property>
+        <property name="STUDENT_LABEL_TEXT"         value="Estudiantes"></property>
+        <property name="FIRST_NAME_COLUMN_TEXT"         value="Nombre de Pila"></property>
+        <property name="LAST_NAME_COLUMN_TEXT"         value="Apellido"></property>
+        <property name="TEAM_COLUMN_TEXT"         value="Equipo"></property>
+        <property name="ROLE_COLUMN_TEXT"         value="Papel"></property>
+        <property name="ADD_EDIT_LABEL2_TEXT"         value="Anadir/Editir"></property>
+        <property name="FIRST_NAME_LABEL_TEXT"         value="Nombre de Pila:"></property>
+        <property name="LAST_NAME_LABEL_TEXT"         value="Apellido:"></property>
+        <property name="TEAM_LABEL_TEXT"         value="Equipo:"></property>
+        <property name="ROLE_LABEL_TEXT"         value="Papel:"></property>
+        
+        
+        
+        <!-- WORKSPACE ERROR MESSAGES -->
+        <property name="MISSING_TA_NAME_TITLE"          value="Falta el nombre de TA"></property>
+        <property name="MISSING_TA_NAME_MESSAGE"        value="Debe proporcionar un nombre de TA"></property>
+        <property name="MISSING_TA_EMAIL_TITLE"         value="Falta el correo electrónico de TA"></property>
+        <property name="MISSING_TA_EMAIL_MESSAGE"       value="Debe proporcionar un correo electronico de TA"></property>
+        <property name="TA_NAME_AND_EMAIL_NOT_UNIQUE_TITLE"     value="Nombre y correo electrónico de TA no son unicos"></property>
+        <property name="TA_NAME_AND_EMAIL_NOT_UNIQUE_MESSAGE"   value="Debe proporcionar un nombre y correo electronico exclusivo de TA"></property>
+        <property name="INVALID_TA_EMAIL_TITLE"         value="Correro TA Email"></property>
+        <property name="INVALID_TA_EMAIL_MESSAGE"       value="Usted muse proporcionar un correo electronico valido"></property>
+    </property_list>
+    <property_options_list>
+        <property_options name="OFFICE_HOURS_TABLE_HEADERS">
+            <option>Hora De Inicio</option>
+            <option>Hora De Finalizacion</option>
+        </property_options>
+        <property_options name="DAYS_OF_WEEK">
+            <option>Lunes</option>
+            <option>Martes</option>
+            <option>Miercoles</option>
+            <option>Jueves</option>
+            <option>Viernes</option>
+        </property_options>
+    </property_options_list>
+</properties>

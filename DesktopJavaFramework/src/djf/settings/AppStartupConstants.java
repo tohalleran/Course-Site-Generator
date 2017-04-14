@@ -13,6 +13,7 @@ public class AppStartupConstants
 
     // XML PROPERTIES FILE WHERE ALL LANGUAGE-SPECIFIC TEXT CAN BE FOUND
     public static final String APP_PROPERTIES_FILE_NAME = "app_properties.xml";
+    public static final String APP_PROPERTIES_FILE_NAME_SPANISH = "app_properties_spanish.xml";
 
     // XML SCHEMA FOR VALIDATING THE XML PROPERTIES FILE
     public static final String PROPERTIES_SCHEMA_FILE_NAME = "properties_schema.xsd";    
