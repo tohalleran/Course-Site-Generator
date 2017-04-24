@@ -112,6 +112,8 @@ public class CSGWorkspace extends AppWorkspaceComponent {
     public void reloadWorkspace(AppDataComponent dataComponent) {
         CSGData data =(CSGData) dataComponent;
         taDataTab.reloadOfficeHoursGrid(data);
+        courseDetailsTab.reloadCourseDetailsTab(data);
+        
     }
 
     public TADataTab getTaDataTab() {

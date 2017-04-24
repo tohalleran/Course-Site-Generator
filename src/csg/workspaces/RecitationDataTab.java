@@ -7,9 +7,14 @@ package csg.workspaces;
 
 import csg.CSGManagerApp;
 import csg.CSGManagerProp;
+import csg.data.CSGData;
+import csg.data.Recitation;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -96,6 +101,12 @@ public class RecitationDataTab {
         recitationTable.getColumns().add(ta1Column);
         recitationTable.getColumns().add(ta2Column);
         
+        recitationTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        recitationTable.setEditable(true);
+        CSGData data = (CSGData) app.getDataComponent();
+        ObservableList<Recitation> tableData = data.getRecitations();
+        recitationTable.setItems(tableData);
+        
 
         //BOTTOM PANE - ADD/EDIT RECITATION
         addEditGridPane = new GridPane();
@@ -156,11 +167,22 @@ public class RecitationDataTab {
         
         //PUT EVERYTHING IN WORKSPACE
         recitationDataWorkspace = new VBox(5);
+        
+        recitationLabelButton.setStyle("-fx-background-color: #F5F5F5;");
+        recitationTable.setStyle("-fx-background-color: #F5F5F5;");
+        addEditGridPane.setStyle("-fx-background-color: #F5F5F5;");
+        
         recitationDataWorkspace.getChildren().addAll(recitationLabelButton, recitationTable, addEditGridPane);
         recitationDataWorkspace.setStyle("-fx-background-color: #CCCDFE;");
         
+        recitationDataWorkspace.setPadding(new Insets(10, 50, 50, 50));
+        
         recitationTable.prefHeightProperty().bind(recitationDataWorkspace.heightProperty().multiply(0.5));
  //       recitationTable.setStyle("-fx-background-color: #;");
+        
+    }
+    
+    public void reloadRecitationDataTab(){
         
     }
 

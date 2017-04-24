@@ -1,0 +1,45 @@
+
+{
+    "startHour":"9",
+    "endHour":"17",
+    "undergrad_tas":[
+        {
+            "name":"Jerrel Sogoni",
+            "email":"jerrel.sogoni@stonybrook.edu"
+        },
+        {
+            "name":"Michael Mathew",
+            "email":"michael.mathew@stonybrook.edu"
+        },
+        {
+            "name":"Wonje Kang",
+            "email":"wonje.kang@stonybrook.edu"
+        },
+        {
+            "name":"Wonyong Jeong",
+            "email":"wonyon.jeong@stonybrook.edu"
+        }
+    ],
+    "officeHours":[
+        {
+            "day":"MONDAY",
+            "time":"10_00am",
+            "name":"Wonje Kang"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"10_30am",
+            "name":"Jerrel Sogoni"
+        },
+        {
+            "day":"MONDAY",
+            "time":"11_30am",
+            "name":"Wonje Kang"
+        },
+        {
+            "day":"MONDAY",
+            "time":"11_30am",
+            "name":"Wonyong Jeong"
+        }
+    ]
+}

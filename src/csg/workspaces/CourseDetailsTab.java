@@ -7,12 +7,16 @@ package csg.workspaces;
 
 import csg.CSGManagerApp;
 import csg.CSGManagerProp;
+import csg.data.CSGData;
+import java.io.File;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -43,7 +47,7 @@ public class CourseDetailsTab {
     Label instructorHomeLabel;
     TextField instructorHomeTextField;
     Label exportDirLabel;
-    Label exportDirPath;
+    Label exportDirPathLabel;
     Button changeDirButton;
 
     GridPane courseInfoGridPane;
@@ -152,8 +156,8 @@ public class CourseDetailsTab {
         exportDirLabel = new Label(exportDirLabelText);
         courseInfoGridPane.add(exportDirLabel, 0, 6);
         String exportDirPathLabelText = props.getProperty(CSGManagerProp.EXPORT_DIR_PATH_LABEL_TEXT.toString());
-        exportDirPath = new Label(exportDirPathLabelText);
-        courseInfoGridPane.add(exportDirPath, 1, 6);
+        exportDirPathLabel = new Label(exportDirPathLabelText);
+        courseInfoGridPane.add(exportDirPathLabel, 1, 6);
         String changeDirButtonText = props.getProperty(CSGManagerProp.CHANGE_DIR_BUTTON_TEXT.toString());
         changeDirButton = new Button(changeDirButtonText);
         courseInfoGridPane.add(changeDirButton, 2, 6);
@@ -201,8 +205,12 @@ public class CourseDetailsTab {
 
         // ADD TABLE TO PANE
         siteTemplateBox.getChildren().add(siteTable);
-        siteTable.prefHeightProperty().bind(siteTemplateBox.heightProperty().multiply(0.6));
-        siteTable.prefWidthProperty().bind(siteTemplateBox.widthProperty().multiply(0.5));
+//        siteTable.prefHeightProperty().bind(siteTemplateBox.heightProperty().multiply(0.6));
+//        siteTable.prefWidthProperty().bind(siteTemplateBox.widthProperty().multiply(0.2));
+//        siteTable.setMinHeight(100);
+        siteTable.setMaxHeight(500);
+//        siteTable.setMinWidth(100);
+        siteTable.setMaxWidth(1200);
 
 //        siteTable.setStyle("-fx-background-color: #010764;");
 
@@ -259,10 +267,56 @@ public class CourseDetailsTab {
         // ADD ALL INDIVIDUAL PANES INTO COURSE DETAILS WORKSPACE
         // WITH 8 PX SPACING
         courseDetailsWorkspace = new VBox(8);
+        
+        courseInfoGridPane.setStyle("-fx-background-color: #F5F5F5;");
+        siteTemplateBox.setStyle("-fx-background-color: #F5F5F5;");
+        pageStyleGridPane.setStyle("-fx-background-color: #F5F5F5;");
+        
         courseDetailsWorkspace.getChildren().addAll(courseInfoGridPane, siteTemplateBox, pageStyleGridPane);
     //    courseDetailsWorkspace.prefHeightProperty().bind(observable);
         courseDetailsWorkspace.setStyle("-fx-background-color: #CCCDFE;");
+        courseDetailsWorkspace.setPadding(new Insets(10, 50, 50, 50));
     }
+    
+    
+    public void reloadCourseDetailsTab(CSGData dataComponent){
+        
+        if(!subjectComboBox.getItems().contains(dataComponent.getCourseSubject())) 
+            subjectComboBox.getItems().add(dataComponent.getCourseSubject());
+        subjectComboBox.getSelectionModel().select(dataComponent.getCourseSubject());
+    
+        if(!numberComboBox.getItems().contains(dataComponent.getCourseNumber()))
+            numberComboBox.getItems().add(dataComponent.getCourseNumber());
+        numberComboBox.getSelectionModel().select(dataComponent.getCourseNumber());
+        
+        if(!semesterComboBox.getItems().contains(dataComponent.getCourseSemester()))
+            semesterComboBox.getItems().add(dataComponent.getCourseSemester());
+        semesterComboBox.getSelectionModel().select(dataComponent.getCourseSemester());
+        
+        if(!yearComboBox.getItems().contains(dataComponent.getCourseYear()))
+            yearComboBox.getItems().add(dataComponent.getCourseYear());
+        yearComboBox.getSelectionModel().select(dataComponent.getCourseYear());
+        
+        
+        titleTextField.setText(dataComponent.getCourseTitle());
+        instructorNameTextField.setText(dataComponent.getInstructorName());
+        instructorHomeTextField.setText(dataComponent.getInstructorHome());
+        
+        exportDirPathLabel.setText(dataComponent.getExportDir().toString());
+        templateDirLabel.setText(dataComponent.getTemplateDir().toString());
+        
+        
+        bannerSchoolImg.setImage(new Image(dataComponent.getBannerSchoolImage()));
+        leftFooterImg.setImage(new Image(dataComponent.getLeftFooterImage()));
+        rightFooterImg.setImage(new Image(dataComponent.getRightFooterImage()));
+        
+        if(!stylesheetComboBox.getItems().contains(dataComponent.getStylesheet()))
+            stylesheetComboBox.getItems().add(dataComponent.getStylesheet());
+        stylesheetComboBox.getSelectionModel().select(dataComponent.getStylesheet());
+        
+    }   
+        
+        
     
     public Label getCourseInfoLabel() {
         return courseInfoLabel;
@@ -329,7 +383,7 @@ public class CourseDetailsTab {
     }
 
     public Label getExportDirPath() {
-        return exportDirPath;
+        return exportDirPathLabel;
     }
 
     public Button getChangeDirButton() {

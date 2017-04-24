@@ -7,10 +7,15 @@ package csg.workspaces;
 
 import csg.CSGManagerApp;
 import csg.CSGManagerProp;
+import csg.data.CSGData;
+import csg.data.Schedule;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -119,6 +124,12 @@ public class ScheduleDataTab {
         topicColumn = new TableColumn(topicColumnText);
         
         scheduleTable.getColumns().addAll(typeColumn, dateColumn, titleColumn, topicColumn);
+        scheduleTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        scheduleTable.setEditable(true);
+        CSGData data = (CSGData) app.getDataComponent();
+        ObservableList<Schedule> tableData = data.getSchedules();
+        scheduleTable.setItems(tableData);
+        
         
         
         addScheduleVBox = new VBox();
@@ -187,9 +198,16 @@ public class ScheduleDataTab {
         addScheduleVBox.getChildren().addAll(addEditScheduleGridPane);
         
         scheduleDataWorkspace = new VBox(8);
+        
+        scheduleLabel.setStyle("-fx-background-color: #F5F5F5;");
+        calendarBoundariesGridPane.setStyle("-fx-background-color: #F5F5F5;");
+        addScheduleVBox.setStyle("-fx-background-color: #F5F5F5;");
+        
         scheduleDataWorkspace.getChildren().addAll(scheduleLabel, calendarBoundariesGridPane,
                 addScheduleVBox);
         scheduleDataWorkspace.setStyle("-fx-background-color: #CCCDFE;");
+        
+        scheduleDataWorkspace.setPadding(new Insets(10, 50, 50, 50));
         
         scheduleTable.prefHeightProperty().bind(scheduleDataWorkspace.heightProperty().multiply(0.4));
  //       scheduleTable.setStyle("-fx-background-color: #010764;");

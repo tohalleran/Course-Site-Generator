@@ -7,11 +7,17 @@ package csg.workspaces;
 
 import csg.CSGManagerApp;
 import csg.CSGManagerProp;
+import csg.data.CSGData;
+import csg.data.Student;
+import csg.data.Team;
+import javafx.collections.ObservableList;
 import javafx.event.EventType;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -110,6 +116,11 @@ public class ProjectDataTab {
         linkColumn = new TableColumn(linkColumnText);
         
         teamTable.getColumns().addAll(nameColumn, colorColumn, textColorColumn, linkColumn);
+        teamTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        teamTable.setEditable(true);
+        CSGData data = (CSGData) app.getDataComponent();
+        ObservableList<Team> tableData = data.getTeams();
+        teamTable.setItems(tableData);
 
         addEditTeamGridPane = new GridPane();
         
@@ -170,6 +181,10 @@ public class ProjectDataTab {
         roleColumn = new TableColumn(roleColumnText);
         
         studentTable.getColumns().addAll(firstNameColumn, lastNameColumn, teamColumn, roleColumn);
+        studentTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        studentTable.setEditable(true);
+        ObservableList<Student> studentTableData = data.getStudents();
+        studentTable.setItems(studentTableData);
 
         addEditStudentGridPane = new GridPane();
         String addEditLabel2Text = props.getProperty(CSGManagerProp.ADD_EDIT_LABEL2_TEXT.toString());
@@ -208,9 +223,16 @@ public class ProjectDataTab {
         studentsVBox = new VBox();
         studentsVBox.getChildren().addAll(studentButtonBox, studentTable, addEditStudentGridPane);
         
-        projectDataWorkspace = new VBox();
+        projectDataWorkspace = new VBox(8);
+        
+        projectsLabel.setStyle("-fx-background-color: #F5F5F5;");
+        teamsVBox.setStyle("-fx-background-color: #F5F5F5;");
+        studentsVBox.setStyle("-fx-background-color: #F5F5F5;");
+        
         projectDataWorkspace.getChildren().addAll(projectsLabel, teamsVBox, studentsVBox);
         projectDataWorkspace.setStyle("-fx-background-color: #CCCDFE;");
+        
+        projectDataWorkspace.setPadding(new Insets(10, 50, 50, 50));
         
         teamTable.prefHeightProperty().bind(projectDataWorkspace.heightProperty().multiply(0.2));
 //        teamTable.setStyle("-fx-background-color: #010764;");

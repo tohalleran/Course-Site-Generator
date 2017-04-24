@@ -18,11 +18,13 @@ import csg.style.CSGStyle.*;
 import static csg.style.CSGStyle.CLASS_HIGHLIGHTED_GRID_CELL;
 import static csg.style.CSGStyle.CLASS_HIGHLIGHTED_GRID_ROW_OR_COLUMN;
 import static csg.style.CSGStyle.CLASS_OFFICE_HOURS_GRID_TA_CELL_PANE;
+import csg.transaction.updateTime_Transaction;
 import csg.transaction.cellToggleTrans;
 import csg.transaction.startHourTrans;
 import csg.transaction.updateTATrans;
 import djf.ui.AppGUI;
 import djf.ui.AppMessageDialogSingleton;
+import djf.ui.AppYesNoCancelDialogSingleton;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -462,6 +464,67 @@ public class CSGController {
 
     public void handleRedo() {
         jTPS.doTransaction();
+    }
+    
+    void handleChangeTime(String startTime, String endTime) {
+        //TAWorkspace workspace = (TAWorkspace)app.getWorkspaceComponent();
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+        // WARNING MESSAGE
+            AppYesNoCancelDialogSingleton yesNoDialog = AppYesNoCancelDialogSingleton.getSingleton();
+            yesNoDialog.show(props.getProperty(WARNING_TIME_TITLE), props.getProperty(WARNING_TIME_MESSAGE));
+
+        // AND NOW GET THE USER'S SELECTION
+        String selection = yesNoDialog.getSelection();
+        if (selection.equals(AppYesNoCancelDialogSingleton.YES)) {
+
+            int start = convertToMilitaryTime(startTime);
+            int end = convertToMilitaryTime(endTime);
+            System.out.println(start);
+
+            //TAWorkspace workspace = (TAWorkspace)app.getDataComponent();
+            if (start == end || start == -1 || end == -1) {
+                AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+                dialog.show(props.getProperty(INVALID_TIME_TITLE), props.getProperty(INVALID_TIME_MESSAGE));       //REMEMBER TO CHANGE TO PROPER ERROR MESSAGE                              
+
+            } else if (start > end) {
+                AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+                dialog.show(props.getProperty(INVALID_TIME_TITLE), props.getProperty(INVALID_TIME_MESSAGE));       //REMEMBER TO CHANGE TO PROPER ERROR MESSAGE                              
+
+            } else if (end < start) {
+                AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+                dialog.show(props.getProperty(INVALID_TIME_TITLE), props.getProperty(INVALID_TIME_MESSAGE));       //REMEMBER TO CHANGE TO PROPER ERROR MESSAGE                              
+
+            } else {    //At this point the time varialbes are good to go. 
+                CSGData data = (CSGData) app.getDataComponent();
+
+                jTPS_Transaction transaction = new updateTime_Transaction(start, end, data);
+                jTPS.addTransaction(transaction);
+
+                //workspace.resetWorkspace(); 
+                //workspace.reloadWorkspace(oldData);
+                markWorkAsEdited();
+                //workspace.reloadOfficeHoursGrid(data);
+            }
+        }
+
+    }
+    public int convertToMilitaryTime(String time) {
+        int milTime = 0;
+        if (time == null) {
+            PropertiesManager props = PropertiesManager.getPropertiesManager();
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show(props.getProperty(INVALID_TA_EMAIL_TITLE), props.getProperty(INVALID_TA_EMAIL_MESSAGE));       //REMEMBER TO CHANGE TO PROPER ERROR MESSAGE                              
+        } else if (time.equalsIgnoreCase("12:00pm")) {
+            milTime = 12;
+        } else {
+            int index = time.indexOf(":");
+            String subStringTime = time.substring(0, index);
+            milTime = Integer.parseInt(subStringTime);
+            if (time.contains("p")) {
+                milTime += 12;
+            }
+        }
+        return milTime;
     }
 
 }

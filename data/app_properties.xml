@@ -104,11 +104,11 @@
         <property name="INSTRUCTOR_NAME_LABEL_TEXT"         value="Instructor Name"></property>
         <property name="INSTRUCTOR_HOME_LABEL_TEXT"         value="Instructor Home"></property>
         <property name="EXPORT_DIR_LABEL_TEXT"         value="Export Dir"></property>
-        <property name="EXPORT_DIR_PATH_LABEL_TEXT"         value="..\.\Courses\219\Summer2017\public"></property>
+        <property name="EXPORT_DIR_PATH_LABEL_TEXT"         value="Select a Export Directory"></property>
         <property name="CHANGE_DIR_BUTTON_TEXT"         value="Change"></property>
         <property name="SITE_TEMPLATE_LABEL_TEXT"         value="Site Template"></property>
         <property name="SITE_TEMPLATE_INFO_LABEL_TEXT"         value="The selected directory should contain the full site template, including the HTML files"></property>
-        <property name="TEMPLATE_DIR_LABEL_TEXT"         value=".\templates\CSE219"></property>
+        <property name="TEMPLATE_DIR_LABEL_TEXT"         value="Select a Template Directory"></property>
         <property name="SELECT_TEMPLATE_DIR_BUTTON_TEXT"         value="Select Template Directory"></property>
         <property name="SITE_PAGES_LABEL_TEXT"         value="Site Pages"></property>
         <property name="USE_COLUMN_TEXT"         value="Use"></property>

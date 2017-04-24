@@ -63,6 +63,7 @@ public class TADataTab {
     // HOURS COMBO BOXES
     ComboBox endBox;
     ComboBox startBox;
+    Button updateGrid;
 
     // THE HEADER ON THE RIGHT
     HBox officeHoursHeaderBox;
@@ -178,28 +179,40 @@ public class TADataTab {
 
         // HEADER LABEL FOR COMBO BOXES
 //        Label comboBoxesLabel = new Label("Start & End Times");
-
+        updateGrid = new Button("Update Grid");
+        
         //  OPTIONS FOR COMBO BOX
-        ObservableList<String> options = FXCollections.observableArrayList("00:00", "1:00", "2:00",
-                "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00",
-                "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00",
-                "21:00", "22:00", "23:00", "24:00");
+//        ObservableList<String> options = FXCollections.observableArrayList("0:00am", "1:00am", "2:00am",
+//                "3:00am", "4:00am", "5:00am", "6:00am", "7:00am", "8:00am", "9:00am", "10:00am", "11:00am",
+//                "12:00pm", "1:00pm", "2:00pm", "3:00pm", "4:00pm", "5:00pm", "6:00pm", "7:00pm", "8:00pm",
+//                "9:00pm", "10:00pm", "11:00pm");
+        
 
         //  START TIME COMBO BOX AND LABEL
-        startBox = new ComboBox(options);
+        startBox = new ComboBox();
 //        startBox.getSelectionModel().select(data.getStartHour());
         Label startHoursLabel = new Label("Start");
+        startBox.setPromptText("Start Time");
 
         // END TIME COMBO BOX AND LABEL
-        endBox = new ComboBox(options);
+        endBox = new ComboBox();
 //        endBox.getSelectionModel().select(data.getEndHour());
         Label endHoursLabel = new Label("End");
+        endBox.setPromptText("End Time");
+        
+        for (int i = 0; i < 24; i++) {
+            startBox.getItems().addAll(buildCellText(i, "00"));
+        }
+        for (int i = 0; i < 24; i++) {
+            endBox.getItems().addAll(buildCellText(i, "00"));
+        }
 
         //  START & END TIME COMBO BOXES PANE
         officeHoursHeaderBox.getChildren().add(startHoursLabel);
         officeHoursHeaderBox.getChildren().add(startBox);
         officeHoursHeaderBox.getChildren().add(endHoursLabel);
         officeHoursHeaderBox.getChildren().add(endBox);
+        officeHoursHeaderBox.getChildren().add(updateGrid);
         
 
         // BOTH PANES WILL NOW GO IN A SPLIT PANE
@@ -252,12 +265,18 @@ public class TADataTab {
         });
 
         // HANDLE COMBO BOXES
-        startBox.setOnAction(e -> {
-            controller.handleStartHour(startBox.getSelectionModel().getSelectedItem().toString());
+        updateGrid.setOnAction(e-> {
+            String startTime = (String) startBox.getValue();
+            String endTime = (String) endBox.getValue();
+            System.out.println(startTime);
+            System.out.println(endTime);
+            controller.handleChangeTime(startTime, endTime);
         });
-        endBox.setOnAction(e -> {
-            controller.handleEndHour(endBox.getSelectionModel().getSelectedItem().toString());
-        });
+        
+//        startBox.setOnAction(e -> {
+//        });
+//        endBox.setOnAction(e -> {
+//        });
     }
     public void resetTADataWorkspace(){
     // CLEAR OUT THE GRID PANE
