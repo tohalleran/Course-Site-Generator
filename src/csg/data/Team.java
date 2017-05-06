@@ -38,6 +38,27 @@ public class Team <E extends Comparable<E>> implements Comparable<E>{
     public String getColor() {
         return color.get();
     }
+    public String getRed() {
+        String red = color.get().substring(0,2);
+        if(red.substring(0, 1).equals("0"))
+            return red.substring(1);
+        else
+            return red;
+    }
+    public String getGreen() {
+        String green = color.get().substring(2,4);
+        if(green.substring(0, 1).equals("0"))
+            return green.substring(1);
+        else
+            return green;
+    }
+    public String getBlue() {
+        String blue = color.get().substring(4);
+        if(blue.substring(0, 1).equals("0"))
+            return blue.substring(1);
+        else
+            return blue;
+    }
 
     public String getColorText() {
         return colorText.get();

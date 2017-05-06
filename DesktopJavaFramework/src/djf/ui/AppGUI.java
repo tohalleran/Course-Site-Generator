@@ -1,5 +1,7 @@
 package djf.ui;
 
+import csg.CSGManagerApp;
+import csg.workspaces.CSGController;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -144,6 +146,7 @@ public class AppGUI {
         loadButton.setDisable(false);
 	exitButton.setDisable(false);
         saveAsButton.setDisable(false);
+        
         exportButton.setDisable(false);
         
         undoButton.setDisable(false);
@@ -189,6 +192,8 @@ public class AppGUI {
         
 	// AND NOW SETUP THEIR EVENT HANDLERS
         fileController = new AppFileController(app);
+        CSGController controller = new CSGController((CSGManagerApp) app);
+        
         newButton.setOnAction(e -> {
             fileController.handleNewRequest();
         });
@@ -207,6 +212,17 @@ public class AppGUI {
         exportButton.setOnAction(e -> {
             fileController.handleExportRequest();
         });
+        undoButton.setOnAction(e -> {
+            controller.handleUndo();
+        });
+        redoButton.setOnAction(e -> {
+            controller.handleRedo();
+        });
+        aboutButton.setOnAction(e -> {
+            fileController.handleAboutRequest();
+        });
+        
+        
     }
 
     // INITIALIZE THE WINDOW (i.e. STAGE) PUTTING ALL THE CONTROLS

@@ -68,23 +68,23 @@ public class Recitation <E extends Comparable<E>> implements Comparable<E>{
         section.set(initSection);
     }
 
-    public void getInstructor(String initInstructor) {
+    public void setInstructor(String initInstructor) {
         instructor.set(initInstructor);
     }
 
-    public void getDayTime(String initDayTime) {
+    public void setDayTime(String initDayTime) {
         dayTime.set(initDayTime);
     }
 
-    public void getLocation(String initLocation) {
+    public void setLocation(String initLocation) {
         location.set(initLocation);
     }
 
-    public void getTa1(String initTA1) {
+    public void setTa1(String initTA1) {
         ta1.set(initTA1);
     }
 
-    public void getTa2(String initTA2) {
+    public void setTa2(String initTA2) {
         ta2.set(initTA2);
     }
     

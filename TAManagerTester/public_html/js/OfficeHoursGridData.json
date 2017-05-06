@@ -1,0 +1,295 @@
+
+{
+    "startHour":"9",
+    "endHour":"17",
+    "undergrad_tas":[
+        {
+            "name":"Jerrel Sogoni",
+            "email":"jerrel.sogoni@stonybrook.edu"
+        },
+        {
+            "name":"Michael Mathew",
+            "email":"michael.mathew@stonybrook.edu"
+        },
+        {
+            "name":"Milto Ndrenika",
+            "email":"milto.ndrenika@stonybrook.edu"
+        },
+        {
+            "name":"Robert Trujillo",
+            "email":"robert.trujillo@stonybrook.edu"
+        },
+        {
+            "name":"Serge Crane",
+            "email":"serge.crane@stonybrook.edu"
+        },
+        {
+            "name":"Tony O'Halleran",
+            "email":"tony.ohalleran@stonybrook.edu"
+        },
+        {
+            "name":"Wonje Kang",
+            "email":"wonje.kang@stonybrook.edu"
+        },
+        {
+            "name":"Wonyong Jeong",
+            "email":"wonyon.jeong@stonybrook.edu"
+        },
+        {
+            "name":"Yu Zhao",
+            "email":"yu.zhao@stonybrook.edu"
+        }
+    ],
+    "officeHours":[
+        {
+            "day":"MONDAY",
+            "time":"9_00am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"9_00am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"9_00am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"THURSDAY",
+            "time":"9_00am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"9_00am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"MONDAY",
+            "time":"9_30am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"9_30am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"9_30am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"THURSDAY",
+            "time":"9_30am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"9_30am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"MONDAY",
+            "time":"10_00am",
+            "name":"Wonje Kang"
+        },
+        {
+            "day":"MONDAY",
+            "time":"10_00am",
+            "name":"Wonyong Jeong"
+        },
+        {
+            "day":"MONDAY",
+            "time":"10_00am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"10_00am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"10_00am",
+            "name":"Serge Crane"
+        },
+        {
+            "day":"MONDAY",
+            "time":"10_30am",
+            "name":"Wonje Kang"
+        },
+        {
+            "day":"MONDAY",
+            "time":"10_30am",
+            "name":"Wonyong Jeong"
+        },
+        {
+            "day":"MONDAY",
+            "time":"10_30am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"10_30am",
+            "name":"Jerrel Sogoni"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"10_30am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"10_30am",
+            "name":"Serge Crane"
+        },
+        {
+            "day":"MONDAY",
+            "time":"11_00am",
+            "name":"Wonje Kang"
+        },
+        {
+            "day":"MONDAY",
+            "time":"11_00am",
+            "name":"Wonyong Jeong"
+        },
+        {
+            "day":"MONDAY",
+            "time":"11_00am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"11_00am",
+            "name":"Jerrel Sogoni"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"11_00am",
+            "name":"Serge Crane"
+        },
+        {
+            "day":"MONDAY",
+            "time":"11_30am",
+            "name":"Wonje Kang"
+        },
+        {
+            "day":"MONDAY",
+            "time":"11_30am",
+            "name":"Wonyong Jeong"
+        },
+        {
+            "day":"MONDAY",
+            "time":"11_30am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"11_30am",
+            "name":"Robert Trujillo"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"11_30am",
+            "name":"Yu Zhao"
+        },
+        {
+            "day":"THURSDAY",
+            "time":"11_30am",
+            "name":"Yu Zhao"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"11_30am",
+            "name":"Serge Crane"
+        },
+        {
+            "day":"MONDAY",
+            "time":"12_00pm",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"12_00pm",
+            "name":"Robert Trujillo"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"12_00pm",
+            "name":"Jerrel Sogoni"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"12_00pm",
+            "name":"Serge Crane"
+        },
+        {
+            "day":"MONDAY",
+            "time":"12_30pm",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"12_30pm",
+            "name":"Robert Trujillo"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"12_30pm",
+            "name":"Jerrel Sogoni"
+        },
+        {
+            "day":"MONDAY",
+            "time":"1_00pm",
+            "name":"Robert Trujillo"
+        },
+        {
+            "day":"MONDAY",
+            "time":"1_30pm",
+            "name":"Robert Trujillo"
+        },
+        {
+            "day":"MONDAY",
+            "time":"2_00pm",
+            "name":"Robert Trujillo"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"2_30pm",
+            "name":"Yu Zhao"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"3_00pm",
+            "name":"Yu Zhao"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"3_30pm",
+            "name":"Milto Ndrenika"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"4_00pm",
+            "name":"Serge Crane"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"4_00pm",
+            "name":"Milto Ndrenika"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"4_30pm",
+            "name":"Serge Crane"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"4_30pm",
+            "name":"Milto Ndrenika"
+        }
+    ]
+}

@@ -7,10 +7,12 @@ package csg.data;
 
 import csg.CSGManagerApp;
 import csg.CSGManagerProp;
+import csg.files.TimeSlot;
 import csg.workspaces.CSGWorkspace;
 import csg.workspaces.TADataTab;
 import djf.components.AppDataComponent;
 import java.io.File;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -77,19 +79,19 @@ public class CSGData implements AppDataComponent {
     String rightFooterImage;
     File stylesheet;
 
+    ObservableList<Template> templates;
+
     // RECITATION DATA
     ObservableList<Recitation> recitations;
-    Date startingMonday;
-    Date endingFriday;
-    
-    
+
     // SCHEDULE DATA
     ObservableList<Schedule> schedules;
-    
+    Date startingMonday;
+    Date endingFriday;
+
     // PROJECT DATA
     ObservableList<Team> teams;
     ObservableList<Student> students;
-    
 
     /**
      * This constructor will setup the required data structures for use, but
@@ -105,8 +107,28 @@ public class CSGData implements AppDataComponent {
         // CONSTRUCT THE LIST OF TAs FOR THE TABLE
         teachingAssistants = FXCollections.observableArrayList();
 
-        // CONSTRUCT LIST OF RECITATIONS FOR THE TABLE
+        // CONSTRUCT LISTS FOR THE TABLE
         recitations = FXCollections.observableArrayList();
+        schedules = FXCollections.observableArrayList();
+        teams = FXCollections.observableArrayList();
+        students = FXCollections.observableArrayList();
+        templates = FXCollections.observableArrayList();
+
+        courseSubject = "";
+        courseNumber = "";
+        courseSemester = "";
+        courseYear = "";
+        courseTitle = "";
+        instructorName = "";
+        instructorHome = "";
+        exportDir = null;
+        templateDir = null;
+        bannerSchoolImage = "";
+        leftFooterImage = "";
+        rightFooterImage = "";
+        stylesheet = null;
+        startingMonday = null;
+        endingFriday = null;
 
         // THESE ARE THE DEFAULT OFFICE HOURS
         startHour = MIN_START_HOUR;
@@ -119,6 +141,7 @@ public class CSGData implements AppDataComponent {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         ArrayList<String> timeHeaders = props.getPropertyOptionsList(CSGManagerProp.OFFICE_HOURS_TABLE_HEADERS);
         ArrayList<String> dowHeaders = props.getPropertyOptionsList(CSGManagerProp.DAYS_OF_WEEK);
+
         gridHeaders = new ArrayList();
         gridHeaders.addAll(timeHeaders);
         gridHeaders.addAll(dowHeaders);
@@ -152,23 +175,23 @@ public class CSGData implements AppDataComponent {
 
     public void initSchedule(String initStartMon, String initEndFri) {
         try {
-            Date startMonDate = new SimpleDateFormat("yyyy-mm-dd").parse(initStartMon);
-            Date endFriDate = new SimpleDateFormat("yyyy-mm-dd").parse(initEndFri);
-            Calendar startMonCal = Calendar.getInstance();
-            startMonCal.setTime(startMonDate);
-            Calendar endFriCal = Calendar.getInstance();
-            endFriCal.setTime(endFriDate);
+            if (!initStartMon.equals("") || !initEndFri.equals("")) {
+                Date startMonDate = new SimpleDateFormat("yyyy-MM-dd").parse(initStartMon);
+                Date endFriDate = new SimpleDateFormat("yyyy-MM-dd").parse(initEndFri);
+                Calendar startMonCal = Calendar.getInstance();
+                startMonCal.setTime(startMonDate);
+                Calendar endFriCal = Calendar.getInstance();
+                endFriCal.setTime(endFriDate);
 
-            if (startMonCal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && 
-                    endFriCal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY &&
-                    startMonDate.before(endFriDate)) {
-                // DATE ARE VALID, PROCEED
-                startingMonday = startMonDate;
-                endingFriday = endFriDate;
-                
-                // CLEAR TABLE
-                
-        
+                if (startMonCal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY
+                        && endFriCal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY
+                        && startMonDate.before(endFriDate)) {
+                    // DATE ARE VALID, PROCEED
+                    startingMonday = startMonDate;
+                    endingFriday = endFriDate;
+
+                    // CLEAR TABLE
+                }
             }
         } catch (ParseException e) {
             System.out.println("Error in method initSchedule");
@@ -185,6 +208,28 @@ public class CSGData implements AppDataComponent {
         endHour = MAX_END_HOUR;
         teachingAssistants.clear();
         officeHours.clear();
+
+        courseSubject = "";
+        courseNumber = "";
+        courseSemester = "";
+        courseYear = "";
+        courseTitle = "";
+        instructorName = "";
+        instructorHome = "";
+        exportDir = null;
+        templateDir = null;
+        bannerSchoolImage = "";
+        leftFooterImage = "";
+        rightFooterImage = "";
+        stylesheet = null;
+
+        recitations.clear();
+        startingMonday = null;
+        endingFriday = null;
+        schedules.clear();
+        teams.clear();
+        students.clear();
+        templates.clear();
     }
 
     // ACCESSOR METHODS
@@ -220,59 +265,164 @@ public class CSGData implements AppDataComponent {
     public String getBannerSchoolImage() {
         return bannerSchoolImage;
     }
+    public void setBannerSchoolImage(String image){
+        bannerSchoolImage = image;
+    }
 
     public String getLeftFooterImage() {
         return leftFooterImage;
+    }
+    
+    public void setLeftFooterImage(String image){
+        leftFooterImage = image;
     }
 
     public String getRightFooterImage() {
         return rightFooterImage;
     }
-
-    public File getExportDir() {
-        return exportDir;
+    public void setRightFooterImage(String image){
+        rightFooterImage = image;
     }
 
-    public File getTemplateDir() {
-        return templateDir;
+    public String getExportDir() {
+        if (exportDir != null) {
+            return exportDir.toString();
+        }
+        return "";
     }
 
-    public File getStylesheet() {
-        return stylesheet;
+    public void setExportDir(String exportDirText) {
+        exportDir = new File(exportDirText);
     }
-    
-    
+
+    public String getTemplateDir() {
+        if (templateDir != null) {
+            return templateDir.toString();
+        }
+        return "";
+    }
+
+    public void setTemplateDir(String newTemplateDir) {
+        templateDir = new File(newTemplateDir);
+    }
+
+    public String getStylesheet() {
+        if (stylesheet != null) {
+            return stylesheet.toString();
+        }
+        return "";
+    }
+
+    public void setSitePages(String templatePathText) {
+
+        // CREATE ALL FILES TO CHECK
+        File home = new File(templatePathText + "/index.html");
+        File syllabus = new File(templatePathText + "/syllabus.html");
+        File schedule = new File(templatePathText + "/schedule.html");
+        File hws = new File(templatePathText + "/hws.html");
+        File projects = new File(templatePathText + "/projects.html");
+
+        if (home.exists()) {
+            Template temp = new Template(false, "Home", "index.html", "HomeBuilder.js");
+            templates.add(temp);
+        }
+        if (syllabus.exists()) {
+            Template temp = new Template(false, "Syllabus", "syllabus.html", "SyllabusBuilder.js");
+            templates.add(temp);
+        }
+        if (schedule.exists()) {
+            Template temp = new Template(false, "Schedule", "schedule.html", "ScheduleBuilder.js");
+            templates.add(temp);
+        }
+        if (hws.exists()) {
+            Template temp = new Template(false, "HWs", "hws.html", "HWsBuilder.js");
+            templates.add(temp);
+        }
+        if (projects.exists()) {
+            Template temp = new Template(false, "Projects", "projects.html", "ProjectsBuilder.js");
+            templates.add(temp);
+        }
+
+    }
+
+    public ObservableList getTemplates() {
+        return templates;
+    }
+
     // RECITATION TAB
     public ObservableList<Recitation> getRecitations() {
         return recitations;
     }
-    
 
     // SCHEDULE TAB
-    public Date getStartingMonday() {
+    public String getStartingMonday() {
+        if (startingMonday != null) {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            return df.format(startingMonday);
+        }
+        return "";
+    }
+
+    public String getStartingMondayMonth() {
+        if (startingMonday != null) {
+            DateFormat df = new SimpleDateFormat("MM");
+            return df.format(startingMonday);
+        }
+        return "";
+    }
+
+    public String getStartingMondayDay() {
+        if (startingMonday != null) {
+            DateFormat df = new SimpleDateFormat("dd");
+            return df.format(startingMonday);
+        }
+        return "";
+    }
+
+    public String getEndingFriday() {
+        if (endingFriday != null) {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            return df.format(endingFriday);
+        }
+        return "";
+    }
+
+    public String getEndingFridayMonth() {
+        if (endingFriday != null) {
+            DateFormat df = new SimpleDateFormat("MM");
+            return df.format(endingFriday);
+        }
+        return "";
+    }
+
+    public String getEndingFridayDay() {
+        if (endingFriday != null) {
+            DateFormat df = new SimpleDateFormat("MM");
+            return df.format(endingFriday);
+        }
+        return "";
+    }
+
+    public Date getStartingMondayDate() {
         return startingMonday;
     }
 
-    public Date getEndingFriday() {
+    public Date getEndingFridayDate() {
         return endingFriday;
     }
 
     public ObservableList<Schedule> getSchedules() {
         return schedules;
     }
-    
+
     // PROJECT DATA TAB
-    public ObservableList<Team> getTeams(){
+    public ObservableList<Team> getTeams() {
         return teams;
     }
-    
-    public ObservableList<Student> getStudents(){
+
+    public ObservableList<Student> getStudents() {
         return students;
     }
-    
-    
-    
-    
 
     // TA DATA TAB
     public int getStartHour() {
@@ -427,7 +577,6 @@ public class CSGData implements AppDataComponent {
         Collections.sort(teachingAssistants);
     }
 
-    
     public void removeTA(String name) {
         for (TeachingAssistant ta : teachingAssistants) {
             if (name.equals(ta.getName())) {
@@ -436,6 +585,22 @@ public class CSGData implements AppDataComponent {
             }
         }
     }
+    
+    public void removeRec(String section){
+        for (Recitation rec : recitations){
+            if(section.equals(rec.getSection()))
+                recitations.remove(rec);
+        }
+    }
+    
+    public void removeSchedule(String date, String title){
+        for (Schedule schedule : schedules){
+            if(date.equals(schedule.getDate()) && date.equals(schedule.getTitle()))
+                schedules.remove(schedule);
+        }
+        
+    }
+    
 
     public void addOfficeHoursReservation(String day, String time, String taName) {
         int underscoreIndex = time.indexOf("_");
@@ -446,6 +611,19 @@ public class CSGData implements AppDataComponent {
         if (timeInt >= startHour) {
             String cellKey = getCellKey(day, time);
             toggleTAOfficeHours(cellKey, taName);
+        }
+    }
+
+    public void addTesterOfficeHoursReservation(String day, String time, String taName) {
+        int underscoreIndex = time.indexOf("_");
+        int timeInt = Integer.parseInt(time.substring(0, underscoreIndex));
+        if (time.contains("pm")) {
+            timeInt += 12;
+        }
+        if (timeInt >= startHour) {
+            String cellKey = getCellKey(day, time);
+            StringProperty cellProp = officeHours.get(cellKey);
+            cellProp.setValue(taName);
         }
     }
 
@@ -619,8 +797,7 @@ public class CSGData implements AppDataComponent {
         cellProp.set(cellText2);
 
     }
-    
-    
+
     public boolean containsRecitation(String testSection, String testDayTime) {
         for (Recitation rec : recitations) {
             if (rec.getSection().equals(testSection)) {
@@ -647,31 +824,32 @@ public class CSGData implements AppDataComponent {
         // SORT THE TAS
         Collections.sort(recitations);
     }
-    
+
     public boolean containsSchedule(String testDate, String testTitle) {
         for (Schedule schedule : schedules) {
             if (schedule.getDate().equals(testDate) && schedule.getTitle().equals(testTitle)) {
                 return true;
             }
-            
+
         }
         return false;
     }
-    
-    
-    public void addSchedule(String type, String date, String title, String topic) {
-        // MAKE THE TA
-        Schedule schedule = new Schedule(type, date, title, topic);
 
-        // ADD THE TA
+    public void addSchedule(String type, String date, String title, String topic, String link,
+            String time, String criteria) {
+        // MAKE THE EVENT
+        Schedule schedule = new Schedule(type, date, title, topic, link, time, criteria);
+
+        // ADD THE EVENT
         if (!containsSchedule(date, title)) {
             schedules.add(schedule);
         }
 
-        // SORT THE TAS
+        // SORT THE EVENTS
         Collections.sort(schedules);
     }
     
+
     public void addTeam(String name, String color, String textColor, String link) {
         // MAKE THE TEAM
         Team team = new Team(name, color, textColor, link);
@@ -684,7 +862,7 @@ public class CSGData implements AppDataComponent {
         // SORT THE TAS
         Collections.sort(schedules);
     }
-    
+
     public boolean containsTeam(String testName, String testLink) {
         for (Team team : teams) {
             if (team.getName().equals(testName)) {
@@ -696,7 +874,7 @@ public class CSGData implements AppDataComponent {
         }
         return false;
     }
-    
+
     public void addStudent(String firstName, String lastName, String team, String role) {
         // MAKE THE TEAM
         Student student = new Student(firstName, lastName, team, role);
@@ -709,7 +887,7 @@ public class CSGData implements AppDataComponent {
         // SORT THE TAS
         Collections.sort(schedules);
     }
-    
+
     public boolean containsStudent(String testFirstName, String testLastName, String testTeam) {
         for (Student student : students) {
             if (student.getFirstName().equals(testFirstName) && student.getLastName().equals(testLastName)) {
@@ -718,6 +896,9 @@ public class CSGData implements AppDataComponent {
         }
         return false;
     }
-    
 
+    public void changeTimeFrames(int initStartHour, int initEndHour) {
+        startHour = initStartHour;
+        endHour = initEndHour;
+    }
 }

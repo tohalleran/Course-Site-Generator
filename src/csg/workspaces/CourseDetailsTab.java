@@ -8,14 +8,19 @@ package csg.workspaces;
 import csg.CSGManagerApp;
 import csg.CSGManagerProp;
 import csg.data.CSGData;
+import csg.data.Template;
 import java.io.File;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -29,6 +34,7 @@ import properties_manager.PropertiesManager;
 public class CourseDetailsTab {
 
     CSGManagerApp app;
+    CSGController controller;
 
     //TOP PANE NODES
     Label courseInfoLabel;
@@ -58,11 +64,11 @@ public class CourseDetailsTab {
     Label templateDirLabel;
     Button selectTemplateDirLabel;
     Label sitePagesLabel;
-    TableView siteTable;
-    TableColumn useColumn;
-    TableColumn navbarTitleColumn;
-    TableColumn fileNameColumn;
-    TableColumn scriptColumn;
+    TableView<Template> siteTable;
+    TableColumn<Template, Boolean> useColumn;
+    TableColumn<Template, String> navbarTitleColumn;
+    TableColumn<Template, String> fileNameColumn;
+    TableColumn<Template, String> scriptColumn;
 
     VBox siteTemplateBox;
 
@@ -162,6 +168,12 @@ public class CourseDetailsTab {
         changeDirButton = new Button(changeDirButtonText);
         courseInfoGridPane.add(changeDirButton, 2, 6);
 
+        
+        
+        
+
+
+
         //MIDDLE PANE IS SITE TEMPLATE
         siteTemplateBox = new VBox();
 
@@ -187,6 +199,10 @@ public class CourseDetailsTab {
 
         // SITE TABLE
         siteTable = new TableView();
+        siteTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        CSGData data = (CSGData) app.getDataComponent();
+        ObservableList<Template> tableTemplateData = data.getTemplates();
+        siteTable.setItems(tableTemplateData);
         String useColumnText = props.getProperty(CSGManagerProp.USE_COLUMN_TEXT.toString());
         useColumn = new TableColumn(useColumnText);
         String navbarTitleColumnText = props.getProperty(CSGManagerProp.NAVBAR_TITLE_COLUMN_TEXT.toString());
@@ -198,6 +214,21 @@ public class CourseDetailsTab {
 
         // ADD CELL VALUE FACTORY FOR COLUMNS
         // ADD COLUMNS
+        useColumn.setCellValueFactory(
+                new PropertyValueFactory<Template,Boolean>("use")
+        );
+        navbarTitleColumn.setCellValueFactory(
+                new PropertyValueFactory<Template, String>("navbarTitle")
+        );
+        fileNameColumn.setCellValueFactory(
+                new PropertyValueFactory<Template, String>("fileName")
+        );
+        scriptColumn.setCellValueFactory(
+                new PropertyValueFactory<Template, String>("script")
+        );
+        useColumn.setCellFactory(column -> new CheckBoxTableCell()); 
+        
+        
         siteTable.getColumns().add(useColumn);
         siteTable.getColumns().add(navbarTitleColumn);
         siteTable.getColumns().add(fileNameColumn);
@@ -276,6 +307,30 @@ public class CourseDetailsTab {
     //    courseDetailsWorkspace.prefHeightProperty().bind(observable);
         courseDetailsWorkspace.setStyle("-fx-background-color: #CCCDFE;");
         courseDetailsWorkspace.setPadding(new Insets(10, 50, 50, 50));
+    
+    
+    
+        controller = new CSGController(app);
+        
+        // ACTION HANDLERS
+        changeDirButton.setOnAction(e -> {
+           controller.exportDirectoryHandler(exportDirPathLabel);
+        });
+        selectTemplateDirButton.setOnAction(e -> {
+            controller.templateDirectoryHandler(templateDirLabel);
+        });
+        bannerSchoolImgChangeButton.setOnAction(e -> {
+            controller.bannerImageHandler(bannerSchoolImg);
+        });
+        leftFooterImgChangeButton.setOnAction(e -> {
+            controller.leftFooterHandler(leftFooterImg);
+        });
+        rightFooterImgChangeButton.setOnAction(e -> {
+            controller.rightFooterHandler(rightFooterImg);
+            
+        });
+    
+    
     }
     
     
@@ -305,10 +360,12 @@ public class CourseDetailsTab {
         exportDirPathLabel.setText(dataComponent.getExportDir().toString());
         templateDirLabel.setText(dataComponent.getTemplateDir().toString());
         
-        
-        bannerSchoolImg.setImage(new Image(dataComponent.getBannerSchoolImage()));
-        leftFooterImg.setImage(new Image(dataComponent.getLeftFooterImage()));
-        rightFooterImg.setImage(new Image(dataComponent.getRightFooterImage()));
+//        if(!dataComponent.getBannerSchoolImage().equals(""))
+//            bannerSchoolImg.setImage(new Image(dataComponent.getBannerSchoolImage()));
+//        if(!dataComponent.getLeftFooterImage().equals(""))
+//            leftFooterImg.setImage(new Image(dataComponent.getLeftFooterImage()));
+//        if(!dataComponent.getRightFooterImage().equals(""))
+//            rightFooterImg.setImage(new Image(dataComponent.getRightFooterImage()));
         
         if(!stylesheetComboBox.getItems().contains(dataComponent.getStylesheet()))
             stylesheetComboBox.getItems().add(dataComponent.getStylesheet());

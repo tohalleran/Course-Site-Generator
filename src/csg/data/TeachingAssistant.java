@@ -28,8 +28,8 @@ public class TeachingAssistant<E extends Comparable<E>> implements Comparable<E>
     }
 
     // ACCESSORS AND MUTATORS FOR THE PROPERTIES
-    public BooleanProperty getUndergrad() {
-        return undergrad;
+    public boolean getUndergrad() {
+        return undergrad.get();
     }
     
     public void setUndergrad(boolean initUndergrad) {

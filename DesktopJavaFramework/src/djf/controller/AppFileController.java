@@ -1,5 +1,6 @@
 package djf.controller;
 
+import csg.data.CSGData;
 import djf.ui.AppYesNoCancelDialogSingleton;
 import djf.ui.AppMessageDialogSingleton;
 import djf.ui.AppGUI;
@@ -73,6 +74,19 @@ public class AppFileController {
 
         // LET THE UI KNOW
         gui.updateToolbarControls(saved);
+    }
+    
+    
+    public void handleAboutRequest(){
+        AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+        
+        // TELL THE USER NEW WORK IS UNDERWAY
+        dialog.show("About The Course Site Generator Application", 
+                "This application will automate the process of creating our course Web site to greatly reduce the\n" +
+                "amount of time needed in planning a semester and update it as it progresses. In order to do that it will\n" +
+                "require the user provide a Web site template with some of the course content that is unlikely to change\n" +
+                "from semester to semester, and then a series of JSON files containing the data that will vary.");
     }
 
     /**
@@ -227,32 +241,39 @@ public class AppFileController {
 
     public void handleExportRequest() {
         PropertiesManager props = PropertiesManager.getPropertiesManager();
-
+        CSGData data =(CSGData) app.getDataComponent();
+        
         try {
             boolean continueToExport = true;
             if (!saved) {
                 // THE USER CAN OPT OUT HERE
                 continueToExport = promptToSave();
             }
-            if (continueToExport) {
+            if (continueToExport && !data.getExportDir().equals("")) {
                 // PROMPT THE USER FOR A DIRECETORY
-                DirectoryChooser dc = new DirectoryChooser();
-                dc.setInitialDirectory(new File(".."));
-                dc.setTitle("Export your work");
+//                DirectoryChooser dc = new DirectoryChooser();
+//                dc.setInitialDirectory(new File(".."));
+//                dc.setTitle("Export your work");
+               
 
-                File selectedDir = dc.showDialog(app.getGUI().getWindow());
+//                File selectedDir = dc.showDialog(app.getGUI().getWindow());
+                app.getFileComponent().exportData(app.getDataComponent(), currentWorkFile.toString());
 
                 //  COPY WORKING OFFICEHOURS INTO OFFICEHOURSGRIDDATA JSON
-                String fileExec = System.getProperty("user.dir");
-                File publicHTMLFile = new File(fileExec + "/TAManagerTester/public_html");
-                File officeHourGridDataFile = new File(fileExec + "/TAManagerTester/public_html/js/OfficeHoursGridData.json");
-                FileUtils.copyFile(currentWorkFile, officeHourGridDataFile);
+//                String fileExec = System.getProperty("user.dir");
+//                File publicHTMLFile = new File(fileExec + "/TAManagerTester/public_html");
+//                File officeHourGridDataFile = new File(fileExec + "/TAManagerTester/public_html/js/OfficeHoursGridData.json");
+//                FileUtils.copyFile(currentWorkFile, officeHourGridDataFile);
 
                 //  MOVE PUBLIC_HTML FOLDER TO SELECTED DIRECTORY
-                FileUtils.copyDirectory(publicHTMLFile, selectedDir);
+//                FileUtils.copyDirectory(publicHTMLFile, selectedDir);
 
                 AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
                 dialog.show("Successfully Exported", "The file has successful exported");
+            }
+            else{
+                AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+                dialog.show("Export Directory NOT Chosen", "Choose export directory before exporting.");
             }
         } catch (Exception ioe) {
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();

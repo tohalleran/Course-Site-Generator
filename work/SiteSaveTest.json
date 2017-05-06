@@ -1,0 +1,112 @@
+
+{
+    "subject":"CSE",
+    "number":"219",
+    "semester":"Fall",
+    "year":"2017",
+    "title":"Computer Science I",
+    "instructor_name":"Richard McKenna",
+    "instructor_home":"https://www.cs.stonybrook.edu/~richard",
+    "export_directory":"/Users/tonyohalleran/Desktop",
+    "template_directory":"/Users/tonyohalleran/NetBeansProjects/CourseSiteGenerator/TAManagerTester/public_html",
+    "banner_school_image":"image.jpg",
+    "left_footer_image":"image2.jpg",
+    "right_footer_image":"image3.jpg",
+    "stylesheet":"sea_wolf.css",
+    "startHour":"9",
+    "endHour":"10",
+    "undergrad_tas":[
+        {
+            "name":"Tony O'Halleran",
+            "email":"tony.ohalleran@stonybrook.edu"
+        }
+    ],
+    "officeHours":[
+        {
+            "day":"MONDAY",
+            "time":"9_00am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"9_00am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"9_00am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"THURSDAY",
+            "time":"9_00am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"9_00am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"MONDAY",
+            "time":"9_30am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"9_30am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"WEDNESDAY",
+            "time":"9_30am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"THURSDAY",
+            "time":"9_30am",
+            "name":"Tony O'Halleran"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"9_30am",
+            "name":"Tony O'Halleran"
+        }
+    ],
+    "recitations":[
+        {
+            "section":"R02",
+            "instructor":"Richard McKenna",
+            "dayTime":"Wed 3:30pm-4:23pm",
+            "location":"Old CS 2114",
+            "ta1":"Jane Doe",
+            "ta2":"Joe Shmo"
+        }
+    ],
+    "starting_monday":"2017-04-17",
+    "ending_friday":"2017-04-28",
+    "scheduleItems":[
+        {
+            "type":"Holiday",
+            "date":"2017-02-09",
+            "title":"SNOW DAY",
+            "topic":"Event Programming"
+        }
+    ],
+    "teams":[
+        {
+            "tName":"Atomic Comics",
+            "color":"552211",
+            "textColor":"FFFFFF",
+            "link":"https://c4-comics.appspot.com"
+        }
+    ],
+    "students":[
+        {
+            "firstName":"Jane",
+            "lastName":"Doe",
+            "team":"Atomic Comics",
+            "role":"Lead Programmer"
+        }
+    ]
+}

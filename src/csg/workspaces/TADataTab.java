@@ -46,6 +46,7 @@ public class TADataTab {
     // FOR THE HEADER ON THE LEFT
     HBox tasHeaderBox;
     Label tasHeaderLabel;
+    Button deleteButton;
 
     // FOR THE TA TABLE
     TableView<TeachingAssistant> taTable;
@@ -96,7 +97,10 @@ public class TADataTab {
         tasHeaderBox = new HBox();
         String tasHeaderText = props.getProperty(CSGManagerProp.TAS_HEADER_TEXT.toString());
         tasHeaderLabel = new Label(tasHeaderText);
-        tasHeaderBox.getChildren().add(tasHeaderLabel);
+        
+        deleteButton = new Button("-");
+        tasHeaderBox.getChildren().addAll(tasHeaderLabel, deleteButton);
+        
 
         // MAKE THE TABLE AND SETUP THE DATA MODEL
         taTable = new TableView();
@@ -114,7 +118,7 @@ public class TADataTab {
         emailColumn = new TableColumn(emailColumnText);
         
         undergradColumn.setCellValueFactory(
-                new PropertyValueFactory<TeachingAssistant,Boolean>("check")
+                new PropertyValueFactory<TeachingAssistant,Boolean>("undergrad")
         );
         nameColumn.setCellValueFactory(
                 new PropertyValueFactory<TeachingAssistant, String>("name")
@@ -258,6 +262,9 @@ public class TADataTab {
 
         taTable.setOnKeyPressed(e -> {
             controller.handleKeyPress(e.getCode());
+        });
+        deleteButton.setOnAction(e -> {
+            controller.handleKeyPress(KeyCode.DELETE);
         });
 
         taTable.setOnMouseClicked(e -> {

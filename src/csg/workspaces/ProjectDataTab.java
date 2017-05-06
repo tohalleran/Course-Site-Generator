@@ -21,6 +21,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -115,13 +116,20 @@ public class ProjectDataTab {
         String linkColumnText = props.getProperty(CSGManagerProp.LINK_COLUMN_TEXT.toString());
         linkColumn = new TableColumn(linkColumnText);
         
-        teamTable.getColumns().addAll(nameColumn, colorColumn, textColorColumn, linkColumn);
+        
         teamTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         teamTable.setEditable(true);
         CSGData data = (CSGData) app.getDataComponent();
         ObservableList<Team> tableData = data.getTeams();
         teamTable.setItems(tableData);
-
+        
+        nameColumn.setCellValueFactory(new PropertyValueFactory<Team, String>("name"));
+        colorColumn.setCellValueFactory(new PropertyValueFactory<Team, String>("color"));
+        textColorColumn.setCellValueFactory(new PropertyValueFactory<Team, String>("colorText"));
+        linkColumn.setCellValueFactory(new PropertyValueFactory<Team, String>("link"));
+        teamTable.getColumns().addAll(nameColumn, colorColumn, textColorColumn, linkColumn);
+        
+        // PANE TO ADD/EDIT TEAM TABLE
         addEditTeamGridPane = new GridPane();
         
         String addEditLabelText = props.getProperty(CSGManagerProp.ADD_EDIT_LABEL_TEXT.toString());
@@ -170,6 +178,8 @@ public class ProjectDataTab {
         dashButton2 = new Button("-");
         studentButtonBox.getChildren().addAll(studentLabel, dashButton2);
         
+        
+        // STUDENT TABLE
         studentTable = new TableView();
         String firstNameColumnText = props.getProperty(CSGManagerProp.FIRST_NAME_COLUMN_TEXT.toString());
         firstNameColumn = new TableColumn(firstNameColumnText);
@@ -180,12 +190,21 @@ public class ProjectDataTab {
         String roleColumnText = props.getProperty(CSGManagerProp.ROLE_COLUMN_TEXT.toString());
         roleColumn = new TableColumn(roleColumnText);
         
-        studentTable.getColumns().addAll(firstNameColumn, lastNameColumn, teamColumn, roleColumn);
+        
         studentTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         studentTable.setEditable(true);
         ObservableList<Student> studentTableData = data.getStudents();
         studentTable.setItems(studentTableData);
+        
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("firstName"));
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("lastName"));
+        teamColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("team"));
+        roleColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("role"));
+        
+        studentTable.getColumns().addAll(firstNameColumn, lastNameColumn, teamColumn, roleColumn);
 
+        
+        // PANE TO EDIT/ADD STUDENT
         addEditStudentGridPane = new GridPane();
         String addEditLabel2Text = props.getProperty(CSGManagerProp.ADD_EDIT_LABEL2_TEXT.toString());
         addEditLabel2 = new Label(addEditLabel2Text);

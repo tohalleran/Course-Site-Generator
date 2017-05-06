@@ -18,6 +18,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -30,6 +31,7 @@ import properties_manager.PropertiesManager;
 public class RecitationDataTab {
 
     CSGManagerApp app;
+    CSGController controller;
 
     VBox recitationDataWorkspace;
 
@@ -37,13 +39,13 @@ public class RecitationDataTab {
     Button dashButton;
     HBox recitationLabelButton;
     
-    TableView recitationTable;
-    TableColumn sectionColumn;
-    TableColumn instructorColumn;
-    TableColumn dayTimeColumn;
-    TableColumn locationColumn;
-    TableColumn ta1Column;
-    TableColumn ta2Column;
+    TableView<Recitation> recitationTable;
+    TableColumn<Recitation, String> sectionColumn;
+    TableColumn<Recitation, String> instructorColumn;
+    TableColumn<Recitation, String> dayTimeColumn;
+    TableColumn<Recitation, String> locationColumn;
+    TableColumn<Recitation, String> ta1Column;
+    TableColumn<Recitation, String> ta2Column;
 
     //BOTTOM PANE - ADD/EDIT RECITATION
     Label addEditLabel;
@@ -82,24 +84,23 @@ public class RecitationDataTab {
         
         String sectionColumnText = props.getProperty(CSGManagerProp.SECTION_COLUMN_TEXT.toString());
         sectionColumn = new TableColumn(sectionColumnText);
-        recitationTable.getColumns().add(sectionColumn);
+        
         
         String instructorColumnText = props.getProperty(CSGManagerProp.INSTRUCTOR_COLUMN_TEXT.toString());
         instructorColumn = new TableColumn(instructorColumnText);
-        recitationTable.getColumns().add(instructorColumn);
+        
 
         String dayTimeColumnText = props.getProperty(CSGManagerProp.DAY_TIME_COLUMN_TEXT.toString());
         dayTimeColumn = new TableColumn(dayTimeColumnText);
-        recitationTable.getColumns().add(dayTimeColumn);
+        
         
         String locationColumnText = props.getProperty(CSGManagerProp.LOCATION_COLUMN_TEXT.toString());
         locationColumn = new TableColumn(locationColumnText);
-        recitationTable.getColumns().add(locationColumn);
+        
         
         ta1Column = new TableColumn("TA");
         ta2Column = new TableColumn("TA");
-        recitationTable.getColumns().add(ta1Column);
-        recitationTable.getColumns().add(ta2Column);
+        
         
         recitationTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         recitationTable.setEditable(true);
@@ -107,7 +108,21 @@ public class RecitationDataTab {
         ObservableList<Recitation> tableData = data.getRecitations();
         recitationTable.setItems(tableData);
         
-
+        sectionColumn.setCellValueFactory(new PropertyValueFactory<Recitation, String>("section"));
+        instructorColumn.setCellValueFactory(new PropertyValueFactory<Recitation, String>("instructor"));
+        dayTimeColumn.setCellValueFactory(new PropertyValueFactory<Recitation, String>("dayTime"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<Recitation, String>("location"));
+        ta1Column.setCellValueFactory(new PropertyValueFactory<Recitation, String>("ta1"));
+        ta2Column.setCellValueFactory(new PropertyValueFactory<Recitation, String>("ta2"));
+        
+        recitationTable.getColumns().add(sectionColumn);
+        recitationTable.getColumns().add(instructorColumn);
+        recitationTable.getColumns().add(dayTimeColumn);
+        recitationTable.getColumns().add(locationColumn);
+        recitationTable.getColumns().add(ta1Column);
+        recitationTable.getColumns().add(ta2Column);
+        
+        
         //BOTTOM PANE - ADD/EDIT RECITATION
         addEditGridPane = new GridPane();
         
@@ -180,6 +195,24 @@ public class RecitationDataTab {
         recitationTable.prefHeightProperty().bind(recitationDataWorkspace.heightProperty().multiply(0.5));
  //       recitationTable.setStyle("-fx-background-color: #;");
         
+ 
+ 
+        controller = new CSGController(app);
+        
+        // HANDLE ACTION EVENTS
+        dashButton.setOnAction(e -> {
+            controller.handleDeleteRecitation();
+        });
+        addUpdateButton.setOnAction(e -> {
+            controller.addUpdateRecHandler();
+        });
+        recitationTable.setOnMouseClicked(e -> {
+            controller.handleEditRec();
+        });
+ 
+ 
+ 
+ 
     }
     
     public void reloadRecitationDataTab(){

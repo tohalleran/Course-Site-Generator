@@ -9,6 +9,8 @@ import csg.CSGManagerApp;
 import static csg.CSGManagerProp.*;
 import csg.CSGManagerProp;
 import csg.data.CSGData;
+import csg.data.Recitation;
+import csg.data.Schedule;
 import csg.data.TeachingAssistant;
 import csg.files.TimeSlot;
 import csg.transaction.addTATransaction;
@@ -18,23 +20,39 @@ import csg.style.CSGStyle.*;
 import static csg.style.CSGStyle.CLASS_HIGHLIGHTED_GRID_CELL;
 import static csg.style.CSGStyle.CLASS_HIGHLIGHTED_GRID_ROW_OR_COLUMN;
 import static csg.style.CSGStyle.CLASS_OFFICE_HOURS_GRID_TA_CELL_PANE;
+import csg.transaction.addRecitationTransaction;
 import csg.transaction.updateTime_Transaction;
 import csg.transaction.cellToggleTrans;
+import csg.transaction.deleteRecTransaction;
+import csg.transaction.deleteScheduleTransaction;
 import csg.transaction.startHourTrans;
 import csg.transaction.updateTATrans;
 import djf.ui.AppGUI;
 import djf.ui.AppMessageDialogSingleton;
 import djf.ui.AppYesNoCancelDialogSingleton;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import static javafx.scene.input.DataFormat.URL;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javax.imageio.ImageIO;
 import jtps.jTPS;
 import jtps.jTPS_Transaction;
 import properties_manager.PropertiesManager;
@@ -64,6 +82,120 @@ public class CSGController {
         // MARK WORK AS EDITED
         AppGUI gui = app.getGUI();
         gui.getFileController().markAsEdited(gui);
+    }
+    
+    public void exportDirectoryHandler(Label exportPathLabel) {
+        // PROMPT THE USER FOR A DIRECETORY
+        DirectoryChooser dc = new DirectoryChooser();
+        dc.setInitialDirectory(new File(".."));
+        dc.setTitle("Choose Export Directory");
+        
+        String exportPathLabelText = dc.showDialog(app.getGUI().getWindow()).toString();
+        exportPathLabel.setText(exportPathLabelText);
+        
+        CSGData data = (CSGData) app.getDataComponent();
+        data.setExportDir(exportPathLabelText);
+    }
+    
+    public void templateDirectoryHandler(Label templateDirLabel) {
+        // PROMPT THE USER FOR A DIRECETORY
+        DirectoryChooser dc = new DirectoryChooser();
+        dc.setInitialDirectory(new File(".."));
+        dc.setTitle("Choose Template Directory");
+        
+        String templatePathLabelText = dc.showDialog(app.getGUI().getWindow()).toString();
+        templateDirLabel.setText(templatePathLabelText);
+        
+        CSGData data = (CSGData) app.getDataComponent();
+        data.setTemplateDir(templatePathLabelText);
+        
+        data.setSitePages(templatePathLabelText);
+        
+    }
+    
+    public void bannerImageHandler(ImageView bannerImageView) {
+        
+        try {
+            // PROMPT THE USER FOR A DIRECETORY
+            FileChooser fc = new FileChooser();
+            fc.setInitialDirectory(new File(".."));
+            fc.setTitle("Choose Banner School Image");
+
+            //Set extension filter
+            FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+            FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+            fc.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
+            
+            File bannerImage = fc.showOpenDialog(app.getGUI().getWindow());
+            
+            CSGData data = (CSGData) app.getDataComponent();
+            BufferedImage bi = ImageIO.read(bannerImage);
+            Image image = SwingFXUtils.toFXImage(bi, null);
+            bannerImageView.setImage(image);
+            data.setBannerSchoolImage(bannerImage.toString());
+            
+        } catch (IOException ioe) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Banner Image Error", "An error occured importing image");
+            
+        }
+        
+    }
+    
+    public void leftFooterHandler(ImageView leftFooterImageView) {
+        
+        try {
+            // PROMPT THE USER FOR A DIRECETORY
+            FileChooser fc = new FileChooser();
+            fc.setInitialDirectory(new File(".."));
+            fc.setTitle("Choose Left Footer School Image");
+
+            //Set extension filter
+            FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+            FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+            fc.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
+            
+            File leftFooter = fc.showOpenDialog(app.getGUI().getWindow());
+            
+            CSGData data = (CSGData) app.getDataComponent();
+            BufferedImage bi = ImageIO.read(leftFooter);
+            Image image = SwingFXUtils.toFXImage(bi, null);
+            leftFooterImageView.setImage(image);
+            data.setLeftFooterImage(leftFooter.toString());
+            
+        } catch (IOException ioe) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Left Footer Image Error", "An error occured importing image");
+            
+        }
+    }
+    
+    public void rightFooterHandler(ImageView rightFooterImageView) {
+        try {
+            // PROMPT THE USER FOR A DIRECETORY
+            FileChooser fc = new FileChooser();
+            fc.setInitialDirectory(new File(".."));
+            fc.setTitle("Choose Right Footer School Image");
+
+            //Set extension filter
+            FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+            FileChooser.ExtensionFilter extFilterPNG = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+            fc.getExtensionFilters().addAll(extFilterJPG, extFilterPNG);
+            
+            File rightFooter = fc.showOpenDialog(app.getGUI().getWindow());
+            
+            CSGData data = (CSGData) app.getDataComponent();
+            BufferedImage bi = ImageIO.read(rightFooter);
+            Image image = SwingFXUtils.toFXImage(bi, null);
+            rightFooterImageView.setImage(image);
+            data.setRightFooterImage(rightFooter.toString());
+            
+        } catch (IOException ioe) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Right Footer Image Error", "An error occured importing image");
+            
+        }
+        
     }
 
     /**
@@ -123,20 +255,20 @@ public class CSGController {
 
             // WE'VE CHANGED STUFF
             markWorkAsEdited();
-
+            
             jTPS_Transaction trans = new addTATransaction(name, email, data);
             jTPS.addTransaction(trans);
         }
     }
-
+    
     public void handleClear() {
         // WE'LL NEED THE WORKSPACE TO CLEAR TEXTFIELD VALUES
         CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
         TextField nameTextField = workspace.getTADataTab().getNameTextField();
         TextField emailTextField = workspace.getTADataTab().getEmailTextField();
-
+        
         if (!(nameTextField.getText().equals("")) && !(emailTextField.getText().equals(""))) {
-
+            
             nameTextField.setText("");
             emailTextField.setText("");
 
@@ -157,9 +289,9 @@ public class CSGController {
             Button clearButton = workspace.getTADataTab().getClearButton();
             clearButton.setDisable(true);
         }
-
+        
     }
-
+    
     public void handleEditTA() {
         CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
         TableView taTable = workspace.getTADataTab().getTATable();
@@ -182,19 +314,142 @@ public class CSGController {
             String updateButtonText = props.getProperty(CSGManagerProp.UPDATE_BUTTON_TEXT.toString());
             Button updateButton = workspace.getTADataTab().getAddButton();
             updateButton.setText(updateButtonText);
-            
+
             // MAKE SURE THE CLEAR BUTTON IS ENABLED
             Button clearButton = workspace.getTADataTab().getClearButton();
-            if(clearButton.isDisable())
+            if (clearButton.isDisable()) {
                 clearButton.setDisable(false);
-            
+            }
+
             //  HANDLE UPDATE TA
             updateButton.setOnAction(e -> {
                 handleUpdateTA(ta);
             });
         }
     }
+    
+    public void handleEditRec() {
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+        TableView recTable = workspace.getRecitationDataTab().getRecitationTable();
 
+        // GET THE TA
+        Object selectedItem = recTable.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            Recitation rec = (Recitation) selectedItem;
+            String section = rec.getSection();
+            String instructor = rec.getInstructor();
+            String dayTime = rec.getDayTime();
+            String location = rec.getLocation();
+            String ta1 = rec.getTa1();
+            String ta2 = rec.getTa2();
+            
+            TextField sectionTextField = workspace.getRecitationDataTab().getSectionTextField();
+            TextField instructorTextField = workspace.getRecitationDataTab().getInstructorTextField();
+            TextField dayTimeTextField = workspace.getRecitationDataTab().getDayTimeTextField();
+            TextField locationTextField = workspace.getRecitationDataTab().getLocationTextField();
+            ComboBox ta1ChoiceBox = workspace.getRecitationDataTab().getSupervisingTA1ComboBox();
+            ComboBox ta2ChoiceBox = workspace.getRecitationDataTab().getSupervisingTA2ComboBox();
+            
+            sectionTextField.setText(section);
+            instructorTextField.setText(instructor);
+            dayTimeTextField.setText(dayTime);
+            locationTextField.setText(location);
+            ta1ChoiceBox.setValue(ta1);
+            ta2ChoiceBox.setValue(ta2);
+
+            //  CHANGE BUTTON TO UPDATE TA
+            PropertiesManager props = PropertiesManager.getPropertiesManager();
+            String updateButtonText = props.getProperty(CSGManagerProp.UPDATE_BUTTON_TEXT.toString());
+            Button updateButton = workspace.getRecitationDataTab().getAddUpdateButton();
+            updateButton.setText(updateButtonText);
+
+            // MAKE SURE THE CLEAR BUTTON IS ENABLED
+            Button clearButton = workspace.getRecitationDataTab().getClearButton();
+            if (clearButton.isDisable()) {
+                clearButton.setDisable(false);
+            }
+
+            //  HANDLE UPDATE TA
+            updateButton.setOnAction(e -> {
+                handleUpdateRec(rec);
+            });
+        }
+        
+    }
+    
+    public void handleUpdateRec(Recitation rec) {
+        // WE'LL NEED THE WORKSPACE TO RETRIEVE THE USER INPUT VALUES
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+        TextField sectionTextField = workspace.getRecitationDataTab().getSectionTextField();
+        TextField instructorTextField = workspace.getRecitationDataTab().getInstructorTextField();
+        TextField dayTimeTextField = workspace.getRecitationDataTab().getDayTimeTextField();
+        TextField locationTextField = workspace.getRecitationDataTab().getLocationTextField();
+        ComboBox ta1ChoiceBox = workspace.getRecitationDataTab().getSupervisingTA1ComboBox();
+        ComboBox ta2ChoiceBox = workspace.getRecitationDataTab().getSupervisingTA2ComboBox();
+        
+        String section = sectionTextField.getText();
+        String instructor = instructorTextField.getText();
+        String dayTime = dayTimeTextField.getText();
+        String location = locationTextField.getText();
+        String ta1 = ta1ChoiceBox.getEditor().getText();
+        String ta2 = ta2ChoiceBox.getEditor().getText();
+
+        // WE'LL NEED TO ASK THE DATA SOME QUESTIONS TOO
+        CSGData data = (CSGData) app.getDataComponent();
+
+        // WE'LL NEED THIS IN CASE WE NEED TO DISPLAY ANY ERROR MESSAGES
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+
+        // DID THE USER NEGLECT TO PROVIDE A TA NAME?
+        if (section.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Section", "Add a section");
+        } // DID THE USER NEGLECT TO PROVIDE A TA EMAIL?
+        else if (instructor.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Instructor", "Add instructor");
+        } // DID THE USER PROVIDE A VALID EMAIL?
+        else if (dayTime.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Day Time", "Add a day and time");
+        } else if (location.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Location", "Add a location");
+        } 
+         // DOES A TA ALREADY HAVE THE SAME NAME OR EMAIL?
+        else if (data.containsRecitation(section, dayTime)) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Not Unique Recitation", "Add a different recitation");
+        } // EVERYTHING IS FINE, ADD A NEW TA
+        else {
+
+            //  GO UPDATE REC
+            data.removeRec(rec.getSection());
+            data.addRecitation(section, instructor,
+                    dayTime, location, ta1, ta2);
+
+            // CHANGE BUTTON BACK TO ADD
+            String addButtonText = props.getProperty(CSGManagerProp.ADD_BUTTON_TEXT.toString());
+            Button addButton = workspace.getRecitationDataTab().getAddUpdateButton();
+            addButton.setText(addButtonText);
+
+            // CLEAR THE TEXT FIELDS
+            sectionTextField.setText("");
+            instructorTextField.setText("");            
+            dayTimeTextField.setText("");            
+            locationTextField.setText("");
+
+            // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
+            sectionTextField.requestFocus();
+
+            // WE'VE CHANGED STUFF
+            markWorkAsEdited();
+
+            // add trans
+        }
+        
+    }
+    
     public void handleUpdateTA(TeachingAssistant ta) {
         final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -238,7 +493,7 @@ public class CSGController {
             //  CREATE TRANSACTION
             jTPS_Transaction trans = new updateTATrans(taOrigName, name, ta.getEmail(), labels, data);
             jTPS.addTransaction(trans);
-
+            
             for (Label label : labels.values()) {
                 if (label.getText().equals(taOrigName)
                         || (label.getText().contains(taOrigName + "\n"))
@@ -264,7 +519,7 @@ public class CSGController {
 
             // WE'VE CHANGED STUFF
             markWorkAsEdited();
-
+            
         }
     }
 
@@ -289,10 +544,10 @@ public class CSGController {
                 TeachingAssistant ta = (TeachingAssistant) selectedItem;
                 String taName = ta.getName();
                 CSGData data = (CSGData) app.getDataComponent();
-
+                
                 ArrayList<TimeSlot> officeHours = TimeSlot.buildOfficeHoursList(data);
                 jTPS_Transaction transaction = new deleteTATransaction(taName, ta.getEmail(), data, workspace, officeHours);
-
+                
                 data.removeTA(taName);
 
                 // AND BE SURE TO REMOVE ALL THE TA'S OFFICE HOURS
@@ -307,9 +562,203 @@ public class CSGController {
                 // WE'VE CHANGED STUFF
                 markWorkAsEdited();
                 jTPS.addTransaction(transaction);
-
+                
             }
         }
+    }
+    
+    public void handleDeleteRecitation() {
+
+        // GET THE TABLE
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+        TableView recTable = workspace.getRecitationDataTab().getRecitationTable();
+
+        // IS A TA SELECTED IN THE TABLE?
+        Object selectedItem = recTable.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+
+            // GET THE TA AND REMOVE IT
+            Recitation rec = (Recitation) selectedItem;
+            String section = rec.getSection();
+            CSGData data = (CSGData) app.getDataComponent();
+            
+            jTPS_Transaction transaction = new deleteRecTransaction(section, rec.getInstructor(),
+                    rec.getDayTime(), rec.getLocation(), rec.getTa1(), rec.getTa2(), data);
+
+            // WE'VE CHANGED STUFF
+            markWorkAsEdited();
+            jTPS.addTransaction(transaction);
+            
+        }
+        
+    }
+    
+    public void deleteScheduleHandler(){
+        // GET THE TABLE
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+        TableView scheduleTable = workspace.getScheduleDataTab().getScheduleTable();
+
+        // IS A TA SELECTED IN THE TABLE?
+        Object selectedItem = scheduleTable.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+
+            // GET THE TA AND REMOVE IT
+            Schedule schedule = (Schedule) selectedItem;
+            String date = schedule.getDate();
+            CSGData data = (CSGData) app.getDataComponent();
+            
+            jTPS_Transaction transaction = new deleteScheduleTransaction(schedule.getType(), date,
+                    schedule.getTitle(),  schedule.getTopic(), schedule.getLink(), 
+                    schedule.getTime(),  schedule.getCriteria(), data);
+
+            
+            
+            // WE'VE CHANGED STUFF
+            markWorkAsEdited();
+            jTPS.addTransaction(transaction);
+            
+        }
+        
+        
+    }
+    
+    
+    public void addUpdateRecHandler() {
+        // WE'LL NEED THE WORKSPACE TO RETRIEVE THE USER INPUT VALUES
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+        TextField sectionTextField = workspace.getRecitationDataTab().getSectionTextField();
+        TextField instructorTextField = workspace.getRecitationDataTab().getInstructorTextField();
+        TextField dayTimeTextField = workspace.getRecitationDataTab().getDayTimeTextField();
+        TextField locationTextField = workspace.getRecitationDataTab().getLocationTextField();
+        ComboBox ta1ChoiceBox = workspace.getRecitationDataTab().getSupervisingTA1ComboBox();
+        ComboBox ta2ChoiceBox = workspace.getRecitationDataTab().getSupervisingTA2ComboBox();
+        
+        String section = sectionTextField.getText();
+        String instructor = instructorTextField.getText();
+        String dayTime = dayTimeTextField.getText();
+        String location = locationTextField.getText();
+        String ta1 = ta1ChoiceBox.getEditor().getText();
+        String ta2 = ta2ChoiceBox.getEditor().getText();
+
+        // WE'LL NEED TO ASK THE DATA SOME QUESTIONS TOO
+        CSGData data = (CSGData) app.getDataComponent();
+
+        // WE'LL NEED THIS IN CASE WE NEED TO DISPLAY ANY ERROR MESSAGES
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+
+        // DID THE USER NEGLECT TO PROVIDE A TA NAME?
+        if (section.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Section", "Add a section");
+        } // DID THE USER NEGLECT TO PROVIDE A TA EMAIL?
+        else if (instructor.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Instructor", "Add instructor");
+        } // DID THE USER PROVIDE A VALID EMAIL?
+        else if (dayTime.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Day Time", "Add a day and time");
+        } else if (location.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Location", "Add a location");
+        } else if (ta1.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing TA1", "Add TA1");
+        } // DOES A TA ALREADY HAVE THE SAME NAME OR EMAIL?
+        else if (data.containsRecitation(section, dayTime)) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Not Unique Recitation", "Add a different recitation");
+        } // EVERYTHING IS FINE, ADD A NEW TA
+        else {
+
+            // CLEAR THE TEXT FIELDS
+            sectionTextField.setText("");
+            instructorTextField.setText("");            
+            dayTimeTextField.setText("");            
+            locationTextField.setText("");
+
+            // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
+            sectionTextField.requestFocus();
+
+            // WE'VE CHANGED STUFF
+            markWorkAsEdited();
+            
+            jTPS_Transaction trans = new addRecitationTransaction(section, instructor,
+                    dayTime, location, ta1, ta2, data);
+            jTPS.addTransaction(trans);
+        }
+        
+    }
+    
+    public void addScheduleHandler() {
+        // WE'LL NEED THE WORKSPACE TO RETRIEVE THE USER INPUT VALUES
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+        ChoiceBox typeChoiceBox = workspace.getScheduleDataTab().getTypeChoiceBox();
+        DatePicker datePicker = workspace.getScheduleDataTab().getDateDatePicker();
+        TextField titleTextField = workspace.getScheduleDataTab().getTitleTextField();
+        TextField topicTextField = workspace.getScheduleDataTab().getTopicTextField();
+        TextField linkTextField = workspace.getScheduleDataTab().getLinkTextField();
+        TextField criteriaTextField = workspace.getScheduleDataTab().getCriteriaTextField();
+        
+        String type = typeChoiceBox.getValue().toString();
+        String date = datePicker.toString();
+        String title = titleTextField.getText();
+        String topic = topicTextField.getText();
+        String link = linkTextField.getText();
+        String criteria = criteriaTextField.getText();
+
+        // WE'LL NEED TO ASK THE DATA SOME QUESTIONS TOO
+        CSGData data = (CSGData) app.getDataComponent();
+
+        // WE'LL NEED THIS IN CASE WE NEED TO DISPLAY ANY ERROR MESSAGES
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+
+        // DID THE USER NEGLECT TO PROVIDE A TA NAME?
+        if (type.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Type", "Add a type");
+        } // DID THE USER NEGLECT TO PROVIDE A TA EMAIL?
+        else if (date.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Date", "Add date");
+        } // DID THE USER PROVIDE A VALID EMAIL?
+        else if (title.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Title", "Add a Title");
+        } else if (topic.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Topic", "Add a topic");
+        } else if (link.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Link", "Add Link");
+        } else if (criteria.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing criteria", "Add criteria");
+        } // DOES A TA ALREADY HAVE THE SAME NAME OR EMAIL?
+        else if (data.containsSchedule(date, title)) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Not Unique Schedule", "Add a different schedule");
+        } // EVERYTHING IS FINE, ADD A NEW Schedule
+        else {
+            
+            
+            data.addSchedule(type, date, title, topic, link, title, criteria);
+
+            // CLEAR THE TEXT FIELDS
+            titleTextField.setText("");
+            topicTextField.setText("");
+            linkTextField.setText("");
+            criteriaTextField.setText("");
+
+            // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
+            titleTextField.requestFocus();
+
+            // WE'VE CHANGED STUFF
+            markWorkAsEdited();
+
+            //add transaction
+        }
+        
     }
 
     /**
@@ -342,14 +791,14 @@ public class CSGController {
             markWorkAsEdited();
         }
     }
-
+    
     void handleGridCellMouseExited(Pane pane) {
         String cellKey = pane.getId();
         CSGData data = (CSGData) app.getDataComponent();
         int column = Integer.parseInt(cellKey.substring(0, cellKey.indexOf("_")));
         int row = Integer.parseInt(cellKey.substring(cellKey.indexOf("_") + 1));
         CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
-
+        
         Pane mousedOverPane = workspace.getTADataTab().getTACellPane(data.getCellKey(column, row));
         mousedOverPane.getStyleClass().clear();
         mousedOverPane.getStyleClass().add(CLASS_OFFICE_HOURS_GRID_TA_CELL_PANE);
@@ -380,7 +829,7 @@ public class CSGController {
             cell.getStyleClass().add(CLASS_OFFICE_HOURS_GRID_TA_CELL_PANE);
         }
     }
-
+    
     void handleGridCellMouseEntered(Pane pane) {
         String cellKey = pane.getId();
         CSGData data = (CSGData) app.getDataComponent();
@@ -417,51 +866,51 @@ public class CSGController {
             cell.getStyleClass().add(CLASS_HIGHLIGHTED_GRID_ROW_OR_COLUMN);
         }
     }
-
+    
     public void handleStartHour(String startHour) {
         CSGData data = (CSGData) app.getDataComponent();
-
+        
         int colonIndex = startHour.indexOf(":");
         String startHourValue = startHour.substring(0, colonIndex);
         String origStartHour = String.valueOf(data.getStartHour());
-
+        
         CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
 
         //  SAVE CURRENT OFFICE HOURS
         ArrayList<TimeSlot> officeHours = TimeSlot.buildOfficeHoursList(data);
-
+        
         jTPS_Transaction trans = new startHourTrans(data, workspace,
                 startHourValue, origStartHour, officeHours);
         jTPS.addTransaction(trans);
-
+        
         markWorkAsEdited();
-
+        
     }
-
+    
     public void handleEndHour(String endHour) {
         CSGData data = (CSGData) app.getDataComponent();
-
+        
         int colonIndex = endHour.indexOf(":");
         String endHourValue = endHour.substring(0, colonIndex);
         String origEndHour = String.valueOf(data.getEndHour());
-
+        
         CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
 
         //  SAVE CURRENT OFFICE HOURS
         ArrayList<TimeSlot> officeHours = TimeSlot.buildOfficeHoursList(data);
-
+        
         jTPS_Transaction trans = new endHourTrans(data, workspace, endHourValue,
                 officeHours, origEndHour);
         jTPS.addTransaction(trans);
-
+        
         markWorkAsEdited();
-
+        
     }
-
+    
     public void handleUndo() {
         jTPS.undoTransaction();
     }
-
+    
     public void handleRedo() {
         jTPS.doTransaction();
     }
@@ -470,13 +919,13 @@ public class CSGController {
         //TAWorkspace workspace = (TAWorkspace)app.getWorkspaceComponent();
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         // WARNING MESSAGE
-            AppYesNoCancelDialogSingleton yesNoDialog = AppYesNoCancelDialogSingleton.getSingleton();
-            yesNoDialog.show(props.getProperty(WARNING_TIME_TITLE), props.getProperty(WARNING_TIME_MESSAGE));
+        AppYesNoCancelDialogSingleton yesNoDialog = AppYesNoCancelDialogSingleton.getSingleton();
+        yesNoDialog.show(props.getProperty(WARNING_TIME_TITLE), props.getProperty(WARNING_TIME_MESSAGE));
 
         // AND NOW GET THE USER'S SELECTION
         String selection = yesNoDialog.getSelection();
         if (selection.equals(AppYesNoCancelDialogSingleton.YES)) {
-
+            
             int start = convertToMilitaryTime(startTime);
             int end = convertToMilitaryTime(endTime);
             System.out.println(start);
@@ -496,7 +945,7 @@ public class CSGController {
 
             } else {    //At this point the time varialbes are good to go. 
                 CSGData data = (CSGData) app.getDataComponent();
-
+                
                 jTPS_Transaction transaction = new updateTime_Transaction(start, end, data);
                 jTPS.addTransaction(transaction);
 
@@ -506,8 +955,9 @@ public class CSGController {
                 //workspace.reloadOfficeHoursGrid(data);
             }
         }
-
+        
     }
+    
     public int convertToMilitaryTime(String time) {
         int milTime = 0;
         if (time == null) {
@@ -526,5 +976,5 @@ public class CSGController {
         }
         return milTime;
     }
-
+    
 }

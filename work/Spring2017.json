@@ -1,82 +1,112 @@
 
 {
-    "start_hour":"9",
-    "end_hour":"20",
+    "subject":"Computer Science I",
+    "number":"219",
+    "semester":"Fall",
+    "year":"2017",
+    "title":"Computer Science I",
+    "instructor_name":"Richard McKenna",
+    "instructor_home":"https://www.cs.stonybrook.edu/~richard",
+    "export_directory":"~/Documents",
+    "template_directory":"~/Desktop",
+    "banner_school_image":"",
+    "left_footer_image":"",
+    "right_footer_image":"",
+    "stylesheet":"",
+    "startHour":"9",
+    "endHour":"10",
     "undergrad_tas":[
         {
-            "name":"Jane Doe",
-            "email":"jane@gmail.com"
-        },
-        {
-            "name":"Joe Shmo",
-            "email":"joe@yahoo.com"
+            "name":"Tony",
+            "email":"tony.ohalleran@stonybrook.edu"
         }
     ],
-    "office_hours":[
+    "officeHours":[
         {
-            "day":"TUESDAY",
-            "time":"12_00pm",
-            "name":"Jane Doe"
+            "day":"MONDAY",
+            "time":"9_00am",
+            "name":"9:30am"
         },
         {
             "day":"TUESDAY",
-            "time":"12_30pm",
-            "name":"Jane Doe"
+            "time":"9_00am",
+            "name":"apple"
         },
         {
             "day":"WEDNESDAY",
-            "time":"12_30pm",
-            "name":"Jane Doe"
+            "time":"9_00am",
+            "name":"orange"
+        },
+        {
+            "day":"THURSDAY",
+            "time":"9_00am",
+            "name":"pear"
+        },
+        {
+            "day":"FRIDAY",
+            "time":"9_00am",
+            "name":"banana"
+        },
+        {
+            "day":"MONDAY",
+            "time":"9_30am",
+            "name":"10:00am"
+        },
+        {
+            "day":"TUESDAY",
+            "time":"9_30am",
+            "name":"apple"
         },
         {
             "day":"WEDNESDAY",
-            "time":"12_30pm",
-            "name":"Joe Shmo"
-        },
-        {
-            "day":"WEDNESDAY",
-            "time":"1_00pm",
-            "name":"Joe Shmo"
-        },
-        {
-            "day":"WEDNESDAY",
-            "time":"1_30pm",
-            "name":"Jane Doe"
-        },
-        {
-            "day":"WEDNESDAY",
-            "time":"1_30pm",
-            "name":"Joe Shmo"
+            "time":"9_30am",
+            "name":"orange"
         },
         {
             "day":"THURSDAY",
-            "time":"2_00pm",
-            "name":"Jane Doe"
+            "time":"9_30am",
+            "name":"pear"
         },
         {
-            "day":"THURSDAY",
-            "time":"2_00pm",
-            "name":"Joe Shmo"
-        },
+            "day":"FRIDAY",
+            "time":"9_30am",
+            "name":"banana"
+        }
+    ],
+    "recitations":[
         {
-            "day":"THURSDAY",
-            "time":"2_30pm",
-            "name":"Jane Doe"
-        },
+            "section":"R02",
+            "instructor":"Richard McKenna",
+            "dayTime":"Wed 3:30pm-4:23pm",
+            "location":"Old CS 2114",
+            "ta1":"Jane Doe",
+            "ta2":"Joe Shmo"
+        }
+    ],
+    "starting_monday":"",
+    "ending_friday":"",
+    "scheduleItems":[
         {
-            "day":"THURSDAY",
-            "time":"2_30pm",
-            "name":"Joe Shmo"
-        },
+            "type":"Holiday",
+            "date":"2017-02-09",
+            "title":"SNOW DAY",
+            "topic":"Event Programming"
+        }
+    ],
+    "teams":[
         {
-            "day":"THURSDAY",
-            "time":"3_00pm",
-            "name":"Jane Doe"
-        },
+            "tName":"Atomic Comics",
+            "color":"552211",
+            "textColor":"FFFFFF",
+            "link":"https://c4-comics.appspot.com"
+        }
+    ],
+    "students":[
         {
-            "day":"THURSDAY",
-            "time":"3_30pm",
-            "name":"Jane Doe"
+            "firstName":"Jane",
+            "lastName":"Doe",
+            "team":"Atomic Comics",
+            "role":"Lead Programmer"
         }
     ]
 }
