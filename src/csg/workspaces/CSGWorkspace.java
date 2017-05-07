@@ -60,7 +60,7 @@ public class CSGWorkspace extends AppWorkspaceComponent {
         courseDetails = new Tab();
         String courseDetailsHeaderText = props.getProperty(COURSE_DETAILS_TAB_TEXT.toString());
         courseDetails.setText(courseDetailsHeaderText);
-        courseDetailsTab = new CourseDetailsTab(app);
+        courseDetailsTab = new CourseDetailsTab(app, controller);
         courseDetails.setContent(courseDetailsTab.courseDetailsWorkspace);
         tabPane.getTabs().add(courseDetails);
         

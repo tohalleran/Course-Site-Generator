@@ -22,6 +22,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -259,6 +260,58 @@ public class ProjectDataTab {
 //        teamTable.setStyle("-fx-background-color: #010764;");
         studentTable.prefHeightProperty().bind(projectDataWorkspace.heightProperty().multiply(0.2));
 //        studentTable.setStyle("-fx-background-color: #010764;");
+
+
+
+
+        //HANDLE ACTION EVENTS
+        addUpdateButton1.setOnAction(e -> {
+            controller.addTeamHandler();
+        });
+        dashButton.setOnAction(e -> {
+            controller.deleteTeamHandler();
+        });
+        teamTable.setOnMouseClicked(e -> {
+            controller.handleEditTeam();
+        });
+        clearButton1.setOnAction(e -> {
+            controller.handleClearTeam();
+        });
+        teamTable.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.DELETE || e.getCode() == KeyCode.BACK_SPACE) {
+                controller.deleteTeamHandler();
+            }
+        });
+        
+        addUpdateButton2.setOnAction(e -> {
+            controller.addStudentHandler();
+        });
+        dashButton2.setOnAction(e -> {
+            controller.deleteStudentHandler();
+        });
+        studentTable.setOnMouseClicked(e -> {
+            controller.handleEditStudent();
+        });
+        clearButton2.setOnAction(e -> {
+            controller.handleClearStudent();
+        });
+        studentTable.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.DELETE || e.getCode() == KeyCode.BACK_SPACE) {
+                controller.deleteStudentHandler();
+            }
+        });
+        
+        
+        
+        projectDataWorkspace.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.Z && e.isControlDown()) {
+                
+                controller.handleUndo();
+            }
+            if (e.getCode() == KeyCode.Y && e.isControlDown()) {
+                controller.handleRedo();
+            }
+        });
     }
 
     public VBox getProjectDataWorkspace() {

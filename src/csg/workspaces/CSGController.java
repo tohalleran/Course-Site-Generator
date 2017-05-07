@@ -11,7 +11,9 @@ import csg.CSGManagerProp;
 import csg.data.CSGData;
 import csg.data.Recitation;
 import csg.data.Schedule;
+import csg.data.Student;
 import csg.data.TeachingAssistant;
+import csg.data.Team;
 import csg.files.TimeSlot;
 import csg.transaction.addTATransaction;
 import csg.transaction.deleteTATransaction;
@@ -22,18 +24,25 @@ import static csg.style.CSGStyle.CLASS_HIGHLIGHTED_GRID_ROW_OR_COLUMN;
 import static csg.style.CSGStyle.CLASS_OFFICE_HOURS_GRID_TA_CELL_PANE;
 import csg.transaction.addRecitationTransaction;
 import csg.transaction.addScheduleTrans;
+import csg.transaction.addStudentTrans;
+import csg.transaction.addTeamTrans;
 import csg.transaction.updateTime_Transaction;
 import csg.transaction.cellToggleTrans;
 import csg.transaction.deleteRecTransaction;
 import csg.transaction.deleteScheduleTransaction;
+import csg.transaction.deleteStudentTrans;
+import csg.transaction.deleteTeamTrans;
 import csg.transaction.startHourTrans;
 import csg.transaction.updateRecTrans;
 import csg.transaction.updateScheduleTrans;
+import csg.transaction.updateStudentTrans;
 import csg.transaction.updateTATrans;
+import csg.transaction.updateTeamTrans;
 
 import djf.ui.AppGUI;
 import djf.ui.AppMessageDialogSingleton;
 import djf.ui.AppYesNoCancelDialogSingleton;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -46,6 +55,7 @@ import java.util.regex.Pattern;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -56,6 +66,8 @@ import javafx.scene.image.ImageView;
 import static javafx.scene.input.DataFormat.URL;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javax.imageio.ImageIO;
@@ -344,24 +356,25 @@ public class CSGController {
             });
         }
     }
-    public void handleClearRecitation(){
-        
+
+    public void handleClearRecitation() {
+
         CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
         TextField sectionTextField = workspace.getRecitationDataTab().getSectionTextField();
         TextField instructorTextField = workspace.getRecitationDataTab().getInstructorTextField();
         TextField dayTimeTextField = workspace.getRecitationDataTab().getDayTimeTextField();
         TextField locationTextField = workspace.getRecitationDataTab().getLocationTextField();
-        
-        if(!sectionTextField.getText().equals("") && !instructorTextField.getText().equals("")
-                && !dayTimeTextField.getText().equals("")){
-         // CLEAR THE TEXT FIELDS
+
+        if (!sectionTextField.getText().equals("") && !instructorTextField.getText().equals("")
+                && !dayTimeTextField.getText().equals("")) {
+            // CLEAR THE TEXT FIELDS
             sectionTextField.setText("");
             instructorTextField.setText("");
             dayTimeTextField.setText("");
             locationTextField.setText("");
-            
+
             sectionTextField.requestFocus();
-            
+
             //  CHANGE BUTTON BACK TO ADD
             PropertiesManager props = PropertiesManager.getPropertiesManager();
             String addButtonText = props.getProperty(CSGManagerProp.ADD_BUTTON_TEXT.toString());
@@ -372,33 +385,108 @@ public class CSGController {
             addButton.setOnAction(e -> {
                 addRecHandler();
             });
-    } else {
+        } else {
             Button clearButton = workspace.getRecitationDataTab().getClearButton();
             clearButton.setDisable(true);
         }
     }
     
-    public void handleClearSchedule(){
+    public void handleClearStudent(){
+        // WE'LL NEED THE WORKSPACE TO RETRIEVE THE USER INPUT VALUES
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+
+        TextField firstNameTextField = workspace.getProjectDataTab().getFirstNameTextField();
+        TextField lastNameTextField = workspace.getProjectDataTab().getLastNameTextField();
+        ComboBox teamComboBox = workspace.getProjectDataTab().getTeamComboBox();
+        TextField roleTextField = workspace.getProjectDataTab().getRoleTextField();
+
+        if (!firstNameTextField.getText().equals("") || !lastNameTextField.getText().equals("")
+                || !roleTextField.getText().equals("")) {
+            // CLEAR THE TEXT FIELDS
+            firstNameTextField.setText("");
+            lastNameTextField.setText("");
+            teamComboBox.getEditor().setText("");
+            roleTextField.setText("");
+
+            firstNameTextField.requestFocus();
+
+            //  CHANGE BUTTON BACK TO ADD
+            PropertiesManager props = PropertiesManager.getPropertiesManager();
+            String addButtonText = "Add Student";
+            Button addButton = workspace.getProjectDataTab().getAddUpdateButton2();
+            addButton.setText(addButtonText);
+
+            //  HANDLE UPDATE TA
+            addButton.setOnAction(e -> {
+                addStudentHandler();
+            });
+        } else {
+            Button clearButton = workspace.getProjectDataTab().getClearButton2();
+            clearButton.setDisable(true);
+        }
+        
+        
+    }
+    
+    
+    
+    
+
+    public void handleClearTeam() {
+        // WE'LL NEED THE WORKSPACE TO RETRIEVE THE USER INPUT VALUES
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+
+        TextField nameTextField = workspace.getProjectDataTab().getNameTextField();
+        ColorPicker colorColorPicker = workspace.getProjectDataTab().getColorColorPicker();
+        ColorPicker colorTextColorPicker = workspace.getProjectDataTab().getTextColorColorPicker();
+        TextField linkTextField = workspace.getProjectDataTab().getLinkTextField();
+
+        if (!nameTextField.getText().equals("")) {
+            // CLEAR THE TEXT FIELDS
+            nameTextField.setText("");
+            colorColorPicker.setValue(Color.WHITE);
+            colorTextColorPicker.setValue(Color.WHITE);
+            linkTextField.setText("");
+
+            nameTextField.requestFocus();
+
+            //  CHANGE BUTTON BACK TO ADD
+            PropertiesManager props = PropertiesManager.getPropertiesManager();
+            String addButtonText = "Add Team";
+            Button addButton = workspace.getProjectDataTab().getAddUpdateButton1();
+            addButton.setText(addButtonText);
+
+            //  HANDLE UPDATE TA
+            addButton.setOnAction(e -> {
+                addTeamHandler();
+            });
+        } else {
+            Button clearButton = workspace.getProjectDataTab().getClearButton1();
+            clearButton.setDisable(true);
+        }
+    }
+
+    public void handleClearSchedule() {
         CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
         ComboBox typeComboBox = workspace.getScheduleDataTab().getTypeComboBox();
-        
+
         TextField timeTextField = workspace.getScheduleDataTab().getTimeTextField();
         TextField titleTextField = workspace.getScheduleDataTab().getTitleTextField();
         TextField topicTextField = workspace.getScheduleDataTab().getTopicTextField();
         TextField linkTextField = workspace.getScheduleDataTab().getLinkTextField();
         TextField criteriaTextField = workspace.getScheduleDataTab().getCriteriaTextField();
-        
-        if(!titleTextField.getText().equals("")){
-         // CLEAR THE TEXT FIELDS
+
+        if (!titleTextField.getText().equals("")) {
+            // CLEAR THE TEXT FIELDS
             typeComboBox.getSelectionModel().clearSelection();
             timeTextField.setText("");
             titleTextField.setText("");
             topicTextField.setText("");
             linkTextField.setText("");
             criteriaTextField.setText("");
-            
+
             titleTextField.requestFocus();
-            
+
             //  CHANGE BUTTON BACK TO ADD
             PropertiesManager props = PropertiesManager.getPropertiesManager();
             String addButtonText = props.getProperty(CSGManagerProp.ADD_BUTTON_TEXT.toString());
@@ -409,12 +497,12 @@ public class CSGController {
             addButton.setOnAction(e -> {
                 addScheduleHandler();
             });
-    } else {
+        } else {
             Button clearButton = workspace.getScheduleDataTab().getClearButton();
             clearButton.setDisable(true);
         }
     }
-    
+
     public void handleEditSchedule() {
         CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
         TableView scheduleTable = workspace.getScheduleDataTab().getScheduleTable();
@@ -503,16 +591,14 @@ public class CSGController {
         else if (title.isEmpty()) {
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
             dialog.show("Missing Title", "Add a Title");
-        } 
-         
-         // DOES A TA ALREADY HAVE THE SAME NAME OR EMAIL?
+        } // DOES A TA ALREADY HAVE THE SAME NAME OR EMAIL?
         // EVERYTHING IS FINE, ADD A NEW Schedule
         else {
 
             //add transaction
-            jTPS_Transaction trans = new updateScheduleTrans(schedule.getType(), schedule.getDate(), 
-                    schedule.getTitle(), schedule.getTopic(),schedule.getLink(), schedule.getTime(), 
-                    schedule.getCriteria(), data ,type, date, title, topic, link, time, criteria);
+            jTPS_Transaction trans = new updateScheduleTrans(schedule.getType(), schedule.getDate(),
+                    schedule.getTitle(), schedule.getTopic(), schedule.getLink(), schedule.getTime(),
+                    schedule.getCriteria(), data, type, date, title, topic, link, time, criteria);
             jTPS.addTransaction(trans);
 
             // CHANGE BUTTON BACK TO ADD
@@ -533,6 +619,223 @@ public class CSGController {
 
             // WE'VE CHANGED STUFF
             markWorkAsEdited();
+        }
+    }
+
+    public void handleEditStudent() {
+        // GET THE TABLE
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+        TableView studentTable = workspace.getProjectDataTab().getStudentTable();
+
+        // IS A TA SELECTED IN THE TABLE?
+        Object selectedItem = studentTable.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            Student student = (Student) selectedItem;
+            String firstName = student.getFirstName();
+            String lastName = student.getLastName();
+            String team = student.getTeam();
+            String role = student.getRole();
+
+            TextField firstNameTextField = workspace.getProjectDataTab().getFirstNameTextField();
+            TextField lastNameTextField = workspace.getProjectDataTab().getLastNameTextField();
+            ComboBox teamComboBox = workspace.getProjectDataTab().getTeamComboBox();
+            TextField roleTextField = workspace.getProjectDataTab().getRoleTextField();
+
+            firstNameTextField.setText(firstName);
+            lastNameTextField.setText(lastName);
+            teamComboBox.getEditor().setText(team);
+            roleTextField.setText(role);
+            
+            //  CHANGE BUTTON TO UPDATE TEAM   
+            PropertiesManager props = PropertiesManager.getPropertiesManager();
+            String updateButtonText = "Update Student";
+            Button updateButton = workspace.getProjectDataTab().getAddUpdateButton2();
+            updateButton.setText(updateButtonText);
+
+            // MAKE SURE THE CLEAR BUTTON IS ENABLED
+            Button clearButton = workspace.getProjectDataTab().getClearButton2();
+            if (clearButton.isDisable()) {
+                clearButton.setDisable(false);
+            }
+
+            //  HANDLE UPDATE TEAM
+            updateButton.setOnAction(e -> {
+                handleUpdateStudent( student);
+            });
+        
+            
+        }
+    }
+    
+    
+    public void handleUpdateStudent(Student student){
+        // WE'LL NEED THE WORKSPACE TO RETRIEVE THE USER INPUT VALUES
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+
+        TextField firstNameTextField = workspace.getProjectDataTab().getFirstNameTextField();
+        TextField lastNameTextField = workspace.getProjectDataTab().getLastNameTextField();
+        ComboBox teamComboBox = workspace.getProjectDataTab().getTeamComboBox();
+        TextField roleTextField = workspace.getProjectDataTab().getRoleTextField();
+
+        String firstName = firstNameTextField.getText();
+        String lastName = lastNameTextField.getText();
+        String team = teamComboBox.getEditor().getText();
+        String role = roleTextField.getText();
+
+        // WE'LL NEED TO ASK THE DATA SOME QUESTIONS TOO
+        CSGData data = (CSGData) app.getDataComponent();
+
+        // WE'LL NEED THIS IN CASE WE NEED TO DISPLAY ANY ERROR MESSAGES
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+
+        // DID THE USER NEGLECT TO PROVIDE A TA NAME?
+        if (firstName.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing First Name", "Add a first name");
+        } // DID THE USER NEGLECT TO PROVIDE A TA EMAIL?
+        else if (lastName.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Last Name", "Add last name");
+        } // DID THE USER PROVIDE A VALID EMAIL?
+        else if (team.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Team", "Add a team");
+        } else if (role.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Role", "Add Role");
+        } // DOES A TA ALREADY HAVE THE SAME NAME OR EMAIL?
+        // EVERYTHING IS FINE, ADD A NEW Schedule
+        else {
+
+            // UPDATE STUDENT TRANSACTION
+            jTPS_Transaction trans = new updateStudentTrans(firstName, lastName, team, role, data, 
+                            student.getFirstName(), student.getLastName(), student.getTeam(), student.getRole());
+            jTPS.addTransaction(trans);
+
+            firstNameTextField.setText("");
+            lastNameTextField.setText("");
+            teamComboBox.getEditor().setText("");
+            roleTextField.setText("");
+
+            // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
+            firstNameTextField.requestFocus();
+            
+            
+
+            // WE'VE CHANGED STUFF
+            markWorkAsEdited();
+        
+        
+    }}
+
+    public void handleEditTeam() {
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+        TableView teamTable = workspace.getProjectDataTab().getTeamTable();
+
+        // GET THE TA
+        Object selectedItem = teamTable.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            Team team = (Team) selectedItem;
+            String name = team.getName();
+            String color = team.getColor().substring(0, 8);
+            String colorText = team.getColorText().substring(0, 8);
+            String link = team.getLink();
+
+            TextField nameTextField = workspace.getProjectDataTab().getNameTextField();
+            ColorPicker colorColorPicker = workspace.getProjectDataTab().getColorColorPicker();
+            ColorPicker colorTextColorPicker = workspace.getProjectDataTab().getTextColorColorPicker();
+            TextField linkTextField = workspace.getProjectDataTab().getLinkTextField();
+
+            nameTextField.setText(name);
+            Color initColor = Color.web(color);
+            colorColorPicker.setValue(initColor);
+            Color initColorText = Color.web(colorText);
+            colorTextColorPicker.setValue(initColorText);
+            linkTextField.setText(link);
+
+            //  CHANGE BUTTON TO UPDATE TEAM   
+            PropertiesManager props = PropertiesManager.getPropertiesManager();
+            String updateButtonText = "Update Team";
+            Button updateButton = workspace.getProjectDataTab().getAddUpdateButton1();
+            updateButton.setText(updateButtonText);
+
+            // MAKE SURE THE CLEAR BUTTON IS ENABLED
+            Button clearButton = workspace.getProjectDataTab().getClearButton1();
+            if (clearButton.isDisable()) {
+                clearButton.setDisable(false);
+            }
+
+            //  HANDLE UPDATE TEAM
+            updateButton.setOnAction(e -> {
+                handleUpdateTeam(team);
+            });
+        }
+    }
+
+    public void handleUpdateTeam(Team team) {
+        // WE'LL NEED THE WORKSPACE TO RETRIEVE THE USER INPUT VALUES
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+
+        TextField nameTextField = workspace.getProjectDataTab().getNameTextField();
+        ColorPicker colorColorPicker = workspace.getProjectDataTab().getColorColorPicker();
+        ColorPicker colorTextColorPicker = workspace.getProjectDataTab().getTextColorColorPicker();
+        TextField linkTextField = workspace.getProjectDataTab().getLinkTextField();
+
+        String name = nameTextField.getText();
+        String color = colorColorPicker.getValue().toString();
+        String colorText = colorTextColorPicker.getValue().toString();
+        String link = linkTextField.getText();
+
+        // WE'LL NEED TO ASK THE DATA SOME QUESTIONS TOO
+        CSGData data = (CSGData) app.getDataComponent();
+
+        // WE'LL NEED THIS IN CASE WE NEED TO DISPLAY ANY ERROR MESSAGES
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+
+        // DID THE USER NEGLECT TO PROVIDE A TA NAME?
+        if (name.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Name", "Add a name");
+        } // DID THE USER NEGLECT TO PROVIDE A TA EMAIL?
+        else if (color.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Color", "Add color");
+        } // DID THE USER PROVIDE A VALID EMAIL?
+        else if (colorText.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Color Text", "Add a text color");
+        } else if (link.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Link", "Add Link");
+        } // DOES A TA ALREADY HAVE THE SAME NAME OR EMAIL?
+        // EVERYTHING IS FINE, ADD A NEW Schedule
+        else {
+
+            //add transaction
+            jTPS_Transaction trans = new updateTeamTrans(name, color, colorText, link, data,
+                    team.getName(), team.getColor(), team.getColorText(), team.getLink());
+            jTPS.addTransaction(trans);
+
+            // CHANGE BUTTON BACK TO ADD
+            String addButtonText = "Add Team";
+            Button addButton = workspace.getProjectDataTab().getAddUpdateButton1();
+            addButton.setText(addButtonText);
+
+            nameTextField.setText("");
+            linkTextField.setText("");
+
+            // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
+            nameTextField.requestFocus();
+            
+            // UPDATE TEAM IN TEAM COMBOBOX
+            ComboBox teamComboBox = workspace.getProjectDataTab().getTeamComboBox();
+            teamComboBox.getItems().remove(team.getName());
+            teamComboBox.getItems().add(name);
+            
+
+            // WE'VE CHANGED STUFF
+            markWorkAsEdited();
+
         }
     }
 
@@ -567,7 +870,7 @@ public class CSGController {
 
             //  CHANGE BUTTON TO UPDATE TA
             PropertiesManager props = PropertiesManager.getPropertiesManager();
-            String updateButtonText = props.getProperty(CSGManagerProp.UPDATE_BUTTON_TEXT.toString());
+            String updateButtonText = "Update Recitation";
             Button updateButton = workspace.getRecitationDataTab().getAddUpdateButton();
             updateButton.setText(updateButtonText);
 
@@ -631,9 +934,9 @@ public class CSGController {
         else {
 
             // add trans
-            jTPS_Transaction trans = new updateRecTrans(section, instructor,
-                    dayTime, location, ta1, ta2, rec.getSection(), rec.getInstructor(),
-                    rec.getDayTime(), rec.getLocation(), rec.getTa1(), rec.getTa2(), data);
+            jTPS_Transaction trans = new updateRecTrans(rec.getSection(), rec.getInstructor(),
+                    rec.getDayTime(), rec.getLocation(), rec.getTa1(), rec.getTa2(), section, instructor,
+                    dayTime, location, ta1, ta2, data);
             jTPS.addTransaction(trans);
 
             // CHANGE BUTTON BACK TO ADD
@@ -826,6 +1129,58 @@ public class CSGController {
 
     }
 
+    public void deleteStudentHandler() {
+        // GET THE TABLE
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+        TableView studentTable = workspace.getProjectDataTab().getStudentTable();
+
+        // IS A TA SELECTED IN THE TABLE?
+        Object selectedItem = studentTable.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+
+            // GET THE TEAM AND REMOVE IT
+            Student student = (Student) selectedItem;
+            String firstname = student.getFirstName();
+            CSGData data = (CSGData) app.getDataComponent();
+
+            jTPS_Transaction transaction = new deleteStudentTrans(firstname, student.getLastName(),
+                    student.getTeam(), student.getRole(), data);
+            jTPS.addTransaction(transaction);
+
+            // WE'VE CHANGED STUFF
+            markWorkAsEdited();
+
+        }
+    }
+
+    public void deleteTeamHandler() {
+        // GET THE TABLE
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+        TableView teamTable = workspace.getProjectDataTab().getTeamTable();
+
+        // IS A TA SELECTED IN THE TABLE?
+        Object selectedItem = teamTable.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+
+            // GET THE TEAM AND REMOVE IT
+            Team team = (Team) selectedItem;
+            String name = team.getName();
+            CSGData data = (CSGData) app.getDataComponent();
+
+            jTPS_Transaction transaction = new deleteTeamTrans(name, team.getColor(), team.getColorText(),
+                    team.getLink(), data);
+            jTPS.addTransaction(transaction);
+
+            // REMOVE TEAM FROM TEAM COMBOBOX
+            ComboBox teamComboBox = workspace.getProjectDataTab().getTeamComboBox();
+            teamComboBox.getItems().remove(name);
+
+            // WE'VE CHANGED STUFF
+            markWorkAsEdited();
+
+        }
+    }
+
     public void addRecHandler() {
         // WE'LL NEED THE WORKSPACE TO RETRIEVE THE USER INPUT VALUES
         CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
@@ -864,7 +1219,7 @@ public class CSGController {
         } else if (location.isEmpty()) {
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
             dialog.show("Missing Location", "Add a location");
-        
+
         } // DOES A TA ALREADY HAVE THE SAME NAME OR EMAIL?
         else if (data.containsRecitation(section, instructor, dayTime, location, ta1, ta2)) {
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
@@ -928,12 +1283,10 @@ public class CSGController {
         else if (title.isEmpty()) {
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
             dialog.show("Missing Title", "Add a Title");
-        } 
-        else if (link.isEmpty()) {
+        } else if (link.isEmpty()) {
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
             dialog.show("Missing Link", "Add Link");
-        } 
-         // DOES A TA ALREADY HAVE THE SAME NAME OR EMAIL?
+        } // DOES A TA ALREADY HAVE THE SAME NAME OR EMAIL?
         // EVERYTHING IS FINE, ADD A NEW Schedule
         else {
 
@@ -957,6 +1310,123 @@ public class CSGController {
 
         }
 
+    }
+
+    public void addTeamHandler() {
+        // WE'LL NEED THE WORKSPACE TO RETRIEVE THE USER INPUT VALUES
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+
+        TextField nameTextField = workspace.getProjectDataTab().getNameTextField();
+        ColorPicker colorColorPicker = workspace.getProjectDataTab().getColorColorPicker();
+        ColorPicker colorTextColorPicker = workspace.getProjectDataTab().getTextColorColorPicker();
+        TextField linkTextField = workspace.getProjectDataTab().getLinkTextField();
+
+        String name = nameTextField.getText();
+        String color = colorColorPicker.getValue().toString();
+        String colorText = colorTextColorPicker.getValue().toString();
+        String link = linkTextField.getText();
+
+        // WE'LL NEED TO ASK THE DATA SOME QUESTIONS TOO
+        CSGData data = (CSGData) app.getDataComponent();
+
+        // WE'LL NEED THIS IN CASE WE NEED TO DISPLAY ANY ERROR MESSAGES
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+
+        // DID THE USER NEGLECT TO PROVIDE A TA NAME?
+        if (name.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Name", "Add a name");
+        } // DID THE USER NEGLECT TO PROVIDE A TA EMAIL?
+        else if (color.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Color", "Add color");
+        } // DID THE USER PROVIDE A VALID EMAIL?
+        else if (colorText.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Color Text", "Add a text color");
+        } else if (link.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Link", "Add Link");
+        } // DOES A TA ALREADY HAVE THE SAME NAME OR EMAIL?
+        // EVERYTHING IS FINE, ADD A NEW Schedule
+        else {
+
+            // ADD TEAM TO TEAM COMBOBOX
+            ComboBox teamComboBox = workspace.getProjectDataTab().getTeamComboBox();
+            teamComboBox.getItems().add(name);
+
+            //add transaction
+            jTPS_Transaction trans = new addTeamTrans(name, color, colorText, link, data);
+            jTPS.addTransaction(trans);
+
+            nameTextField.setText("");
+            linkTextField.setText("");
+
+            // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
+            nameTextField.requestFocus();
+
+            // WE'VE CHANGED STUFF
+            markWorkAsEdited();
+
+        }
+
+    }
+
+    public void addStudentHandler() {
+        // WE'LL NEED THE WORKSPACE TO RETRIEVE THE USER INPUT VALUES
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+
+        TextField firstNameTextField = workspace.getProjectDataTab().getFirstNameTextField();
+        TextField lastNameTextField = workspace.getProjectDataTab().getLastNameTextField();
+        ComboBox teamComboBox = workspace.getProjectDataTab().getTeamComboBox();
+        TextField roleTextField = workspace.getProjectDataTab().getRoleTextField();
+
+        String firstName = firstNameTextField.getText();
+        String lastName = lastNameTextField.getText();
+        String team = teamComboBox.getValue().toString();
+        String role = roleTextField.getText();
+
+        // WE'LL NEED TO ASK THE DATA SOME QUESTIONS TOO
+        CSGData data = (CSGData) app.getDataComponent();
+
+        // WE'LL NEED THIS IN CASE WE NEED TO DISPLAY ANY ERROR MESSAGES
+        PropertiesManager props = PropertiesManager.getPropertiesManager();
+
+        // DID THE USER NEGLECT TO PROVIDE A TA NAME?
+        if (firstName.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing First Name", "Add a first name");
+        } // DID THE USER NEGLECT TO PROVIDE A TA EMAIL?
+        else if (lastName.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Last Name", "Add last name");
+        } // DID THE USER PROVIDE A VALID EMAIL?
+        else if (team.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Team", "Add a team");
+        } else if (role.isEmpty()) {
+            AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+            dialog.show("Missing Role", "Add Role");
+        } // DOES A TA ALREADY HAVE THE SAME NAME OR EMAIL?
+        // EVERYTHING IS FINE, ADD A NEW Schedule
+        else {
+
+            //add transaction
+            jTPS_Transaction trans = new addStudentTrans(firstName, lastName, team, role, data);
+            jTPS.addTransaction(trans);
+
+            firstNameTextField.setText("");
+            lastNameTextField.setText("");
+            teamComboBox.getEditor().setText("");
+            roleTextField.setText("");
+
+            // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
+            firstNameTextField.requestFocus();
+
+            // WE'VE CHANGED STUFF
+            markWorkAsEdited();
+
+        }
     }
 
     /**

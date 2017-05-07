@@ -177,7 +177,7 @@ public class RecitationDataTab {
         supervisingTA2ComboBox.setEditable(true);
         addEditGridPane.add(supervisingTA2ComboBox, 1, 6);
         
-        String addUpdateButtonText = props.getProperty(CSGManagerProp.ADD_UPDATE_BUTTON_TEXT.toString());
+        String addUpdateButtonText = props.getProperty(CSGManagerProp.ADD_UPDATE_BUTTON_TEXT);
         addUpdateButton = new Button(addUpdateButtonText);
         addEditGridPane.add(addUpdateButton, 0, 7);
         

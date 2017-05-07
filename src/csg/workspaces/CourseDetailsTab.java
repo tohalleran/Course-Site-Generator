@@ -99,8 +99,9 @@ public class CourseDetailsTab {
         return courseDetailsWorkspace;
     }
 
-    public CourseDetailsTab(CSGManagerApp initApp) {
+    public CourseDetailsTab(CSGManagerApp initApp, CSGController initController) {
         app = initApp;
+        controller = initController;
 
         // WE'LL NEED THIS TO GET LANGUAGE PROPERTIES FOR OUR UI
         PropertiesManager props = PropertiesManager.getPropertiesManager();
@@ -251,6 +252,7 @@ public class CourseDetailsTab {
 
         //BOTTON PANE - PAGE STYLE
         pageStyleGridPane = new GridPane();
+        
 
         String pageStyleLabelText = props.getProperty(CSGManagerProp.PAGE_STYLE_LABEL_TEXT.toString());
         pageStyleLabel = new Label(pageStyleLabelText);
@@ -311,10 +313,10 @@ public class CourseDetailsTab {
     //    courseDetailsWorkspace.prefHeightProperty().bind(observable);
         courseDetailsWorkspace.setStyle("-fx-background-color: #CCCDFE;");
         courseDetailsWorkspace.setPadding(new Insets(10, 50, 50, 50));
+        courseDetailsWorkspace.prefHeightProperty().bind(app.getGUI().getWindow().heightProperty().multiply(0.80));
     
-    
-    
-        controller = new CSGController(app);
+        
+        
         
         // ACTION HANDLERS
         changeDirButton.setOnAction(e -> {

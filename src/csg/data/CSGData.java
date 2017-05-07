@@ -679,6 +679,25 @@ public class CSGData implements AppDataComponent {
         }
 
     }
+    
+    public void removeTeam(String initname, String initcolor, String initcolorText, String initlink){
+        for (Team team : teams) {
+            if (initname.equals(team.getName()) && initlink.equals(team.getLink())) {
+                teams.remove(team);
+                return;
+            }
+        }
+    }
+    
+    public void removeStudent(String initFirstName, String initLastName, String initTeam, String initRole){
+        for (Student student : students) {
+            if (initFirstName.equals(student.getFirstName()) && initLastName.equals(student.getLastName())
+                    && initTeam.equals(student.getTeam()) && initRole.equals(student.getRole())) {
+                students.remove(student);
+                return;
+            }
+        }
+    }
 
     public void addOfficeHoursReservation(String day, String time, String taName) {
         int underscoreIndex = time.indexOf("_");
@@ -939,16 +958,14 @@ public class CSGData implements AppDataComponent {
         }
 
         // SORT THE TAS
-        Collections.sort(schedules);
+        Collections.sort(teams);
     }
 
     public boolean containsTeam(String testName, String testLink) {
         for (Team team : teams) {
-            if (team.getName().equals(testName)) {
+            if (team.getName().equals(testName) && team.getLink().equals(testLink)) {
                 return true;
-            }
-            if (team.getLink().equals(testLink)) {
-                return true;
+            
             }
         }
         return false;
