@@ -166,6 +166,7 @@ public class RecitationDataTab {
         
         supervisingTA1ComboBox = new ComboBox();
         supervisingTA1ComboBox.getItems().addAll("Joe Shmoe", "Jane Doe");
+        supervisingTA1ComboBox.setEditable(true);
         addEditGridPane.add(supervisingTA1ComboBox, 1, 5);
         
         supervisingTA2Label = new Label(supervisingTALabelText);
@@ -173,6 +174,7 @@ public class RecitationDataTab {
         
         supervisingTA2ComboBox = new ComboBox();
         supervisingTA2ComboBox.getItems().addAll("Joe Shmoe", "Jane Doe");
+        supervisingTA2ComboBox.setEditable(true);
         addEditGridPane.add(supervisingTA2ComboBox, 1, 6);
         
         String addUpdateButtonText = props.getProperty(CSGManagerProp.ADD_UPDATE_BUTTON_TEXT.toString());
@@ -204,6 +206,9 @@ public class RecitationDataTab {
 //        controller = new CSGController(app);
                 
         // HANDLE ACTION EVENTS
+        clearButton.setOnAction(e -> {
+            controller.handleClearRecitation();
+        });
         dashButton.setOnAction(e -> {
             controller.handleDeleteRecitation();
         });

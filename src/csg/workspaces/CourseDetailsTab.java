@@ -117,6 +117,7 @@ public class CourseDetailsTab {
         courseInfoGridPane.add(subjectLabel, 0, 1);
         subjectComboBox = new ComboBox();
         subjectComboBox.getItems().addAll("CSE");
+        subjectComboBox.setEditable(true);
         courseInfoGridPane.add(subjectComboBox, 1, 1);
 
         String numberLabelText = props.getProperty(CSGManagerProp.NUMBER_LABEL_TEXT.toString());
@@ -124,6 +125,7 @@ public class CourseDetailsTab {
         courseInfoGridPane.add(numberLabel, 2, 1);
         numberComboBox = new ComboBox();
         numberComboBox.getItems().addAll("219");
+        numberComboBox.setEditable(true);
         courseInfoGridPane.add(numberComboBox, 3, 1);
 
         String semesterLabelText = props.getProperty(CSGManagerProp.SEMESTER_LABEL_TEXT.toString());
@@ -131,6 +133,7 @@ public class CourseDetailsTab {
         courseInfoGridPane.add(semesterLabel, 0, 2);
         semesterComboBox = new ComboBox();
         semesterComboBox.getItems().addAll("Fall", "Spring");
+        semesterComboBox.setEditable(true);
         courseInfoGridPane.add(semesterComboBox, 1, 2);
 
         String yearLabelText = props.getProperty(CSGManagerProp.YEAR_LABEL_TEXT.toString());
@@ -138,6 +141,7 @@ public class CourseDetailsTab {
         courseInfoGridPane.add(yearLabel, 2, 2);
         yearComboBox = new ComboBox();
         yearComboBox.getItems().addAll("2017");
+        yearComboBox.setEditable(true);
         courseInfoGridPane.add(yearComboBox, 3, 2);
 
         String titleLabelText = props.getProperty(CSGManagerProp.TITLE_LABEL_TEXT.toString());

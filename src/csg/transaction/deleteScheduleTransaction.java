@@ -12,7 +12,8 @@ import jtps.jTPS_Transaction;
  *
  * @author tonyohalleran
  */
-public class deleteScheduleTransaction implements jTPS_Transaction{
+public class deleteScheduleTransaction implements jTPS_Transaction {
+
     String type;
     String date;
     String title;
@@ -20,22 +21,38 @@ public class deleteScheduleTransaction implements jTPS_Transaction{
     String link;
     String time;
     String criteria;
-    CSGData  data;
-    
-                    
+    CSGData data;
+//    String newType;
+//    String newDate;
+//    String newTitle;
+//    String newTopic;
+//    String newLink;
+//    String newTime;
+//    String newCriteria;
+
     public deleteScheduleTransaction(String type, String date, String title, String topic,
-    String link, String time, String criteria, CSGData data){
+            String link, String time, String criteria, CSGData data){
+            
+//            String newType, String newDate,
+//            String newTitle, String newTopic, String newLink, String newTime, String newCriteria) {
         this.type = type;
         this.date = date;
-     this.title = title;
-     this.topic = topic;
-     this.link = link;
-     this.time = time;
-     this.criteria = criteria;
-      this.data = data;
+        this.title = title;
+        this.topic = topic;
+        this.link = link;
+        this.time = time;
+        this.criteria = criteria;
+        this.data = data;
+
+//        this.newType = newType;
+//        this.newDate = newDate;
+//        this.newTitle = newTitle;
+//        this.newTopic = newTopic;
+//        this.newLink = newLink;
+//        this.newTime = newTime;
+//        this.newCriteria = newCriteria;
     }
-    
-    
+
     @Override
     public void doTransaction() {
         data.removeSchedule(date, title);
@@ -43,7 +60,6 @@ public class deleteScheduleTransaction implements jTPS_Transaction{
 
     @Override
     public void undoTransaction() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        data.addSchedule(type, date, title, topic, link, time, criteria);
     }
-    
 }

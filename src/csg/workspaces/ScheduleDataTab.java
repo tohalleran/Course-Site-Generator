@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
@@ -21,6 +22,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -63,7 +65,7 @@ public class ScheduleDataTab {
     GridPane addEditScheduleGridPane;
     Label addEditLabel;
     Label typeLabel;
-    ChoiceBox typeChoiceBox;
+    ComboBox typeComboBox;
     Label dateLabel;
     DatePicker dateDatePicker;
     Label timeLabel;
@@ -157,9 +159,10 @@ public class ScheduleDataTab {
         typeLabel = new Label(typeLabelText);
         addEditScheduleGridPane.add(typeLabel, 0, 1);
 
-        typeChoiceBox = new ChoiceBox();
-        typeChoiceBox.getItems().addAll("Holiday");
-        addEditScheduleGridPane.add(typeChoiceBox, 1, 1);
+        typeComboBox = new ComboBox();
+        typeComboBox.getItems().addAll("Holiday");
+        typeComboBox.setEditable(true);
+        addEditScheduleGridPane.add(typeComboBox, 1, 1);
 
         String dateLabelText = props.getProperty(CSGManagerProp.DATE_LABEL_TEXT.toString());
         dateLabel = new Label(dateLabelText);
@@ -173,7 +176,7 @@ public class ScheduleDataTab {
         timeTextField = new TextField();
         addEditScheduleGridPane.add(timeTextField, 1, 3);
 
-        String titleLabelText = props.getProperty(CSGManagerProp.TIME_LABEL_TEXT.toString());
+        String titleLabelText = props.getProperty(CSGManagerProp.TITLE_LABEL_TEXT.toString());
         titleLabel = new Label(titleLabelText);
         addEditScheduleGridPane.add(titleLabel, 0, 4);
         titleTextField = new TextField();
@@ -223,27 +226,43 @@ public class ScheduleDataTab {
         //       scheduleTable.setStyle("-fx-background-color: #010764;");
         //    scheduleTable.prefWidthProperty().bind(scheduleDataWorkspace.widthProperty());
 
-    
         
-    
         
-    //HANDLE ACTION EVENTS
-    addUpdateButton.setOnAction(e -> {
-        controller.addScheduleHandler();
-    });
-    dashButton.setOnAction(e -> {
-        controller.deleteScheduleHandler();
-    });
-    
-    
-    
-    
-    
+        //HANDLE ACTION EVENTS
+        startingMondayDatePicker.setOnAction(e -> {
+            controller.handleStartMon(startingMondayDatePicker.getValue());
+        });
+        endingFridayDatePicker.setOnAction(e -> {
+            controller.handleEndFri(endingFridayDatePicker.getValue());
+        });
+        addUpdateButton.setOnAction(e -> {
+            controller.addScheduleHandler();
+        });
+        dashButton.setOnAction(e -> {
+            controller.deleteScheduleHandler();
+        });
+        scheduleTable.setOnMouseClicked(e -> {
+            controller.handleEditSchedule();
+        });
+        clearButton.setOnAction(e -> {
+            controller.handleClearSchedule();
+        });
+        scheduleTable.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.DELETE || e.getCode() == KeyCode.BACK_SPACE) {
+                controller.deleteScheduleHandler();
+            }
+        });
+        scheduleDataWorkspace.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.Z && e.isControlDown()) {
+                
+                controller.handleUndo();
+            }
+            if (e.getCode() == KeyCode.Y && e.isControlDown()) {
+                controller.handleRedo();
+            }
+        });
+
     }
-    
-    
-    
-    
 
     public void reloadScheduleDataTab() {
         CSGData data = (CSGData) app.getDataComponent();
@@ -345,8 +364,8 @@ public class ScheduleDataTab {
         return typeLabel;
     }
 
-    public ChoiceBox getTypeChoiceBox() {
-        return typeChoiceBox;
+    public ComboBox getTypeComboBox() {
+        return typeComboBox;
     }
 
     public Label getDateLabel() {

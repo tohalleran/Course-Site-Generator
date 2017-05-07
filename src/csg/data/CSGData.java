@@ -11,11 +11,11 @@ import csg.files.TimeSlot;
 import csg.workspaces.CSGWorkspace;
 import csg.workspaces.TADataTab;
 import djf.components.AppDataComponent;
+import djf.ui.AppMessageDialogSingleton;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -190,12 +190,85 @@ public class CSGData implements AppDataComponent {
                     startingMonday = startMonDate;
                     endingFriday = endFriDate;
 
-                    // CLEAR TABLE
                 }
             }
         } catch (ParseException e) {
             System.out.println("Error in method initSchedule");
         }
+    }
+
+    public void setStartingMonday(String startMon) {
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+
+        try {
+            Date startMonDate = new SimpleDateFormat("yyyy-MM-dd").parse(startMon);
+            Calendar startMonCal = Calendar.getInstance();
+            startMonCal.setTime(startMonDate);
+            if (endingFriday != null) {
+
+                if (startMonCal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY
+                        && startMonDate.before(endingFriday)) {
+                    // DATE ARE VALID, PROCEED
+                    startingMonday = startMonDate;
+                } else {
+                    workspace.getScheduleDataTab().getStartingMondayDatePicker().getEditor().clear();
+
+                    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+                    dialog.show("Incompatible Monday Date", "Date must be a monday and be before ending "
+                            + "friday date");
+                }
+            } else if (startMonCal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
+
+                // DATE ARE VALID, PROCEED
+                startingMonday = startMonDate;
+            } else {
+                
+                AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+                dialog.show("Incompatible Monday Date", "Date must be a monday and be before ending "
+                        + "friday date");
+                workspace.getScheduleDataTab().getStartingMondayDatePicker().getEditor().clear();
+            }
+
+        } catch (ParseException e) {
+            System.out.println("Error in method initSchedule");
+        }
+    }
+
+    public void setEndingFriday(String endFri) {
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+        try {
+            Date endFriDate = new SimpleDateFormat("yyyy-MM-dd").parse(endFri);
+            Calendar endFriCal = Calendar.getInstance();
+            endFriCal.setTime(endFriDate);
+            if (startingMonday != null) {
+                if (endFriCal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY
+                        && startingMonday.before(endFriDate)) {
+
+                    // DATE ARE VALID, PROCEED
+                    endingFriday = endFriDate;
+                } else {
+                    workspace.getScheduleDataTab().getEndingFridayDatePicker().getEditor().clear();
+                    AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+                    dialog.show("Incompatible Friday Date", "Date must be a friday and be after starting "
+                            + "monday date");
+
+                }
+            } else if (endFriCal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
+
+                // DATE ARE VALID, PROCEED
+                endingFriday = endFriDate;
+            } else {
+                
+                AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+                dialog.show("Incompatible Friday Date", "Date must be a friday and be after starting "
+                        + "monday date");
+                workspace.getScheduleDataTab().getEndingFridayDatePicker().getEditor().clear();
+            }
+
+        } catch (ParseException e) {
+            System.out.println("Error in method setEndingFriday");
+        }
+
     }
 
     /**
@@ -231,9 +304,9 @@ public class CSGData implements AppDataComponent {
         students.clear();
         templates.clear();
     }
-
     // ACCESSOR METHODS
     // COURSE DETAILS TAB
+
     public String getCourseSubject() {
         return courseSubject;
     }
@@ -265,22 +338,24 @@ public class CSGData implements AppDataComponent {
     public String getBannerSchoolImage() {
         return bannerSchoolImage;
     }
-    public void setBannerSchoolImage(String image){
+
+    public void setBannerSchoolImage(String image) {
         bannerSchoolImage = image;
     }
 
     public String getLeftFooterImage() {
         return leftFooterImage;
     }
-    
-    public void setLeftFooterImage(String image){
+
+    public void setLeftFooterImage(String image) {
         leftFooterImage = image;
     }
 
     public String getRightFooterImage() {
         return rightFooterImage;
     }
-    public void setRightFooterImage(String image){
+
+    public void setRightFooterImage(String image) {
         rightFooterImage = image;
     }
 
@@ -585,26 +660,25 @@ public class CSGData implements AppDataComponent {
             }
         }
     }
-    
-    public void removeRec(String section){
-        for (Recitation rec : recitations){
-            if(section.equals(rec.getSection())){
+
+    public void removeRec(String section) {
+        for (Recitation rec : recitations) {
+            if (section.equals(rec.getSection())) {
                 recitations.remove(rec);
                 return;
             }
         }
     }
-    
-    public void removeSchedule(String date, String title){
-        for (Schedule schedule : schedules){
-            if(date.equals(schedule.getDate()) && date.equals(schedule.getTitle())){
+
+    public void removeSchedule(String date, String title) {
+        for (Schedule schedule : schedules) {
+            if (date.equals(schedule.getDate()) && title.equals(schedule.getTitle())) {
                 schedules.remove(schedule);
                 return;
             }
         }
-        
+
     }
-    
 
     public void addOfficeHoursReservation(String day, String time, String taName) {
         int underscoreIndex = time.indexOf("_");
@@ -810,7 +884,7 @@ public class CSGData implements AppDataComponent {
                     && rec.getTa1().equals(ta1) && rec.getTa2().equals(ta2)) {
                 return true;
             }
-            
+
         }
         return false;
     }
@@ -854,7 +928,6 @@ public class CSGData implements AppDataComponent {
         // SORT THE EVENTS
         Collections.sort(schedules);
     }
-    
 
     public void addTeam(String name, String color, String textColor, String link) {
         // MAKE THE TEAM

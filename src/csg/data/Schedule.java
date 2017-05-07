@@ -7,7 +7,11 @@ package csg.data;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -57,6 +61,18 @@ public class Schedule <E extends Comparable<E>> implements Comparable<E> {
     public String getDate() {
         return date.get();
     }
+    public LocalDate getLocalDate() {
+        LocalDate localDate = null;
+        try {
+            Date date2 = new SimpleDateFormat("yyyy-mm-dd").parse(getDate());
+            localDate = date2.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        } catch (ParseException ex) {
+            System.out.println("Error in getDateDate of schedule object class");
+            ex.printStackTrace();
+        }
+        return localDate;
+    }
+    
     public String getMonth() {
         String month = date.get().substring(5, 7);
         if(month.substring(0,1).equals("0"))
