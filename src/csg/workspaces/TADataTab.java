@@ -86,9 +86,10 @@ public class TADataTab {
      * office hours grid, since it doesn't yet know what the hours will be until
      * a file is loaded or a new one is created.
      */
-    public TADataTab(CSGManagerApp initApp){
+    public TADataTab(CSGManagerApp initApp, CSGController initController){
     // KEEP THIS FOR LATER
         app = initApp;
+        controller = initController;
 
         // WE'LL NEED THIS TO GET LANGUAGE PROPERTIES FOR OUR UI
         PropertiesManager props = PropertiesManager.getPropertiesManager();
@@ -231,7 +232,8 @@ public class TADataTab {
         taTable.prefHeightProperty().bind(taDataWorkspace.heightProperty().multiply(0.8));
         
         // NOW LET'S SETUP THE EVENT HANDLING
-        controller = new CSGController(app);
+        
+//        controller = new CSGController(app);
 
 
           //  UNDO AND REDO
@@ -507,6 +509,10 @@ public class TADataTab {
             cellText += "pm";
         }
         return cellText;
+    }
+    
+    public CSGController getController(){
+        return controller;
     }
 
 

@@ -19,6 +19,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -66,8 +67,9 @@ public class RecitationDataTab {
 
     GridPane addEditGridPane;
 
-    public RecitationDataTab(CSGManagerApp initapp) {
+    public RecitationDataTab(CSGManagerApp initapp, CSGController initController) {
         app = initapp;
+        controller = initController;
 
         // WE'LL NEED THIS TO GET LANGUAGE PROPERTIES FOR OUR UI
         PropertiesManager props = PropertiesManager.getPropertiesManager();
@@ -163,12 +165,14 @@ public class RecitationDataTab {
         addEditGridPane.add(supervisingTA1Label, 0, 5);
         
         supervisingTA1ComboBox = new ComboBox();
+        supervisingTA1ComboBox.getItems().addAll("Joe Shmoe", "Jane Doe");
         addEditGridPane.add(supervisingTA1ComboBox, 1, 5);
         
         supervisingTA2Label = new Label(supervisingTALabelText);
         addEditGridPane.add(supervisingTA2Label, 0, 6);
         
         supervisingTA2ComboBox = new ComboBox();
+        supervisingTA2ComboBox.getItems().addAll("Joe Shmoe", "Jane Doe");
         addEditGridPane.add(supervisingTA2ComboBox, 1, 6);
         
         String addUpdateButtonText = props.getProperty(CSGManagerProp.ADD_UPDATE_BUTTON_TEXT.toString());
@@ -196,22 +200,32 @@ public class RecitationDataTab {
  //       recitationTable.setStyle("-fx-background-color: #;");
         
  
- 
-        controller = new CSGController(app);
-        
+       
+//        controller = new CSGController(app);
+                
         // HANDLE ACTION EVENTS
         dashButton.setOnAction(e -> {
             controller.handleDeleteRecitation();
         });
         addUpdateButton.setOnAction(e -> {
-            controller.addUpdateRecHandler();
+            controller.addRecHandler();
         });
         recitationTable.setOnMouseClicked(e -> {
             controller.handleEditRec();
         });
- 
- 
- 
+        recitationTable.setOnKeyPressed(e -> {
+            if(e.getCode() == KeyCode.DELETE || e.getCode() == KeyCode.BACK_SPACE)
+                controller.handleDeleteRecitation();
+        });
+        recitationDataWorkspace.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.Z && e.isControlDown()) {
+                controller.handleUndo();
+            }
+            if (e.getCode() == KeyCode.Y && e.isControlDown()) {
+                controller.handleRedo();
+            }
+        });
+        
  
     }
     

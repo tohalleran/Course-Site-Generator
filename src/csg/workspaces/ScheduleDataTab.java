@@ -79,8 +79,9 @@ public class ScheduleDataTab {
     Button addUpdateButton;
     Button clearButton;
 
-    public ScheduleDataTab(CSGManagerApp initapp) {
+    public ScheduleDataTab(CSGManagerApp initapp, CSGController initController) {
         app = initapp;
+        controller = initController;
 
         PropertiesManager props = PropertiesManager.getPropertiesManager();
 
@@ -224,7 +225,7 @@ public class ScheduleDataTab {
 
     
         
-    controller = new CSGController(app);    
+    
         
     //HANDLE ACTION EVENTS
     addUpdateButton.setOnAction(e -> {

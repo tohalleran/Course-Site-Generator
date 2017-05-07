@@ -37,6 +37,8 @@ public abstract class AppTemplate extends Application {
 
     // THE COMPONENT FOR MANAGING UI STYLE
     protected AppStyleComponent styleComponent;
+    
+    protected AppControllerComponent controllerComponent;
 
     // THIS METHOD MUST BE OVERRIDDEN WHERE THE CUSTOM BUILDER OBJECT
     // WILL PROVIDE THE CUSTOM APP COMPONENTS
@@ -46,6 +48,8 @@ public abstract class AppTemplate extends Application {
      * particular app's dependencies.
      */
     public abstract void buildAppComponentsHook();
+    
+    
 
     // COMPONENT ACCESSOR METHODS
     /**
@@ -53,6 +57,10 @@ public abstract class AppTemplate extends Application {
      */
     public AppDataComponent getDataComponent() {
         return dataComponent;
+    }
+    
+    public AppControllerComponent getControllerComponent(){
+        return controllerComponent;
     }
 
     /**

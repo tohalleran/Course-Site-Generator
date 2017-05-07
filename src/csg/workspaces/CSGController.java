@@ -26,7 +26,9 @@ import csg.transaction.cellToggleTrans;
 import csg.transaction.deleteRecTransaction;
 import csg.transaction.deleteScheduleTransaction;
 import csg.transaction.startHourTrans;
+import csg.transaction.updateRecTrans;
 import csg.transaction.updateTATrans;
+
 import djf.ui.AppGUI;
 import djf.ui.AppMessageDialogSingleton;
 import djf.ui.AppYesNoCancelDialogSingleton;
@@ -61,11 +63,11 @@ import properties_manager.PropertiesManager;
  *
  * @author tonyohalleran
  */
-public class CSGController {
+public class CSGController{
 
     // THE APP PROVIDES ACCESS TO OTHER COMPONENTS AS NEEDED
     CSGManagerApp app;
-    jTPS jTPS = new jTPS();
+    jTPS jTPS;
 
     /**
      * Constructor, note that the app must already be constructed.
@@ -73,6 +75,7 @@ public class CSGController {
     public CSGController(CSGManagerApp initApp) {
         // KEEP THIS FOR LATER
         app = initApp;
+        jTPS = new jTPS();
     }
 
     /**
@@ -391,8 +394,8 @@ public class CSGController {
         String instructor = instructorTextField.getText();
         String dayTime = dayTimeTextField.getText();
         String location = locationTextField.getText();
-        String ta1 = ta1ChoiceBox.getEditor().getText();
-        String ta2 = ta2ChoiceBox.getEditor().getText();
+        String ta1 = ta1ChoiceBox.getValue().toString();
+        String ta2 = ta2ChoiceBox.getValue().toString();
 
         // WE'LL NEED TO ASK THE DATA SOME QUESTIONS TOO
         CSGData data = (CSGData) app.getDataComponent();
@@ -417,16 +420,17 @@ public class CSGController {
             dialog.show("Missing Location", "Add a location");
         } 
          // DOES A TA ALREADY HAVE THE SAME NAME OR EMAIL?
-        else if (data.containsRecitation(section, dayTime)) {
+        else if (data.containsRecitation(section, instructor, dayTime, location, ta1, ta2)) {
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
             dialog.show("Not Unique Recitation", "Add a different recitation");
         } // EVERYTHING IS FINE, ADD A NEW TA
         else {
 
-            //  GO UPDATE REC
-            data.removeRec(rec.getSection());
-            data.addRecitation(section, instructor,
-                    dayTime, location, ta1, ta2);
+            // add trans
+            jTPS_Transaction trans = new updateRecTrans(section, instructor,
+                    dayTime, location, ta1, ta2, rec.getSection(), rec.getInstructor(),
+                    rec.getDayTime(), rec.getLocation(), rec.getTa1(), rec.getTa2(), data);
+            jTPS.addTransaction(trans);
 
             // CHANGE BUTTON BACK TO ADD
             String addButtonText = props.getProperty(CSGManagerProp.ADD_BUTTON_TEXT.toString());
@@ -445,7 +449,7 @@ public class CSGController {
             // WE'VE CHANGED STUFF
             markWorkAsEdited();
 
-            // add trans
+            
         }
         
     }
@@ -623,7 +627,7 @@ public class CSGController {
     }
     
     
-    public void addUpdateRecHandler() {
+    public void addRecHandler() {
         // WE'LL NEED THE WORKSPACE TO RETRIEVE THE USER INPUT VALUES
         CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
         TextField sectionTextField = workspace.getRecitationDataTab().getSectionTextField();
@@ -637,8 +641,8 @@ public class CSGController {
         String instructor = instructorTextField.getText();
         String dayTime = dayTimeTextField.getText();
         String location = locationTextField.getText();
-        String ta1 = ta1ChoiceBox.getEditor().getText();
-        String ta2 = ta2ChoiceBox.getEditor().getText();
+        String ta1 = ta1ChoiceBox.getValue().toString();
+        String ta2 = ta2ChoiceBox.getValue().toString();
 
         // WE'LL NEED TO ASK THE DATA SOME QUESTIONS TOO
         CSGData data = (CSGData) app.getDataComponent();
@@ -665,7 +669,7 @@ public class CSGController {
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
             dialog.show("Missing TA1", "Add TA1");
         } // DOES A TA ALREADY HAVE THE SAME NAME OR EMAIL?
-        else if (data.containsRecitation(section, dayTime)) {
+        else if (data.containsRecitation(section, instructor, dayTime, location, ta1, ta2)) {
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
             dialog.show("Not Unique Recitation", "Add a different recitation");
         } // EVERYTHING IS FINE, ADD A NEW TA

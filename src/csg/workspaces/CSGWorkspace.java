@@ -21,6 +21,7 @@ public class CSGWorkspace extends AppWorkspaceComponent {
     
     // THIS PROVIDES US WITH ACCESS TO THE APP COMPONENTS
     CSGManagerApp app;
+    CSGController controller;
     
     //PANE TO HOLD ALL COURSE SITE GENERATOR TABS
     TabPane tabPane;
@@ -42,6 +43,8 @@ public class CSGWorkspace extends AppWorkspaceComponent {
     public CSGWorkspace(CSGManagerApp initApp){
         // KEEP THIS FOR LATER
         app = initApp;
+        
+        controller = new CSGController(app);
         
         // WE'LL NEED THIS TO GET LANGUAGE PROPERTIES FOR OUR UI
         PropertiesManager props = PropertiesManager.getPropertiesManager();
@@ -65,7 +68,7 @@ public class CSGWorkspace extends AppWorkspaceComponent {
         taData = new Tab();
         String taDataHeaderText = props.getProperty(TA_DATA_TAB_TEXT.toString());
         taData.setText(taDataHeaderText);
-        taDataTab = new TADataTab(app);
+        taDataTab = new TADataTab(app, controller);
         taData.setContent(taDataTab.taDataWorkspace);
         tabPane.getTabs().add(taData);
         
@@ -73,7 +76,7 @@ public class CSGWorkspace extends AppWorkspaceComponent {
         recitationData = new Tab();
         String recitationDataHeaderText = props.getProperty(RECITATION_DATA_TAB_TEXT.toString());
         recitationData.setText(recitationDataHeaderText);
-        recitationDataTab = new RecitationDataTab(app);
+        recitationDataTab = new RecitationDataTab(app, controller);
         recitationData.setContent(recitationDataTab.recitationDataWorkspace);
         tabPane.getTabs().add(recitationData);
         
@@ -81,7 +84,7 @@ public class CSGWorkspace extends AppWorkspaceComponent {
         scheduleData = new Tab();
         String scheduleDataHeaderText = props.getProperty(SCHEDULE_DATA_TAB_TEXT.toString());
         scheduleData.setText(scheduleDataHeaderText);
-        scheduleDataTab = new ScheduleDataTab(app);
+        scheduleDataTab = new ScheduleDataTab(app, controller);
         scheduleData.setContent(scheduleDataTab.getScheduleDataWorkspace());
         tabPane.getTabs().add(scheduleData);
         
@@ -89,11 +92,12 @@ public class CSGWorkspace extends AppWorkspaceComponent {
         projectData = new Tab();
         String projectDataHeaderText = props.getProperty(PROJECT_DATA_TAB_TEXT.toString());
         projectData.setText(projectDataHeaderText);
-        projectDataTab = new ProjectDataTab(app);
+        projectDataTab = new ProjectDataTab(app, controller);
         projectData.setContent(projectDataTab.projectDataWorkspace);
         tabPane.getTabs().add(projectData);
         
         workspace = new Pane(tabPane);
+        
         
             
     }
@@ -115,6 +119,14 @@ public class CSGWorkspace extends AppWorkspaceComponent {
         courseDetailsTab.reloadCourseDetailsTab(data);
         scheduleDataTab.reloadScheduleDataTab();
         
+    }
+    
+    @Override
+    public void handleUndo(){
+        controller.handleUndo();
+    }
+    public void handleRedo(){
+        controller.handleRedo();
     }
 
     public TADataTab getTaDataTab() {

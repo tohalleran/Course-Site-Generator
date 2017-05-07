@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import properties_manager.PropertiesManager;
 import djf.controller.AppFileController;
 import djf.AppTemplate;
+
 import static djf.settings.AppPropertyType.*;
 import static djf.settings.AppStartupConstants.FILE_PROTOCOL;
 import static djf.settings.AppStartupConstants.PATH_IMAGES;
@@ -36,6 +37,7 @@ import javafx.scene.layout.Priority;
 public class AppGUI {
     // THIS HANDLES INTERACTIONS WITH FILE-RELATED CONTROLS
     protected AppFileController fileController;
+
 
     // THIS IS THE APPLICATION WINDOW
     protected Stage primaryStage;
@@ -192,7 +194,7 @@ public class AppGUI {
         
 	// AND NOW SETUP THEIR EVENT HANDLERS
         fileController = new AppFileController(app);
-        CSGController controller = new CSGController((CSGManagerApp) app);
+        
         
         newButton.setOnAction(e -> {
             fileController.handleNewRequest();
@@ -213,10 +215,10 @@ public class AppGUI {
             fileController.handleExportRequest();
         });
         undoButton.setOnAction(e -> {
-            controller.handleUndo();
+            fileController.handleUndo();
         });
         redoButton.setOnAction(e -> {
-            controller.handleRedo();
+            fileController.handleRedo();
         });
         aboutButton.setOnAction(e -> {
             fileController.handleAboutRequest();

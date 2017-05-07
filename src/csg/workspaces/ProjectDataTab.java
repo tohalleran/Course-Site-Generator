@@ -34,7 +34,8 @@ import properties_manager.PropertiesManager;
 public class ProjectDataTab {
 
     CSGManagerApp app;
-
+    CSGController controller;
+    
     VBox projectDataWorkspace;
     
     Label projectsLabel;
@@ -89,8 +90,9 @@ public class ProjectDataTab {
     
     VBox studentsVBox;
 
-    public ProjectDataTab(CSGManagerApp initApp) {
+    public ProjectDataTab(CSGManagerApp initApp, CSGController initController) {
         app = initApp;
+        controller = initController;
 
         PropertiesManager props = PropertiesManager.getPropertiesManager();
         

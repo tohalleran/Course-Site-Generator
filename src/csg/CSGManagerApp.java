@@ -11,6 +11,7 @@ import static javafx.application.Application.launch;
 import csg.data.CSGData;
 import csg.files.CSGFiles;
 import csg.style.CSGStyle;
+import csg.workspaces.CSGController;
 import csg.workspaces.CSGWorkspace;
 
 /**
@@ -33,6 +34,7 @@ public class CSGManagerApp extends AppTemplate {
         workspaceComponent = new CSGWorkspace(this);
         fileComponent = new CSGFiles(this);
         styleComponent = new CSGStyle(this);
+        
     }
     
     /**

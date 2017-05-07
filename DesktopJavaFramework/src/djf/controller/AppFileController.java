@@ -1,6 +1,9 @@
 package djf.controller;
 
 import csg.data.CSGData;
+import csg.workspaces.CSGController;
+import csg.workspaces.CSGWorkspace;
+import csg.workspaces.TADataTab;
 import djf.ui.AppYesNoCancelDialogSingleton;
 import djf.ui.AppMessageDialogSingleton;
 import djf.ui.AppGUI;
@@ -48,6 +51,7 @@ public class AppFileController {
 
     // THIS IS THE FILE FOR THE WORK CURRENTLY BEING WORKED ON
     File currentWorkFile;
+    
 
     /**
      * This constructor just keeps the app for later.
@@ -74,6 +78,16 @@ public class AppFileController {
 
         // LET THE UI KNOW
         gui.updateToolbarControls(saved);
+    }
+    
+    public void handleUndo(){
+        
+        app.getWorkspaceComponent().handleUndo();
+    }
+    
+    public void handleRedo(){
+        
+        app.getWorkspaceComponent().handleRedo();
     }
     
     

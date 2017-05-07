@@ -588,15 +588,19 @@ public class CSGData implements AppDataComponent {
     
     public void removeRec(String section){
         for (Recitation rec : recitations){
-            if(section.equals(rec.getSection()))
+            if(section.equals(rec.getSection())){
                 recitations.remove(rec);
+                return;
+            }
         }
     }
     
     public void removeSchedule(String date, String title){
         for (Schedule schedule : schedules){
-            if(date.equals(schedule.getDate()) && date.equals(schedule.getTitle()))
+            if(date.equals(schedule.getDate()) && date.equals(schedule.getTitle())){
                 schedules.remove(schedule);
+                return;
+            }
         }
         
     }
@@ -798,14 +802,15 @@ public class CSGData implements AppDataComponent {
 
     }
 
-    public boolean containsRecitation(String testSection, String testDayTime) {
+    public boolean containsRecitation(String testSection, String testInstructor, String testDayTime,
+            String testLocation, String ta1, String ta2) {
         for (Recitation rec : recitations) {
-            if (rec.getSection().equals(testSection)) {
+            if (rec.getSection().equals(testSection) && rec.getDayTime().equals(testDayTime)
+                    && rec.getInstructor().equals(testInstructor) && rec.getLocation().equals(testLocation)
+                    && rec.getTa1().equals(ta1) && rec.getTa2().equals(ta2)) {
                 return true;
             }
-            if (rec.getDayTime().equals(testDayTime)) {
-                return true;
-            }
+            
         }
         return false;
     }
@@ -817,7 +822,8 @@ public class CSGData implements AppDataComponent {
                 initTA1, initTA2);
 
         // ADD THE TA
-        if (!containsRecitation(initSection, initDayTime)) {
+        if (!containsRecitation(initSection, initInstructor, initDayTime, initLocation,
+                initTA1, initTA2)) {
             recitations.add(rec);
         }
 
