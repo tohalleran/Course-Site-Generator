@@ -3,12 +3,24 @@
     "teams":[
         {
             "name":"Atomic Bombs",
-            "red":"x",
-            "green":"b3",
-            "blue":"4d1aff",
+            "red":"179",
+            "green":"77",
+            "blue":"26",
             "text_color":"0x4d4d4dff"
         }
     ],
     "students":[
+        {
+            "lastName":"O'Halleran",
+            "firstName":"Tony",
+            "team":"Atomic Bombs",
+            "role":"Lead Developer"
+        },
+        {
+            "lastName":"Nguyen",
+            "firstName":"Priscilla",
+            "team":"Atomic Bombs",
+            "role":"Designer"
+        }
     ]
 }

@@ -7,7 +7,7 @@
     "title":"Computer Science III",
     "instructor_name":"Richard McKenna",
     "instructor_home":"https://cs.stonybrook.edu/~richard",
-    "banner_school_image":"/Users/tonyohalleran/NetBeansProjects/CourseSiteGenerator 2/TAManagerTester/public_html/images/SBUWhiteShieldLogo.jpg",
-    "left_footer_image":"/Users/tonyohalleran/NetBeansProjects/CourseSiteGenerator 2/TAManagerTester/public_html/images/CSLogo.png",
-    "right_footer_image":"/Users/tonyohalleran/NetBeansProjects/CourseSiteGenerator 2/TAManagerTester/public_html/images/SBUWhiteShieldLogo.jpg"
+    "banner_school_image":"./image/SBUWhiteShieldLogo.jpg",
+    "left_footer_image":"./image/CSLogo.png",
+    "right_footer_image":"./image//Users/tonyohalleran/NetBeansProjects/CourseSiteGenerator 2/TAManagerTester/public_html/images/SBUWhiteShieldLogo.jpg"
 }

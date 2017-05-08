@@ -9,7 +9,7 @@
     "instructor_home":"https://cs.stonybrook.edu/~richard",
     "export_directory":"/Users/tonyohalleran/Desktop/app tester",
     "template_directory":"/Users/tonyohalleran/NetBeansProjects/CourseSiteGenerator 2/TAManagerTester/public_html",
-    "banner_school_image":"/Users/tonyohalleran/NetBeansProjects/CourseSiteGenerator 2/TAManagerTester/public_html/images/SBUDarkRedShieldLogo.png",
+    "banner_school_image":"/Users/tonyohalleran/NetBeansProjects/CourseSiteGenerator 2/TAManagerTester/public_html/images/SBUWhiteShieldLogo.jpg",
     "left_footer_image":"/Users/tonyohalleran/NetBeansProjects/CourseSiteGenerator 2/TAManagerTester/public_html/images/CSLogo.png",
     "right_footer_image":"/Users/tonyohalleran/NetBeansProjects/CourseSiteGenerator 2/TAManagerTester/public_html/images/SBUWhiteShieldLogo.jpg",
     "stylesheet":"sea_wolf.css",
@@ -115,11 +115,11 @@
         }
     ],
     "starting_monday":"2017-05-08",
-    "ending_friday":"2017-05-12",
+    "ending_friday":"2017-06-16",
     "scheduleItems":[
         {
             "type":"Holiday",
-            "date":"2017-05-29",
+            "date":"2017-01-29",
             "title":"SNOW DAY",
             "topic":"",
             "link":"https://link.com",
@@ -141,6 +141,12 @@
             "lastName":"O'Halleran",
             "team":"Atomic Bombs",
             "role":"Lead Developer"
+        },
+        {
+            "firstName":"Priscilla",
+            "lastName":"Nguyen",
+            "team":"Atomic Bombs",
+            "role":"Designer"
         }
     ]
 }

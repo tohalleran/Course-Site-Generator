@@ -110,13 +110,9 @@ public class CSGFiles implements AppFileComponent {
     static final String JSON_STUDENTS_TEAM = "team";
     static final String JSON_STUDENTS_ROLE = "role";
 
-    
-
     public CSGFiles(CSGManagerApp initApp) {
         app = initApp;
     }
-
-    
 
     @Override
     public void loadData(AppDataComponent data, String filePath) throws IOException {
@@ -608,10 +604,10 @@ public class CSGFiles implements AppFileComponent {
             JsonArray referenceArray = referenceArrayBuilder.build();
 
             JsonObject scheduleJSO = Json.createObjectBuilder()
-                    .add("startingMondayMonth", dataManager.getStartingMondayMonth())
-                    .add("startingMondayDay", dataManager.getStartingMondayDay())
-                    .add("endingFridayMonth", dataManager.getEndingFridayMonth())
-                    .add("endingFridayDay", dataManager.getEndingFridayDay())
+                    .add("startingMondayMonth", dataManager.getStartingMondayMonthTrim())
+                    .add("startingMondayDay", dataManager.getStartingMondayDayTrim())
+                    .add("endingFridayMonth", dataManager.getEndingFridayMonthTrim())
+                    .add("endingFridayDay", dataManager.getEndingFridayDayTrim())
                     .add("holidays", holidayArray)
                     .add("lectures", lectureArray)
                     .add("references", referenceArray)
@@ -641,38 +637,41 @@ public class CSGFiles implements AppFileComponent {
 
             // BUILD THE PROJECT JSON OBJECT TO SAVE
             JsonArrayBuilder projectArrayBuilder = Json.createArrayBuilder();
+            JsonArrayBuilder studentArrayBuilder = Json.createArrayBuilder();
 
             ObservableList<Team> teams = dataManager.getTeams();
             ObservableList<Student> students = dataManager.getStudents();
             for (Team team : teams) {
-                JsonObject projectJson = Json.createObjectBuilder()
-                        .add("name", team.getName())
-                        .add("link", team.getLink()).build();
-
-                JsonArrayBuilder studentArrayBuilder = Json.createArrayBuilder();
                 for (Student student : students) {
                     if (student.getTeam().equalsIgnoreCase(team.getName())) {
-                        JsonObject studentJson = Json.createObjectBuilder()
-                                .add("students", student.getFirstName() + " " + student.getLastName())
-                                .build();
-                        studentArrayBuilder.add(studentJson);
+//                        JsonObject studentJson = Json.createObjectBuilder()
+//                                .add("students", student.getFirstName() + " " + student.getLastName())
+//                                .build();
+                        studentArrayBuilder.add(student.getFirstName() + " " + student.getLastName());
                     }
+                   
                 }
-
                 JsonArray studentArray = studentArrayBuilder.build();
-                JsonObject studentsJSO = Json.createObjectBuilder()
-                        .add("students", studentArray).build();
-                projectArrayBuilder.add(projectJson).add(studentsJSO);
+                JsonObject projectJson = Json.createObjectBuilder()
+                        .add("name", team.getName())
+                        .add("students", studentArray)
+                        .add("link", team.getLink())
+                        .build();
+
+                projectArrayBuilder.add(projectJson);
             }
+            
             JsonArray projectArray = projectArrayBuilder.build();
 
             JsonObject workJSO = Json.createObjectBuilder()
                     .add("semester", dataManager.getCourseSemester() + " " + dataManager.getCourseYear())
                     .add("projects", projectArray)
                     .build();
+            JsonArray workJSOFinal = Json.createArrayBuilder()
+                    .add(workJSO).build();
 
             JsonObject projectJSO = Json.createObjectBuilder()
-                    .add("work", workJSO)
+                    .add("work", workJSOFinal)
                     .build();
 
             // AND NOW OUTPUT IT TO A JSON FILE WITH PRETTY PRINTING
@@ -720,7 +719,7 @@ public class CSGFiles implements AppFileComponent {
                         .add(JSON_STUDENTS_TEAM, student.getTeam())
                         .add(JSON_STUDENTS_ROLE, student.getRole())
                         .build();
-                teamsArrayBuilder.add(studentJson);
+                studentsArrayBuilder.add(studentJson);
 
             }
             JsonArray studentsArray = studentsArrayBuilder.build();
@@ -759,9 +758,9 @@ public class CSGFiles implements AppFileComponent {
                     .add(JSON_COURSE_DETAIL_TITLE, dataManager.getCourseTitle())
                     .add(JSON_COURSE_DETAIL_INSTRUCTOR_NAME, dataManager.getInstructorName())
                     .add(JSON_COURSE_DETAIL_INSTRUCTOR_HOME, dataManager.getInstructorHome())
-                    .add(JSON_BANNER_SCHOOL_IMAGE, dataManager.getBannerSchoolImage())
-                    .add(JSON_LEFT_FOOTER_IMAGE, dataManager.getLeftFooterImage())
-                    .add(JSON_RIGHT_FOOTER_IMAGE, dataManager.getRightFooterImage())
+                    .add(JSON_BANNER_SCHOOL_IMAGE, dataManager.getBannerSchoolImageTrim())
+                    .add(JSON_LEFT_FOOTER_IMAGE, dataManager.getLeftFooterImageTrim())
+                    .add(JSON_RIGHT_FOOTER_IMAGE, dataManager.getRightFooterImageTrim())
                     .build();
 
             // AND NOW OUTPUT IT TO A JSON FILE WITH PRETTY PRINTING
@@ -790,26 +789,25 @@ public class CSGFiles implements AppFileComponent {
             File exportDir = new File(dataManager.getExportDir());
 
             //  MOVE PUBLIC_HTML FOLDER TO SELECTED DIRECTORY
-            
             Files.createDirectory(Paths.get(dataManager.getExportDir() + "/css"));
             FileUtils.copyDirectory(new File(siteTemplate + "/css"), new File(dataManager.getExportDir() + "/css"));
-            
+
             Files.createDirectory(Paths.get(dataManager.getExportDir() + "/images"));
             FileUtils.copyDirectory(new File(siteTemplate + "/images"), new File(dataManager.getExportDir() + "/images"));
-            
+
             Files.createDirectory(Paths.get(dataManager.getExportDir() + "/js"));
             FileUtils.copyDirectory(new File(siteTemplate + "/js"), new File(dataManager.getExportDir() + "/js"));
 
             ObservableList<Template> templates = dataManager.getTemplates();
-            
-            for(Template template : templates){
-                if(template.getUse()){
+
+            for (Template template : templates) {
+                if (template.getUse()) {
                     String fileName = "/" + template.getFileName();
                     FileUtils.copyFileToDirectory(new File(siteTemplate + fileName), exportDir);
                 }
-            
+
             }
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }

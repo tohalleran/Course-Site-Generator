@@ -1,19 +1,18 @@
 
 {
-    "work":{
-        "semester":"Fall 2017",
-        "projects":[
-            {
-                "name":"Atomic Bombs",
-                "link":"https://team.com"
-            },
-            {
-                "students":[
-                    {
-                        "students":"Tony O'Halleran"
-                    }
-                ]
-            }
-        ]
-    }
+    "work":[
+        {
+            "semester":"Fall 2017",
+            "projects":[
+                {
+                    "name":"Atomic Bombs",
+                    "students":[
+                        "Tony O'Halleran",
+                        "Priscilla Nguyen"
+                    ],
+                    "link":"https://team.com"
+                }
+            ]
+        }
+    ]
 }

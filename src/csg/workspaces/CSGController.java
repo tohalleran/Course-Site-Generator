@@ -357,11 +357,13 @@ public class CSGController {
     public void handleStartMon(LocalDate date) {
         CSGData data = (CSGData) app.getDataComponent();
         data.setStartingMonday(date.toString());
+        markWorkAsEdited();
     }
 
     public void handleEndFri(LocalDate date) {
         CSGData data = (CSGData) app.getDataComponent();
         data.setEndingFriday(date.toString());
+        markWorkAsEdited();
     }
 
     public void handleEditTA() {
@@ -1383,10 +1385,6 @@ public class CSGController {
         } // DOES A TA ALREADY HAVE THE SAME NAME OR EMAIL?
         // EVERYTHING IS FINE, ADD A NEW Schedule
         else {
-
-            // ADD TEAM TO TEAM COMBOBOX
-            ComboBox teamComboBox = workspace.getProjectDataTab().getTeamComboBox();
-            teamComboBox.getItems().add(name);
 
             //add transaction
             jTPS_Transaction trans = new addTeamTrans(name, color, colorText, link, data);

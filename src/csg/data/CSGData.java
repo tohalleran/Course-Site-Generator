@@ -355,6 +355,10 @@ public class CSGData implements AppDataComponent {
     public String getBannerSchoolImage() {
         return bannerSchoolImage;
     }
+    public String getBannerSchoolImageTrim(){
+        File bannerImage = new File(bannerSchoolImage);
+        return "./image/" + bannerImage.getName();
+    }
 
     public void setBannerSchoolImage(String image) {
         bannerSchoolImage = image;
@@ -362,6 +366,10 @@ public class CSGData implements AppDataComponent {
 
     public String getLeftFooterImage() {
         return leftFooterImage;
+    }
+    public String getLeftFooterImageTrim() {
+        File leftFooter = new File(leftFooterImage);
+        return "./image/" + leftFooter.getName();
     }
 
     public void setLeftFooterImage(String image) {
@@ -371,7 +379,12 @@ public class CSGData implements AppDataComponent {
     public String getRightFooterImage() {
         return rightFooterImage;
     }
-
+    
+    public String getRightFooterImageTrim() {
+        File rightFooter = new File(rightFooterImage);
+        return "./image/" + rightFooter.getName();
+    }
+    
     public void setRightFooterImage(String image) {
         rightFooterImage = image;
     }
@@ -502,11 +515,35 @@ public class CSGData implements AppDataComponent {
         }
         return "";
     }
-
+    
+    public String getStartingMondayMonthTrim() {
+        if (startingMonday != null) {
+            DateFormat df = new SimpleDateFormat("MM");
+            String mondayMonth = df.format(startingMonday);
+            if(mondayMonth.substring(0,1).equals("0")){
+                return mondayMonth.substring(1);
+            }
+            else 
+                return mondayMonth;
+        }
+        return "";
+    }
+    
     public String getStartingMondayDay() {
         if (startingMonday != null) {
             DateFormat df = new SimpleDateFormat("dd");
             return df.format(startingMonday);
+        }
+        return "";
+    }
+
+    public String getStartingMondayDayTrim() {
+        if (startingMonday != null) {
+            DateFormat df = new SimpleDateFormat("dd");
+            String mondayDay = df.format(startingMonday);
+            if(mondayDay.substring(0,1).equals("0"))
+                return mondayDay.substring(1);
+            return mondayDay;
         }
         return "";
     }
@@ -526,11 +563,33 @@ public class CSGData implements AppDataComponent {
         }
         return "";
     }
+    
+    public String getEndingFridayMonthTrim() {
+        if (endingFriday != null) {
+            DateFormat df = new SimpleDateFormat("MM");
+            String fridayMonth = df.format(endingFriday);
+            if(fridayMonth.substring(0,1).equals(0))
+                return fridayMonth.substring(1);
+            return fridayMonth;
+        }
+        return "";
+    }
 
     public String getEndingFridayDay() {
         if (endingFriday != null) {
-            DateFormat df = new SimpleDateFormat("MM");
+            DateFormat df = new SimpleDateFormat("dd");
             return df.format(endingFriday);
+        }
+        return "";
+    }
+    
+    public String getEndingFridayDayTrim() {
+        if (endingFriday != null) {
+            DateFormat df = new SimpleDateFormat("dd");
+            String fridayDay = df.format(endingFriday);
+            if(fridayDay.substring(0,1).equals("0"))
+                return fridayDay.substring(1);
+            return fridayDay;
         }
         return "";
     }
@@ -1026,6 +1085,11 @@ public class CSGData implements AppDataComponent {
         // ADD THE TA
         if (!containsTeam(name, link)) {
             teams.add(team);
+            
+            // ADD TEAM TO TEAM COMBOBOX
+            CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+            ComboBox teamComboBox = workspace.getProjectDataTab().getTeamComboBox();
+            teamComboBox.getItems().add(name);
         }
 
         // SORT THE TAS

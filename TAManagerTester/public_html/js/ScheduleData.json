@@ -1,12 +1,12 @@
 
 {
-    "startingMondayMonth":"05",
-    "startingMondayDay":"08",
-    "endingFridayMonth":"05",
-    "endingFridayDay":"05",
+    "startingMondayMonth":"5",
+    "startingMondayDay":"8",
+    "endingFridayMonth":"06",
+    "endingFridayDay":"16",
     "holidays":[
         {
-            "month":"5",
+            "month":"1",
             "day":"29",
             "title":"SNOW DAY<br /><img src='./images/SnowDay.gif' />",
             "link":"https://link.com"
