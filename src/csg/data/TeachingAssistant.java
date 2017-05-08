@@ -24,12 +24,22 @@ public class TeachingAssistant<E extends Comparable<E>> implements Comparable<E>
     public TeachingAssistant(String initName, String initEmail) {
         name = new SimpleStringProperty(initName);
         email = new SimpleStringProperty(initEmail);
-        undergrad = new SimpleBooleanProperty(false);
+        undergrad = new SimpleBooleanProperty();
+    }
+    
+    public TeachingAssistant(String initName, String initEmail, Boolean bool) {
+        name = new SimpleStringProperty(initName);
+        email = new SimpleStringProperty(initEmail);
+        undergrad = new SimpleBooleanProperty(bool);
     }
 
     // ACCESSORS AND MUTATORS FOR THE PROPERTIES
     public boolean getUndergrad() {
         return undergrad.get();
+    }
+    public BooleanProperty undergradProperty(){
+        
+        return undergrad;
     }
     
     public void setUndergrad(boolean initUndergrad) {

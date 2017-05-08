@@ -127,7 +127,11 @@ public class TADataTab {
         emailColumn.setCellValueFactory(
                 new PropertyValueFactory<TeachingAssistant, String>("email")
         );
-        undergradColumn.setCellFactory(column -> new CheckBoxTableCell()); 
+        undergradColumn.setCellFactory(
+                CheckBoxTableCell.forTableColumn(undergradColumn)
+        ); 
+        
+        
         taTable.getColumns().add(undergradColumn);
         taTable.getColumns().add(nameColumn);
         taTable.getColumns().add(emailColumn);

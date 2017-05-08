@@ -22,9 +22,12 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
+import javafx.scene.image.ImageView;
 import properties_manager.PropertiesManager;
 
 /**
@@ -171,6 +174,20 @@ public class CSGData implements AppDataComponent {
         this.leftFooterImage = leftFooterImage;
         this.rightFooterImage = rightFooterImage;
         this.stylesheet = new File(stylesheet);
+        
+        
+        
+        CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+        ImageView bannerImageView = workspace.getCourseDetailsTab().getBannerSchoolImg();
+        ImageView leftImageView = workspace.getCourseDetailsTab().getLeftFooterImg();
+        ImageView rightImageView = workspace.getCourseDetailsTab().getRightFooterImg();
+        
+        workspace.getController().setImageHandler(bannerImageView, bannerSchoolImage);
+        workspace.getController().setImageHandler(leftImageView, leftFooterImage);
+        workspace.getController().setImageHandler(rightImageView, rightFooterImage);
+        
+        
+        setSitePages(templateDir);
     }
 
     public void initSchedule(String initStartMon, String initEndFri) {
@@ -222,7 +239,7 @@ public class CSGData implements AppDataComponent {
                 // DATE ARE VALID, PROCEED
                 startingMonday = startMonDate;
             } else {
-                
+
                 AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
                 dialog.show("Incompatible Monday Date", "Date must be a monday and be before ending "
                         + "friday date");
@@ -258,7 +275,7 @@ public class CSGData implements AppDataComponent {
                 // DATE ARE VALID, PROCEED
                 endingFriday = endFriDate;
             } else {
-                
+
                 AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
                 dialog.show("Incompatible Friday Date", "Date must be a friday and be after starting "
                         + "monday date");
@@ -388,6 +405,24 @@ public class CSGData implements AppDataComponent {
         return "";
     }
 
+    public void setStylesheet(String cssFile) {
+        stylesheet = new File(cssFile);
+    }
+
+    public void setCourseInfo(String subject, String number, String semester,
+            String year, String title, String instructorName, String instructorHome) {
+
+        courseSubject = subject;
+        courseNumber = number;
+        courseSemester = semester;
+        courseYear = year;
+        courseTitle = title;
+        this.instructorName = instructorName;
+        this.instructorHome = instructorHome;
+
+    }
+    
+   
     public void setSitePages(String templatePathText) {
 
         // CREATE ALL FILES TO CHECK
@@ -397,25 +432,47 @@ public class CSGData implements AppDataComponent {
         File hws = new File(templatePathText + "/hws.html");
         File projects = new File(templatePathText + "/projects.html");
 
+        // GET CSS FILES
+        File cssPath = new File(templatePathText + "/css");
+        File[] cssFiles = cssPath.listFiles();
+
+        
+        if(home.exists() || syllabus.exists() || schedule.exists() || hws.exists()
+                || projects.exists() ){
+            
         if (home.exists()) {
-            Template temp = new Template(false, "Home", "index.html", "HomeBuilder.js");
+            Template temp = new Template("Home", "index.html", "HomeBuilder.js");
             templates.add(temp);
         }
         if (syllabus.exists()) {
-            Template temp = new Template(false, "Syllabus", "syllabus.html", "SyllabusBuilder.js");
+            Template temp = new Template("Syllabus", "syllabus.html", "SyllabusBuilder.js");
             templates.add(temp);
         }
         if (schedule.exists()) {
-            Template temp = new Template(false, "Schedule", "schedule.html", "ScheduleBuilder.js");
+            Template temp = new Template("Schedule", "schedule.html", "ScheduleBuilder.js");
             templates.add(temp);
         }
         if (hws.exists()) {
-            Template temp = new Template(false, "HWs", "hws.html", "HWsBuilder.js");
+            Template temp = new Template("HWs", "hws.html", "HWsBuilder.js");
             templates.add(temp);
         }
         if (projects.exists()) {
-            Template temp = new Template(false, "Projects", "projects.html", "ProjectsBuilder.js");
+            Template temp = new Template("Projects", "projects.html", "ProjectsBuilder.js");
             templates.add(temp);
+        }
+        if (cssFiles.length != 0) {
+            CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+            ComboBox cssComboBox = workspace.getCourseDetailsTab().getStylesheetComboBox();
+            for (int i = 0; i < cssFiles.length; i++) {
+                cssComboBox.getItems().add(cssFiles[i].getName());
+            }
+        }
+        } 
+        else{
+        AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
+                    dialog.show("Error in Template Directory", "Template Directory must contain"
+                            + " at least index.html and all associated files");
+        
         }
 
     }
@@ -651,6 +708,20 @@ public class CSGData implements AppDataComponent {
         // SORT THE TAS
         Collections.sort(teachingAssistants);
     }
+    
+    public void addTA(String initName, String initEmail, boolean bool) {
+//        boolean undergrad = Boolean.parseBoolean(bool);
+        // MAKE THE TA
+        TeachingAssistant ta = new TeachingAssistant(initName, initEmail, bool);
+
+        // ADD THE TA
+        if (!containsTA(initName, initEmail)) {
+            teachingAssistants.add(ta);
+        }
+
+        // SORT THE TAS
+        Collections.sort(teachingAssistants);
+    }
 
     public void removeTA(String name) {
         for (TeachingAssistant ta : teachingAssistants) {
@@ -679,8 +750,8 @@ public class CSGData implements AppDataComponent {
         }
 
     }
-    
-    public void removeTeam(String initname, String initcolor, String initcolorText, String initlink){
+
+    public void removeTeam(String initname, String initcolor, String initcolorText, String initlink) {
         for (Team team : teams) {
             if (initname.equals(team.getName()) && initlink.equals(team.getLink())) {
                 teams.remove(team);
@@ -688,8 +759,8 @@ public class CSGData implements AppDataComponent {
             }
         }
     }
-    
-    public void removeStudent(String initFirstName, String initLastName, String initTeam, String initRole){
+
+    public void removeStudent(String initFirstName, String initLastName, String initTeam, String initRole) {
         for (Student student : students) {
             if (initFirstName.equals(student.getFirstName()) && initLastName.equals(student.getLastName())
                     && initTeam.equals(student.getTeam()) && initRole.equals(student.getRole())) {
@@ -965,7 +1036,7 @@ public class CSGData implements AppDataComponent {
         for (Team team : teams) {
             if (team.getName().equals(testName) && team.getLink().equals(testLink)) {
                 return true;
-            
+
             }
         }
         return false;

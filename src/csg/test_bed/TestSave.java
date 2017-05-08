@@ -56,8 +56,8 @@ public class TestSave {
         
         
         data.initCourseInfo("CSE", "219", "Fall", "2017",  "Computer Science I", "Richard McKenna", 
-                "https://www.cs.stonybrook.edu/~richard", "~/Documents" , "~/Desktop", "image.jpg", "image2.jpg",
-            "image3.jpg", "sea_wolf.css");
+                "https://www.cs.stonybrook.edu/~richard", "~/Documents" , "~/Desktop", "", "",
+            "", "sea_wolf.css");
         data.addTA("Tony O'Halleran", "tony.ohalleran@stonybrook.edu");
         data.addRecitation("R02", "Richard McKenna", "Wednesday, 3:30pm-4:23pm", "Old CS 2114",
            "Jane Doe", "Joe Shmo");
@@ -67,12 +67,10 @@ public class TestSave {
         data.addStudent("Jane", "Doe", "Atomic Comics", "Lead Programmer");
         
         
-        try{
-            file.saveData(data, "./work/SiteSaveTest.json");
             
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+            file.exportData(data, "./work/SiteSaveTest.json");
+            
+       
     }
     
     

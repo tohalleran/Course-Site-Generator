@@ -1,0 +1,23 @@
+
+{
+    "startingMondayMonth":"05",
+    "startingMondayDay":"08",
+    "endingFridayMonth":"05",
+    "endingFridayDay":"05",
+    "holidays":[
+        {
+            "month":"5",
+            "day":"29",
+            "title":"SNOW DAY<br /><img src='./images/SnowDay.gif' />",
+            "link":"https://link.com"
+        }
+    ],
+    "lectures":[
+    ],
+    "references":[
+    ],
+    "recitations":[
+    ],
+    "hws":[
+    ]
+}

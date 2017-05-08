@@ -13,4 +13,7 @@ public interface AppDataComponent {
      * This function would be called when initializing data.
      */
     public void resetData();
+    
+//    public void setCourseInfo(String subject, String number, String semester,
+//            String year, String title, String instructorName, String instructorHome);
 }

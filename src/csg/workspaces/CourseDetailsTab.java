@@ -205,11 +205,13 @@ public class CourseDetailsTab {
         // SITE TABLE
         siteTable = new TableView();
         siteTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        siteTable.setEditable(true);
         CSGData data = (CSGData) app.getDataComponent();
         ObservableList<Template> tableTemplateData = data.getTemplates();
         siteTable.setItems(tableTemplateData);
         String useColumnText = props.getProperty(CSGManagerProp.USE_COLUMN_TEXT.toString());
         useColumn = new TableColumn(useColumnText);
+//        useColumn.setEditable(true);
         String navbarTitleColumnText = props.getProperty(CSGManagerProp.NAVBAR_TITLE_COLUMN_TEXT.toString());
         navbarTitleColumn = new TableColumn(navbarTitleColumnText);
         String fileNameColumnText = props.getProperty(CSGManagerProp.FILE_NAME_COLUMN_TEXT.toString());
@@ -231,7 +233,9 @@ public class CourseDetailsTab {
         scriptColumn.setCellValueFactory(
                 new PropertyValueFactory<Template, String>("script")
         );
-        useColumn.setCellFactory(column -> new CheckBoxTableCell()); 
+        useColumn.setCellFactory(
+                CheckBoxTableCell.forTableColumn(useColumn)
+        ); 
         
         
         siteTable.getColumns().add(useColumn);
@@ -294,7 +298,7 @@ public class CourseDetailsTab {
         pageStyleGridPane.add(stylesheetLabel, 0, 4);
         
         stylesheetComboBox = new ComboBox();
-        stylesheetComboBox.getItems().addAll("sea_wolf.css");
+//        stylesheetComboBox.getItems().addAll("sea_wolf.css");
         pageStyleGridPane.add(stylesheetComboBox, 1, 4);
         
         String noteLabelText = props.getProperty(CSGManagerProp.NOTE_LABEL_TEXT.toString());
@@ -335,8 +339,19 @@ public class CourseDetailsTab {
             controller.rightFooterHandler(rightFooterImg);
             
         });
+        stylesheetComboBox.setOnAction(e -> {
+            String cssFile = stylesheetComboBox.getValue().toString();
+            controller.setStylesheetHandler(cssFile);
+        });
+        
+    
+    }
     
     
+    public void resetCourseDetailsWorkspace(){
+        bannerSchoolImg.setImage(null);
+        leftFooterImg.setImage(null);
+        rightFooterImg.setImage(null);
     }
     
     

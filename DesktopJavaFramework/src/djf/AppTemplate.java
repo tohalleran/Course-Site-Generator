@@ -128,7 +128,12 @@ public abstract class AppTemplate extends Application {
                     // CHILD CLASS
                     buildAppComponentsHook();
                 }
-            } else {
+            } else if(selection.equals(AppYesNoCancelDialogSingleton.CANCEL)){
+                
+                System.exit(0);
+            }
+            
+            else {
                 boolean success = loadProperties(APP_PROPERTIES_FILE_NAME);
 
                 if (success) {

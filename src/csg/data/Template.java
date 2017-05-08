@@ -15,16 +15,29 @@ import javafx.beans.property.StringProperty;
  * @author tonyohalleran
  */
 public class Template <E extends Comparable<E>> implements Comparable<E>{
-    private final BooleanProperty use;
+    private BooleanProperty use;
     private final StringProperty navbarTitle;
     private final StringProperty fileName;
     private final StringProperty script;
+    
+    public Template(String initNavbarTitle, String initFileName, String initScript){
+        use = new SimpleBooleanProperty();
+        navbarTitle = new SimpleStringProperty(initNavbarTitle);
+        fileName = new SimpleStringProperty(initFileName);
+        script = new SimpleStringProperty(initScript);
+    }
+    
     
     public Template(boolean initUse, String initNavbarTitle, String initFileName, String initScript){
         use = new SimpleBooleanProperty(initUse);
         navbarTitle = new SimpleStringProperty(initNavbarTitle);
         fileName = new SimpleStringProperty(initFileName);
         script = new SimpleStringProperty(initScript);
+    }
+    
+    
+    public BooleanProperty useProperty(){
+        return use;
     }
 
     public boolean getUse() {

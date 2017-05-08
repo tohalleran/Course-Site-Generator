@@ -1,0 +1,19 @@
+
+{
+    "work":{
+        "semester":"Fall 2017",
+        "projects":[
+            {
+                "name":"Atomic Bombs",
+                "link":"https://team.com"
+            },
+            {
+                "students":[
+                    {
+                        "students":"Tony O'Halleran"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,13 @@
+
+{
+    "subject":"CSE",
+    "number":"219",
+    "semester":"Fall",
+    "year":"2017",
+    "title":"Computer Science III",
+    "instructor_name":"Richard McKenna",
+    "instructor_home":"https://cs.stonybrook.edu/~richard",
+    "banner_school_image":"/Users/tonyohalleran/NetBeansProjects/CourseSiteGenerator 2/TAManagerTester/public_html/images/SBUWhiteShieldLogo.jpg",
+    "left_footer_image":"/Users/tonyohalleran/NetBeansProjects/CourseSiteGenerator 2/TAManagerTester/public_html/images/CSLogo.png",
+    "right_footer_image":"/Users/tonyohalleran/NetBeansProjects/CourseSiteGenerator 2/TAManagerTester/public_html/images/SBUWhiteShieldLogo.jpg"
+}

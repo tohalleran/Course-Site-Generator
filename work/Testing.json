@@ -1,14 +1,26 @@
 
 {
+    "subject":"CSE",
+    "number":"219",
+    "semester":"Fall",
+    "year":"2017",
+    "title":"Computer Science III",
+    "instructor_name":"Richard McKenna",
+    "instructor_home":"https://cs.stonybrook.edu/~richard",
+    "export_directory":"/Users/tonyohalleran/Desktop/app tester",
+    "template_directory":"/Users/tonyohalleran/NetBeansProjects/CourseSiteGenerator 2/TAManagerTester/public_html",
+    "banner_school_image":"/Users/tonyohalleran/NetBeansProjects/CourseSiteGenerator 2/TAManagerTester/public_html/images/SBUDarkRedShieldLogo.png",
+    "left_footer_image":"/Users/tonyohalleran/NetBeansProjects/CourseSiteGenerator 2/TAManagerTester/public_html/images/CSLogo.png",
+    "right_footer_image":"/Users/tonyohalleran/NetBeansProjects/CourseSiteGenerator 2/TAManagerTester/public_html/images/SBUWhiteShieldLogo.jpg",
+    "stylesheet":"sea_wolf.css",
     "startHour":"9",
     "endHour":"16",
     "undergrad_tas":[
         {
             "name":"Tony O'Halleran",
-            "email":"tony.ohalleran@stonybrook.edu"
+            "email":"tony.ohalleran@stonybrook.edu",
+            "undergrad":true
         }
-    ],
-    "grad_tas":[
     ],
     "officeHours":[
         {
@@ -90,6 +102,45 @@
             "day":"WEDNESDAY",
             "time":"2_30pm",
             "name":"Tony O'Halleran"
+        }
+    ],
+    "recitations":[
+        {
+            "section":"R02",
+            "instructor":"Richard McKenna",
+            "dayTime":"Wednesday, 3:30pm-4:23pm",
+            "location":"Old CS 2120",
+            "ta1":"Joe Shmoe",
+            "ta2":"Jane Doe"
+        }
+    ],
+    "starting_monday":"2017-05-08",
+    "ending_friday":"2017-05-12",
+    "scheduleItems":[
+        {
+            "type":"Holiday",
+            "date":"2017-05-29",
+            "title":"SNOW DAY",
+            "topic":"",
+            "link":"https://link.com",
+            "time":"",
+            "criteria":""
+        }
+    ],
+    "teams":[
+        {
+            "tName":"Atomic Bombs",
+            "color":"0xb34d1aff",
+            "textColor":"0x4d4d4dff",
+            "link":"https://team.com"
+        }
+    ],
+    "students":[
+        {
+            "firstName":"Tony",
+            "lastName":"O'Halleran",
+            "team":"Atomic Bombs",
+            "role":"Lead Developer"
         }
     ]
 }

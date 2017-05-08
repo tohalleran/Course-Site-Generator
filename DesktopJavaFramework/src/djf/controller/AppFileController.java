@@ -263,7 +263,7 @@ public class AppFileController {
                 // THE USER CAN OPT OUT HERE
                 continueToExport = promptToSave();
             }
-            if (continueToExport && !data.getExportDir().equals("")) {
+            if (continueToExport && !data.getExportDir().equals("") && !data.getTemplateDir().equals("")) {
                 // PROMPT THE USER FOR A DIRECETORY
 //                DirectoryChooser dc = new DirectoryChooser();
 //                dc.setInitialDirectory(new File(".."));
@@ -287,7 +287,7 @@ public class AppFileController {
             }
             else{
                 AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
-                dialog.show("Export Directory NOT Chosen", "Choose export directory before exporting.");
+                dialog.show("Export and/or Template Directory NOT Chosen", "Choose export and template directory before exporting.");
             }
         } catch (Exception ioe) {
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();

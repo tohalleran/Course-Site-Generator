@@ -103,6 +103,10 @@ public class CSGController {
         gui.getFileController().markAsEdited(gui);
     }
 
+    public void handleMarkEdited() {
+        markWorkAsEdited();
+    }
+
     public void exportDirectoryHandler(Label exportPathLabel) {
         // PROMPT THE USER FOR A DIRECETORY
         DirectoryChooser dc = new DirectoryChooser();
@@ -114,30 +118,42 @@ public class CSGController {
 
         CSGData data = (CSGData) app.getDataComponent();
         data.setExportDir(exportPathLabelText);
+        
+        markWorkAsEdited();
     }
 
     public void templateDirectoryHandler(Label templateDirLabel) {
         // PROMPT THE USER FOR A DIRECETORY
         DirectoryChooser dc = new DirectoryChooser();
-        dc.setInitialDirectory(new File(".."));
+        dc.setInitialDirectory(new File("."));
         dc.setTitle("Choose Template Directory");
 
-        String templatePathLabelText = dc.showDialog(app.getGUI().getWindow()).toString();
-        templateDirLabel.setText(templatePathLabelText);
+        File selectedTemplatePath = dc.showDialog(app.getGUI().getWindow());
 
-        CSGData data = (CSGData) app.getDataComponent();
-        data.setTemplateDir(templatePathLabelText);
+        if (selectedTemplatePath != null) {
+            String templatePathLabelText = selectedTemplatePath.toString();
 
-        data.setSitePages(templatePathLabelText);
+            templateDirLabel.setText(templatePathLabelText);
+
+            CSGData data = (CSGData) app.getDataComponent();
+            data.setTemplateDir(templatePathLabelText);
+
+            data.setSitePages(templatePathLabelText);
+        }
 
     }
 
-    public void bannerImageHandler(ImageView bannerImageView) {
+    public void setStylesheetHandler(String cssFile) {
+        CSGData data = (CSGData) app.getDataComponent();
+        data.setStylesheet(cssFile);
+    }
 
+    public void bannerImageHandler(ImageView bannerImageView) {
+        CSGData data = (CSGData) app.getDataComponent();
         try {
             // PROMPT THE USER FOR A DIRECETORY
             FileChooser fc = new FileChooser();
-            fc.setInitialDirectory(new File(".."));
+            fc.setInitialDirectory(new File("."));
             fc.setTitle("Choose Banner School Image");
 
             //Set extension filter
@@ -147,12 +163,15 @@ public class CSGController {
 
             File bannerImage = fc.showOpenDialog(app.getGUI().getWindow());
 
-            CSGData data = (CSGData) app.getDataComponent();
-            BufferedImage bi = ImageIO.read(bannerImage);
-            Image image = SwingFXUtils.toFXImage(bi, null);
-            bannerImageView.setImage(image);
-            data.setBannerSchoolImage(bannerImage.toString());
+            if (bannerImage != null) {
 
+                BufferedImage bi = ImageIO.read(bannerImage);
+                Image image = SwingFXUtils.toFXImage(bi, null);
+                bannerImageView.setImage(image);
+                data.setBannerSchoolImage(bannerImage.toString());
+
+                markWorkAsEdited();
+            }
         } catch (IOException ioe) {
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
             dialog.show("Banner Image Error", "An error occured importing image");
@@ -161,12 +180,26 @@ public class CSGController {
 
     }
 
-    public void leftFooterHandler(ImageView leftFooterImageView) {
+    public void setImageHandler(ImageView bannerFooter, String imagePath) {
+        File bannerImage = new File(imagePath);
+        try {
+            CSGData data = (CSGData) app.getDataComponent();
+            BufferedImage bi = ImageIO.read(bannerImage);
+            Image image = SwingFXUtils.toFXImage(bi, null);
+            bannerFooter.setImage(image);
+            data.setBannerSchoolImage(bannerImage.toString());
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
 
+        }
+    }
+
+    public void leftFooterHandler(ImageView leftFooterImageView) {
+        CSGData data = (CSGData) app.getDataComponent();
         try {
             // PROMPT THE USER FOR A DIRECETORY
             FileChooser fc = new FileChooser();
-            fc.setInitialDirectory(new File(".."));
+            fc.setInitialDirectory(new File("."));
             fc.setTitle("Choose Left Footer School Image");
 
             //Set extension filter
@@ -176,11 +209,15 @@ public class CSGController {
 
             File leftFooter = fc.showOpenDialog(app.getGUI().getWindow());
 
-            CSGData data = (CSGData) app.getDataComponent();
-            BufferedImage bi = ImageIO.read(leftFooter);
-            Image image = SwingFXUtils.toFXImage(bi, null);
-            leftFooterImageView.setImage(image);
-            data.setLeftFooterImage(leftFooter.toString());
+            if (leftFooter != null) {
+
+                BufferedImage bi = ImageIO.read(leftFooter);
+                Image image = SwingFXUtils.toFXImage(bi, null);
+                leftFooterImageView.setImage(image);
+                data.setLeftFooterImage(leftFooter.toString());
+
+                markWorkAsEdited();
+            }
 
         } catch (IOException ioe) {
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
@@ -190,10 +227,12 @@ public class CSGController {
     }
 
     public void rightFooterHandler(ImageView rightFooterImageView) {
+        CSGData data = (CSGData) app.getDataComponent();
+
         try {
             // PROMPT THE USER FOR A DIRECETORY
             FileChooser fc = new FileChooser();
-            fc.setInitialDirectory(new File(".."));
+            fc.setInitialDirectory(new File("."));
             fc.setTitle("Choose Right Footer School Image");
 
             //Set extension filter
@@ -203,11 +242,15 @@ public class CSGController {
 
             File rightFooter = fc.showOpenDialog(app.getGUI().getWindow());
 
-            CSGData data = (CSGData) app.getDataComponent();
-            BufferedImage bi = ImageIO.read(rightFooter);
-            Image image = SwingFXUtils.toFXImage(bi, null);
-            rightFooterImageView.setImage(image);
-            data.setRightFooterImage(rightFooter.toString());
+            if (rightFooter != null) {
+
+                BufferedImage bi = ImageIO.read(rightFooter);
+                Image image = SwingFXUtils.toFXImage(bi, null);
+                rightFooterImageView.setImage(image);
+                data.setRightFooterImage(rightFooter.toString());
+
+                markWorkAsEdited();
+            }
 
         } catch (IOException ioe) {
             AppMessageDialogSingleton dialog = AppMessageDialogSingleton.getSingleton();
@@ -390,8 +433,8 @@ public class CSGController {
             clearButton.setDisable(true);
         }
     }
-    
-    public void handleClearStudent(){
+
+    public void handleClearStudent() {
         // WE'LL NEED THE WORKSPACE TO RETRIEVE THE USER INPUT VALUES
         CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
 
@@ -424,13 +467,8 @@ public class CSGController {
             Button clearButton = workspace.getProjectDataTab().getClearButton2();
             clearButton.setDisable(true);
         }
-        
-        
+
     }
-    
-    
-    
-    
 
     public void handleClearTeam() {
         // WE'LL NEED THE WORKSPACE TO RETRIEVE THE USER INPUT VALUES
@@ -645,7 +683,7 @@ public class CSGController {
             lastNameTextField.setText(lastName);
             teamComboBox.getEditor().setText(team);
             roleTextField.setText(role);
-            
+
             //  CHANGE BUTTON TO UPDATE TEAM   
             PropertiesManager props = PropertiesManager.getPropertiesManager();
             String updateButtonText = "Update Student";
@@ -660,15 +698,13 @@ public class CSGController {
 
             //  HANDLE UPDATE TEAM
             updateButton.setOnAction(e -> {
-                handleUpdateStudent( student);
+                handleUpdateStudent(student);
             });
-        
-            
+
         }
     }
-    
-    
-    public void handleUpdateStudent(Student student){
+
+    public void handleUpdateStudent(Student student) {
         // WE'LL NEED THE WORKSPACE TO RETRIEVE THE USER INPUT VALUES
         CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
 
@@ -708,8 +744,8 @@ public class CSGController {
         else {
 
             // UPDATE STUDENT TRANSACTION
-            jTPS_Transaction trans = new updateStudentTrans(firstName, lastName, team, role, data, 
-                            student.getFirstName(), student.getLastName(), student.getTeam(), student.getRole());
+            jTPS_Transaction trans = new updateStudentTrans(firstName, lastName, team, role, data,
+                    student.getFirstName(), student.getLastName(), student.getTeam(), student.getRole());
             jTPS.addTransaction(trans);
 
             firstNameTextField.setText("");
@@ -719,14 +755,12 @@ public class CSGController {
 
             // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
             firstNameTextField.requestFocus();
-            
-            
 
             // WE'VE CHANGED STUFF
             markWorkAsEdited();
-        
-        
-    }}
+
+        }
+    }
 
     public void handleEditTeam() {
         CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
@@ -826,12 +860,11 @@ public class CSGController {
 
             // AND SEND THE CARET BACK TO THE NAME TEXT FIELD FOR EASY DATA ENTRY
             nameTextField.requestFocus();
-            
+
             // UPDATE TEAM IN TEAM COMBOBOX
             ComboBox teamComboBox = workspace.getProjectDataTab().getTeamComboBox();
             teamComboBox.getItems().remove(team.getName());
             teamComboBox.getItems().add(name);
-            
 
             // WE'VE CHANGED STUFF
             markWorkAsEdited();

@@ -109,7 +109,7 @@ public class CSGWorkspace extends AppWorkspaceComponent {
         //CLEAR OUT ALL OF THE TABS
 //        tabPane.getTabs().clear();
         taDataTab.resetTADataWorkspace();
-        
+        courseDetailsTab.resetCourseDetailsWorkspace();
     }
 
     @Override
@@ -129,6 +129,11 @@ public class CSGWorkspace extends AppWorkspaceComponent {
         controller.handleRedo();
     }
 
+    
+    public CSGController getController(){
+        return controller;
+    }
+    
     public TADataTab getTaDataTab() {
         return taDataTab;
     }
