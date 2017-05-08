@@ -160,7 +160,7 @@ public class ScheduleDataTab {
         addEditScheduleGridPane.add(typeLabel, 0, 1);
 
         typeComboBox = new ComboBox();
-        typeComboBox.getItems().addAll("Holiday");
+        typeComboBox.getItems().addAll("Holiday", "Lecture", "HW");
         typeComboBox.setEditable(true);
         addEditScheduleGridPane.add(typeComboBox, 1, 1);
 

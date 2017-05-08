@@ -9,6 +9,7 @@ import csg.CSGManagerApp;
 import csg.CSGManagerProp;
 import csg.files.TimeSlot;
 import csg.workspaces.CSGWorkspace;
+import csg.workspaces.RecitationDataTab;
 import csg.workspaces.TADataTab;
 import djf.components.AppDataComponent;
 import djf.ui.AppMessageDialogSingleton;
@@ -762,6 +763,10 @@ public class CSGData implements AppDataComponent {
         // ADD THE TA
         if (!containsTA(initName, initEmail)) {
             teachingAssistants.add(ta);
+            CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+            RecitationDataTab recDataTab = workspace.getRecitationDataTab();
+            recDataTab.getSupervisingTA1ComboBox().getItems().add(ta.getName());
+            recDataTab.getSupervisingTA2ComboBox().getItems().add(ta.getName());
         }
 
         // SORT THE TAS
@@ -776,6 +781,10 @@ public class CSGData implements AppDataComponent {
         // ADD THE TA
         if (!containsTA(initName, initEmail)) {
             teachingAssistants.add(ta);
+            CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+            RecitationDataTab recDataTab = workspace.getRecitationDataTab();
+            recDataTab.getSupervisingTA1ComboBox().getItems().add(ta.getName());
+            recDataTab.getSupervisingTA2ComboBox().getItems().add(ta.getName());
         }
 
         // SORT THE TAS
@@ -786,6 +795,10 @@ public class CSGData implements AppDataComponent {
         for (TeachingAssistant ta : teachingAssistants) {
             if (name.equals(ta.getName())) {
                 teachingAssistants.remove(ta);
+                CSGWorkspace workspace = (CSGWorkspace) app.getWorkspaceComponent();
+            RecitationDataTab recDataTab = workspace.getRecitationDataTab();
+            recDataTab.getSupervisingTA1ComboBox().getItems().remove(ta.getName());
+            recDataTab.getSupervisingTA2ComboBox().getItems().remove(ta.getName());
                 return;
             }
         }

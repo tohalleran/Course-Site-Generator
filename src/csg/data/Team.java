@@ -69,6 +69,18 @@ public class Team <E extends Comparable<E>> implements Comparable<E>{
     public String getColorText() {
         return colorText.get();
     }
+    
+    public String getColorTextTrim() {
+        String color = colorText.get();
+        if(color.equals("0xffffffff")){
+            return "white";
+        }
+        if(color.equals("0x000000ff")){
+            return "black";
+        }
+        else
+            return "white";
+    }
 
     public String getLink() {
         return link.get();

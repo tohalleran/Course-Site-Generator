@@ -165,7 +165,7 @@ public class RecitationDataTab {
         addEditGridPane.add(supervisingTA1Label, 0, 5);
         
         supervisingTA1ComboBox = new ComboBox();
-        supervisingTA1ComboBox.getItems().addAll("Joe Shmoe", "Jane Doe");
+//        supervisingTA1ComboBox.getItems().addAll("Joe Shmoe", "Jane Doe");
         supervisingTA1ComboBox.setEditable(true);
         addEditGridPane.add(supervisingTA1ComboBox, 1, 5);
         
@@ -173,7 +173,7 @@ public class RecitationDataTab {
         addEditGridPane.add(supervisingTA2Label, 0, 6);
         
         supervisingTA2ComboBox = new ComboBox();
-        supervisingTA2ComboBox.getItems().addAll("Joe Shmoe", "Jane Doe");
+//        supervisingTA2ComboBox.getItems().addAll("Joe Shmoe", "Jane Doe");
         supervisingTA2ComboBox.setEditable(true);
         addEditGridPane.add(supervisingTA2ComboBox, 1, 6);
         

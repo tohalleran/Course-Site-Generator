@@ -703,7 +703,7 @@ public class CSGFiles implements AppFileComponent {
                         .add("red", team.getRed())
                         .add("green", team.getGreen())
                         .add("blue", team.getBlue())
-                        .add("text_color", team.getColorText())
+                        .add("text_color", team.getColorTextTrim())
                         .build();
                 teamsArrayBuilder.add(teamJson);
 
